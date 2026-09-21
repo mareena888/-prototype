@@ -1,0 +1,230 @@
+{
+  "1": [
+    {
+      "id": "w-mitigate", "kind": "word", "item": "mitigate", "pos": "verb", "ipa": "/ˈmɪtɪˌɡeɪt/",
+      "def": "To make something bad — damage, a risk, a shortage — less severe. It does not remove the problem; it softens it.",
+      "example": "Planting street trees will not stop flooding, but it does mitigate the worst of the run-off.",
+      "zh": "減輕、緩解（使壞事沒那麼嚴重，但沒有根除）",
+      "collocations": "mitigate the impact / the effects / the risk / the damage; mitigating factor (a formal noun use)",
+      "why": "It takes a direct object with no preposition. \"Mitigate against\" is the single most common error with this word, and it happens because \"militate against\" exists and means something different (to work against). Write mitigate the impact, never mitigate against the impact. It is also a straight upgrade on reduce in your Task 2 solution paragraph, where reduce appears four times in most Band 6 scripts."
+    },
+    {
+      "id": "w-sprawl", "kind": "word", "item": "sprawl", "pos": "noun (uncountable) / verb", "ipa": "/sprɔl/",
+      "def": "The low-density, unplanned spreading of a city outwards across land that was previously rural.",
+      "example": "Sprawl has pushed the city limits eleven kilometres further west in a single decade.",
+      "zh": "（都市）無序擴張、蔓延",
+      "collocations": "urban sprawl; unchecked / low-density sprawl; sprawl consumes farmland; the city sprawls across the valley",
+      "why": "Uncountable, so no article and no plural: urban sprawl, never a sprawl or sprawls. Chinese speakers reliably add the when a noun feels specific — the urban sprawl is the error to watch. Its real value is that it compresses a whole clause (\"the city keeps growing outwards without planning\") into one word, which is exactly what Lexical Resource rewards at Band 7.5."
+    },
+    {
+      "id": "w-proximity", "kind": "word", "item": "proximity", "pos": "noun", "ipa": "/prɑkˈsɪməti/",
+      "def": "Nearness in space or time — a formal register word for closeness.",
+      "example": "Housing values rise sharply with proximity to a rail station.",
+      "zh": "鄰近、接近（正式用語）",
+      "collocations": "in close proximity to; proximity to the centre; the proximity of X to Y",
+      "why": "The preposition is to, not of, when you name what it is near: proximity to the station. The of pattern only works in the proximity of X to Y frame. Stress falls on the second syllable — prox-IM-i-ty — and putting it on the first is the mistake that marks the word as learned-but-never-heard in Speaking Part 3."
+    },
+    {
+      "id": "w-densely", "kind": "word", "item": "densely", "pos": "adverb", "ipa": "/ˈdɛnsli/",
+      "def": "Packed tightly together, with little space between units — almost always used of population or vegetation.",
+      "example": "The most densely populated districts are also the ones with the least green space.",
+      "zh": "密集地、稠密地",
+      "collocations": "densely populated; densely built; densely wooded; (opposite) sparsely populated",
+      "why": "Densely populated is a fixed adverb + participle pair, and the examiner hears it as one chunk. The error is reaching for the noun instead — high density population or dense population — which is grammatical but reads as assembled rather than known. Learn its opposite, sparsely populated, in the same breath: a contrast pair is worth two marks more than a single word."
+    },
+    {
+      "id": "w-displace", "kind": "word", "item": "displace", "pos": "verb", "ipa": "/dɪsˈpleɪs/",
+      "def": "To force people or things out of the place where they normally are, usually against their will.",
+      "example": "The new expressway displaced roughly four thousand residents from the riverside district.",
+      "zh": "迫使遷離、取代原本位置的人或物",
+      "collocations": "displace residents / communities / workers; displaced by construction; displacement (noun)",
+      "why": "Displace and replace are not interchangeable, and Chinese makes the trap worse because 取代 covers both. Displace = push out of a place. Replace = take over the function of. Solar power replaces coal; a dam displaces villagers. Writing \"the factory was displaced by a shopping centre\" when you mean replaced costs you a Lexical Resource mark for imprecision, not for vocabulary range."
+    },
+    {
+      "id": "p-at-the-expense-of", "kind": "phrase", "item": "at the expense of", "pos": "prepositional phrase", "ipa": "/ət ði ɪkˈspɛns əv/",
+      "def": "Gaining one thing by causing harm or loss to another — the cost is paid by the second thing.",
+      "example": "Growth was achieved at the expense of the city's remaining wetlands.",
+      "zh": "以⋯⋯為代價、犧牲⋯⋯換取",
+      "collocations": "at the expense of the environment / of quality / of the poorest households; come at the expense of",
+      "why": "The preposition after expense is of and nothing else — at the expense to and at the expense for are both wrong, and both are common. What makes this phrase worth memorising is that it does concession and criticism in five words, which is the exact move a Band 7.5 Task 2 body paragraph needs when you concede a benefit before attacking it."
+    },
+    {
+      "id": "p-bear-the-brunt-of", "kind": "phrase", "item": "bear the brunt of", "pos": "verb phrase", "ipa": "/bɛr ðə brʌnt əv/",
+      "def": "To suffer the worst part of something bad, more than anyone else does.",
+      "example": "Low-income households bear the brunt of rising transport costs.",
+      "zh": "承受⋯⋯的主要衝擊、首當其衝",
+      "collocations": "bear the brunt of the cuts / of the criticism / of the impact; the brunt of",
+      "why": "Brunt is uncountable and effectively only exists inside this phrase, so learn the frame whole: bear + the + brunt + of. The frequent error is suffer the brunt, which is understandable but not idiomatic. It earns marks because it introduces distributional fairness — who pays — into an essay, and that is the reasoning move that separates a 6.5 argument from a 7.5 one."
+    },
+    {
+      "id": "p-a-disproportionate-share-of", "kind": "phrase", "item": "a disproportionate share of", "pos": "noun phrase", "ipa": "/ə ˌdɪsprəˈpɔrʃənət ʃɛr əv/",
+      "def": "An amount that is much larger than would be fair or expected given the group's size.",
+      "example": "The outer suburbs absorb a disproportionate share of the region's commuting time.",
+      "zh": "不成比例的份額（多到不合理）",
+      "collocations": "a disproportionate share of the burden / of the cost / of the benefits; disproportionately affected",
+      "why": "Five syllables of Latinate precision that examiners score highly, but the stress is dis-pro-POR-tion-ate and collapsing it in Speaking makes it unintelligible. In Writing Task 1 it is the phrase that lets you describe an uneven split without listing every number: rather than quoting four percentages, say one group takes a disproportionate share and then quote just one."
+    },
+    {
+      "id": "g-not-only-inversion", "kind": "grammar", "item": "Not only + inversion", "pos": "negative-adverbial inversion", "ipa": "/nɑt ˈoʊnli/",
+      "def": "Fronting \"Not only\" forces the auxiliary in front of the subject, the same word order a question uses. It adds emphasis and formality.",
+      "patterns": "Not only + does/do/did/has/is + SUBJECT + base verb, but SUBJECT also + verb.\nNot only + auxiliary + subject + verb, but also + noun phrase.",
+      "example": "Not only does unchecked sprawl consume farmland, but it also lengthens the average commute.",
+      "zh": "不僅⋯⋯而且⋯⋯（Not only 置句首時須倒裝，助動詞提到主詞前）",
+      "errors": "Not only sprawl consumes farmland — the inversion is missing, so this reads as a plain grammar error rather than a stylistic choice.\nNot only does sprawl consumes farmland — after the auxiliary does, the main verb returns to its base form: consume.\nNot only... but also... but also — only one but also per sentence.",
+      "collocations": "Not only does X..., but it also...; Not only is this X, but it is also Y",
+      "why": "This is the highest-yield structure on the Grammatical Range descriptor, because it is one of the few things you can deliberately deploy that an examiner can point at. But it is high-risk: the whole effect collapses if you drop the auxiliary, and a failed inversion scores worse than the plain sentence would have. Use it once per Task 2 essay, in the body paragraph you are most confident about, and write the plain version first and then invert it."
+    }
+  ],
+  "2": [
+    {
+      "id": "w-corroborate", "kind": "word", "item": "corroborate", "pos": "verb", "ipa": "/kəˈrɑbəˌreɪt/",
+      "def": "To provide independent evidence that confirms something someone else has claimed.",
+      "example": "Two later studies corroborated the original finding on commuting times.",
+      "zh": "證實、佐證（用另一份獨立證據支持既有說法）",
+      "collocations": "corroborate the findings / the account / the hypothesis; corroborating evidence; independently corroborated",
+      "why": "Stress on the second syllable — co-ROB-o-rate — and the first vowel reduces to a schwa. Learners who learn it from the page put the stress on the first syllable and the word stops being recognisable. Grammatically it takes a plain direct object: corroborate the findings, never corroborate to or corroborate with. It is the precise word for \"a second source agrees\", which is a distinction Reading questions test directly."
+    },
+    {
+      "id": "w-anecdotal", "kind": "word", "item": "anecdotal", "pos": "adjective", "ipa": "/ˌænɪkˈdoʊtl/",
+      "def": "Based on personal stories and individual cases rather than on systematic data.",
+      "example": "Support for the scheme is largely anecdotal; no survey has yet been conducted.",
+      "zh": "軼事的、道聽途說的（基於個別經驗而非系統性資料）",
+      "collocations": "anecdotal evidence; purely / largely / merely anecdotal; anecdotal accounts",
+      "why": "Anecdotal evidence is the single most useful two-word phrase in Task 2, because it lets you dismiss a counter-argument without calling anyone wrong. It is not a neutral word — it carries the judgement \"this is too weak to build on\", which is why it does the work of a whole sentence. Stress is an-ec-DO-tal, with the main beat on the third syllable, not the first."
+    },
+    {
+      "id": "w-spurious", "kind": "word", "item": "spurious", "pos": "adjective", "ipa": "/ˈspjʊriəs/",
+      "def": "False despite appearing genuine — used of reasoning, claims, and above all of statistical relationships.",
+      "example": "The apparent link between ice-cream sales and drowning is spurious; both simply rise in summer.",
+      "zh": "虛假的、站不住腳的（看似成立但實際不成立）",
+      "collocations": "a spurious correlation; a spurious claim / argument / distinction; spuriously",
+      "why": "Spurious correlation is the technical term for \"these two things move together but neither causes the other\", and deploying it correctly in Task 2 signals that you understand evidence, not just vocabulary. The pronunciation trap is the opening cluster: it is SPYOOR-ee-us with a /j/ glide, not SPOO-ree-us. Avoid it in Speaking until you can say it cleanly — a mangled low-frequency word scores below a clean common one."
+    },
+    {
+      "id": "w-underpin", "kind": "word", "item": "underpin", "pos": "verb", "ipa": "/ˌʌndərˈpɪn/",
+      "def": "To form the foundation that something else rests on and depends upon.",
+      "example": "Reliable public data underpins every serious claim about air quality.",
+      "zh": "支撐、構成⋯⋯的基礎",
+      "collocations": "underpin the argument / the policy / the economy; underpinned by evidence; the assumptions underpinning X",
+      "why": "Underpin and undermine are near-opposites that look and sound alike, and swapping them inverts your entire sentence — the examiner reads the opposite of what you meant. Underpin = hold up from below. Undermine = dig away from below. A useful check: if the sentence is praising the thing, it is underpin. Note also that it is usually passive in academic writing — the policy is underpinned by — which is a register cue worth copying."
+    },
+    {
+      "id": "w-plausible", "kind": "word", "item": "plausible", "pos": "adjective", "ipa": "/ˈplɔzəbəl/",
+      "def": "Reasonable enough to be believed on first inspection — usually implying it has not actually been proven.",
+      "example": "That is a plausible explanation, but it rests on a single unreplicated study.",
+      "zh": "看似合理的（通常暗示：聽起來可信，但未經證實）",
+      "collocations": "a plausible explanation / account / alternative; entirely / hardly plausible; plausibility",
+      "why": "This is a false friend for Chinese speakers who map it onto 可能 or 合理. Plausible is not a synonym for possible or reasonable: it carries a built-in hint of doubt, which is why it pairs so naturally with but. Used correctly it is a graceful concession opener in Task 2 — you grant the other side's logic and then withhold the evidence. Used as a plain compliment, it accidentally insults the idea you were trying to support."
+    },
+    {
+      "id": "p-fall-short-of", "kind": "phrase", "item": "fall short of", "pos": "verb phrase", "ipa": "/fɔl ʃɔrt əv/",
+      "def": "To fail to reach a required standard, target, or expectation — by some margin that is usually implied.",
+      "example": "Current recycling rates fall short of the target set for 2030.",
+      "zh": "未達到（標準、目標、期望）",
+      "collocations": "fall short of the target / the standard / expectations; fall well short of; fall far short of",
+      "why": "The preposition is of, and the whole frame is fixed: fall short of + noun. Fall short from and fall short to are both errors, and short of cannot take a that-clause. Its value is in Task 1, where you need a formal way to say a figure missed its target without repeating did not reach three times; adding well or far in front gives you a second, stronger version of the same move."
+    },
+    {
+      "id": "p-lend-weight-to", "kind": "phrase", "item": "lend weight to", "pos": "verb phrase", "ipa": "/lɛnd weɪt tu/",
+      "def": "To make a claim more convincing by adding support to it, without proving it outright.",
+      "example": "The 2019 census data lends weight to the argument for decentralisation.",
+      "zh": "增加⋯⋯的說服力、為⋯⋯增添分量",
+      "collocations": "lend weight to the argument / the theory / the case for; lends considerable weight to; add weight to",
+      "why": "No article before weight — lend weight to, never lend a weight to or lend the weight to — because weight is abstract and uncountable here. This is the phrase that gets you out of the Band 6 trap of writing this proves for every piece of evidence. Evidence in academic English rarely proves; it lends weight, and using the weaker verb accurately reads as more sophisticated, not less confident."
+    },
+    {
+      "id": "p-in-and-of-itself", "kind": "phrase", "item": "in and of itself", "pos": "adverbial phrase", "ipa": "/ɪn ənd əv ɪtˈsɛlf/",
+      "def": "Considered alone, separately from its effects or context — \"the thing on its own\".",
+      "example": "Population growth is not, in and of itself, a problem; the problem is where the growth is housed.",
+      "zh": "就其本身而言、單就這件事來看",
+      "collocations": "not X in and of itself; in and of itself, this is not sufficient; (shorter variant) in itself",
+      "why": "Sits between commas as an interrupter, which is half of why it scores: it shows you can punctuate a parenthetical clause, a Grammatical Range feature that Chinese speakers often lose because Chinese has no comma pair of this kind. Rhetorically it sets up the sharpest opening move in Task 2 — reject the crude version of the question, then substitute your own sharper version, all in one sentence."
+    },
+    {
+      "id": "g-the-extent-to-which", "kind": "grammar", "item": "the extent to which", "pos": "noun clause with a fronted preposition", "ipa": "/ði ɪkˈstɛnt tu wɪtʃ/",
+      "def": "A noun phrase that turns a how-much question into something you can use as a subject or an object. The preposition to belongs to extent and moves in front of which.",
+      "patterns": "The extent to which + SUBJECT + VERB + is/remains + adjective.\nIt is unclear / debatable + the extent to which + clause.\nassess / measure / determine + the extent to which + clause.",
+      "example": "The extent to which remote work reduces congestion remains unclear.",
+      "zh": "⋯⋯到什麼程度（把「多大程度」變成可當主詞或受詞的名詞子句）",
+      "errors": "The extent which remote work reduces — the to is missing; it is required because you say to an extent.\nThe extent to which remote work does reduce congestion — no auxiliary do-support: this is a noun clause, not a question.\nThe extent of which — of is the wrong preposition for this frame.",
+      "collocations": "the extent to which; to a large / limited / considerable extent; to what extent (the question form)",
+      "why": "IELTS Task 2 prompts literally use this phrase — \"To what extent do you agree?\" — so restating the question with it in your introduction shows the examiner you have read the task precisely rather than writing a memorised opener about a topic. It also rescues you from the yes/no trap: the extent to which frames your answer as a matter of degree, which is what a Band 7.5 argument sounds like."
+    }
+  ],
+  "3": [
+    {
+      "id": "w-curb", "kind": "word", "item": "curb", "pos": "verb / noun", "ipa": "/kɜrb/",
+      "def": "To keep something harmful within limits before it grows further — restrain rather than eliminate.",
+      "example": "Congestion charging is the fastest way to curb traffic in the central districts.",
+      "zh": "抑制、遏制（在情況惡化前加以限制）",
+      "collocations": "curb emissions / spending / inflation / demand; a curb on advertising; put a curb on",
+      "why": "Spelling trap: curb, not curve. They are unrelated words, and a spell-checker will not catch the swap because both are real. Also note the noun frame takes on — a curb on advertising — while the verb takes a bare object. It is a genuine register upgrade on control and stop in Task 2, and pairs naturally with mitigate from Day 1: you curb the cause and mitigate the effect."
+    },
+    {
+      "id": "w-incentivise", "kind": "word", "item": "incentivise", "pos": "verb", "ipa": "/ɪnˈsɛntɪˌvaɪz/",
+      "def": "To give people a concrete reason — usually financial — to behave in a particular way.",
+      "example": "Tax rebates incentivise households to insulate their homes.",
+      "zh": "以誘因激勵、提供動機使⋯⋯",
+      "collocations": "incentivise households / firms / drivers to do X; financial incentives; create an incentive for",
+      "why": "The pattern is incentivise someone to do something — an infinitive, never incentivise someone doing or incentivise for. On spelling: IELTS accepts both -ise and -ize, but not both in one script, so pick one and hold it for all of organise, realise, recognise too. Its argumentative value is that it names a mechanism rather than a wish — the government should incentivise X is a policy, while the government should encourage X is a hope."
+    },
+    {
+      "id": "w-offset", "kind": "word", "item": "offset", "pos": "verb / noun", "ipa": "verb /ˌɔfˈsɛt/ · noun /ˈɔfˌsɛt/",
+      "def": "To balance out a negative with an equivalent positive, so the net result is reduced or neutral.",
+      "example": "Gains in engine efficiency were offset by the rise in vehicle weight.",
+      "zh": "抵銷、平衡（用正面效果抵掉負面效果）",
+      "collocations": "offset the cost / the emissions / the losses; largely / partly / entirely offset by; a carbon offset",
+      "why": "This is a stress-shift pair, and it is the reason to keep the card: the verb is off-SET and the noun is OFF-set. Getting it backwards in Speaking Part 3 is immediately audible to an examiner even though the vowels are identical. Note too that the verb is irregular — offset, offset, offset, with no -ted form — so were offset by is correct and were offsetted is not."
+    },
+    {
+      "id": "w-stringent", "kind": "word", "item": "stringent", "pos": "adjective", "ipa": "/ˈstrɪndʒənt/",
+      "def": "Strict and tightly enforced — used of rules, standards, and tests, never of people.",
+      "example": "Countries with more stringent emissions standards saw the sharpest falls in particulates.",
+      "zh": "嚴格的、嚴苛的（用於規定、標準，不用於形容人）",
+      "collocations": "stringent regulations / standards / controls / criteria; increasingly stringent; less stringent",
+      "why": "Stringent describes rules, not people: a stringent teacher is wrong where a strict teacher is right. Keeping that boundary clear is what turns it from a thesaurus substitution into a real collocation. Practically, it is your third way of saying strict in a Task 2 paragraph that needs the idea four times — strict, stringent, tightly enforced — and that kind of controlled variation is exactly what Lexical Resource is measuring."
+    },
+    {
+      "id": "w-finite", "kind": "word", "item": "finite", "pos": "adjective", "ipa": "/ˈfaɪnaɪt/",
+      "def": "Limited in quantity — there is a fixed amount and it can run out.",
+      "example": "Groundwater is a finite resource, even where rainfall is abundant.",
+      "zh": "有限的（數量固定，會用盡）",
+      "collocations": "a finite resource; finite reserves / supply / capacity; (opposite) infinite",
+      "why": "The pronunciation is FIE-nite, with both vowels long, and it does not follow from infinite, which is IN-fi-nit with the stress on the first syllable and both vowels short. Learners who meet the pair on the page almost always say FIN-it, and once that is fossilised it is hard to move. Say them as a pair aloud today: /ˈfaɪnaɪt/ and /ˈɪnfɪnət/."
+    },
+    {
+      "id": "p-a-trade-off-between", "kind": "phrase", "item": "a trade-off between", "pos": "noun phrase", "ipa": "/ə ˈtreɪd ˌɔf bɪˈtwin/",
+      "def": "A situation where gaining more of one desirable thing necessarily means accepting less of another.",
+      "example": "There is a clear trade-off between affordability and proximity to the centre.",
+      "zh": "取捨、權衡（要多得到一樣，就得少得到另一樣）",
+      "collocations": "a trade-off between X and Y; an inevitable / unavoidable / difficult trade-off; trade one against the other",
+      "why": "Hyphenated as a noun — trade-off — and the two halves it joins take between X and Y, never between X to Y or among. Chinese speakers often reach for balance instead, but balance implies a solution exists while trade-off concedes that it does not, and that concession is the more sophisticated claim. It is the natural shape for the discuss-both-views essay, where the real answer is almost never that one side is simply right."
+    },
+    {
+      "id": "p-hinge-on", "kind": "phrase", "item": "hinge on", "pos": "verb phrase", "ipa": "/hɪndʒ ɑn/",
+      "def": "To depend entirely on one decisive factor — if that factor changes, the whole outcome changes.",
+      "example": "Whether the policy succeeds hinges on how quickly the rail link opens.",
+      "zh": "取決於（完全繫於某一關鍵因素）",
+      "collocations": "hinge on the question of / on whether / on how; the argument hinges on; everything hinges on",
+      "why": "Stronger than depend on, and that strength is the point: hinge on claims there is exactly one decisive factor, which forces you to name it. It takes on and often introduces a whether- or how-clause, which gives you a subordinate clause for free. Note that hinge on is not used of people — your success hinges on preparation is fine, but a person cannot hinge on another person."
+    },
+    {
+      "id": "p-to-a-far-greater-extent-than", "kind": "phrase", "item": "to a far greater extent than", "pos": "comparative adverbial phrase", "ipa": "/tu ə fɑr ˈɡreɪtər ɪkˈstɛnt ðæn/",
+      "def": "Much more so than something else — a graded comparison of degree rather than of amount.",
+      "example": "Building height affects street-level wind to a far greater extent than street width does.",
+      "zh": "遠比⋯⋯更甚、程度上遠超過⋯⋯",
+      "collocations": "to a far greater extent than; to a lesser extent; to some extent; to a limited extent",
+      "why": "Builds directly on Day 2's the extent to which, and shares its logic — degree, not amount — which is why more and bigger cannot replace it here. The final than needs a real comparison after it, and the elegant version repeats only the auxiliary: than street width does. Dropping that does leaves the comparison hanging, which is one of the most common Band 6.5 coherence slips."
+    },
+    {
+      "id": "g-were-to-inversion", "kind": "grammar", "item": "Were + subject + to V", "pos": "inverted second conditional", "ipa": "/wɜr/",
+      "def": "A formal conditional that drops if and inverts were to the front. It describes a hypothetical future situation and its consequence.",
+      "patterns": "Were + SUBJECT + to + base verb, SUBJECT + would / could / might + base verb.\nWere it not for + noun phrase, + SUBJECT + would + base verb.",
+      "example": "Were the government to raise fuel duty, congestion would fall within a year.",
+      "zh": "假設語氣倒裝：省略 if，把 were 提到句首（正式書面語）",
+      "errors": "Were the government raise fuel duty — the to is required: were + subject + to + verb.\nWas the government to raise — always were, for every subject, because this is the subjunctive.\nWere the government to raise fuel duty, congestion will fall — the main clause needs would/could/might, not will.",
+      "collocations": "Were X to do Y, ...; Should X do Y, ... (the same move with should); Had X done Y, ... (the past version)",
+      "why": "This is the most reliable way to show conditional range without writing a clumsy if-chain, and because it is purely a Writing structure you can prepare it in advance and drop it into your counter-argument paragraph. It pairs with Day 1's Not only inversion as your two rehearsed Grammatical Range moves — but use one of each, not two of the same, because a repeated structure stops reading as range."
+    }
+  ]
+}

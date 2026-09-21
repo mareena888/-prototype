@@ -1,0 +1,510 @@
+<title>Reading Pace Log</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F4F6F5; --surface:#FFFFFF; --surface-2:#EDF1F0; --sunk:#E4EAE8;
+  --ink:#141A1C; --ink-2:#3D4B4E; --muted:#667578; --line:#D6DEDC; --line-2:#C2CDCA;
+  --accent:#0C6B7A; --accent-soft:#DCEEF1; --accent-line:#8FC5CE;
+  --ochre:#8A5A11; --ochre-soft:#F6EEDF; --ochre-line:#DFC58C;
+  --good:#2C7A4B; --good-soft:#DFEFE4; --bad:#A93A36; --bad-soft:#F7E2E0;
+  /* chart series — validated with the dataviz palette validator, light mode */
+  --s-acc:#008DC3; --s-time:#A65E0A;
+  --grid:#E3E9E8; --target:#9AA8AB;
+  --shadow:0 1px 2px rgba(20,26,28,.06),0 6px 20px -12px rgba(20,26,28,.28);
+  --radius:10px; --radius-sm:6px;
+  --fd:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --fb:'Literata',Georgia,serif;
+  --fm:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1416; --surface:#151D20; --surface-2:#1B2528; --sunk:#111A1C;
+    --ink:#E7EEEC; --ink-2:#C0CDCB; --muted:#8B9C9F; --line:#253134; --line-2:#334346;
+    --accent:#4CC5DB; --accent-soft:#12333A; --accent-line:#2A6675;
+    --ochre:#E0A94B; --ochre-soft:#2E2413; --ochre-line:#6B5321;
+    --good:#5FC98A; --good-soft:#12301F; --bad:#E88880; --bad-soft:#331A18;
+    /* dark steps chosen and re-validated against the dark surface, not flipped */
+    --s-acc:#2E9CBE; --s-time:#B8883A;
+    --grid:#222D30; --target:#5C6E71;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1416; --surface:#151D20; --surface-2:#1B2528; --sunk:#111A1C;
+  --ink:#E7EEEC; --ink-2:#C0CDCB; --muted:#8B9C9F; --line:#253134; --line-2:#334346;
+  --accent:#4CC5DB; --accent-soft:#12333A; --accent-line:#2A6675;
+  --ochre:#E0A94B; --ochre-soft:#2E2413; --ochre-line:#6B5321;
+  --good:#5FC98A; --good-soft:#12301F; --bad:#E88880; --bad-soft:#331A18;
+  --s-acc:#2E9CBE; --s-time:#B8883A;
+  --grid:#222D30; --target:#5C6E71;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--fd);font-size:15px;line-height:1.5;
+  padding-inline:clamp(16px,4vw,32px);padding-block:0 80px;-webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin-inline:auto}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+
+header{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;padding-block:26px 6px;margin-bottom:22px;
+  border-bottom:1px solid var(--line)}
+header .t{margin-right:auto}
+h1{font-size:clamp(21px,4vw,27px)}
+.sub{color:var(--muted);font-size:13.5px;max-width:58ch;margin-top:6px;line-height:1.55}
+.hbtns{display:flex;gap:7px;padding-top:3px}
+.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--surface);
+  display:grid;place-items:center;color:var(--muted)}
+.icon-btn:hover{color:var(--ink);border-color:var(--ink-2)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(15px,2.4vw,20px)}
+
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media (max-width:700px){.charts{grid-template-columns:1fr}}
+.ch-head{display:flex;align-items:baseline;gap:9px;margin-bottom:3px;flex-wrap:wrap}
+.swatch{width:9px;height:9px;border-radius:2px;flex:0 0 auto;transform:translateY(-1px)}
+.ch-head h3{font-size:14px}
+.ch-sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.ch-last{margin-left:auto;font-family:var(--fm);font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.plot{position:relative}
+.plot svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;background:var(--surface);
+  border:1px solid var(--line-2);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:7px 10px;
+  font-size:11.5px;line-height:1.45;white-space:nowrap;z-index:5;transform:translate(-50%,-100%)}
+.tip.on{opacity:1}
+.tip b{font-family:var(--fm);font-size:12.5px;font-variant-numeric:tabular-nums}
+.tip .d{color:var(--muted);font-family:var(--fm);font-size:10.5px}
+
+.advice{border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:var(--radius);
+  padding:clamp(15px,2.4vw,20px);margin-bottom:20px}
+.advice-h{display:flex;align-items:baseline;gap:9px;margin-bottom:11px;flex-wrap:wrap}
+.advice-h h2{font-size:15px;color:var(--accent)}
+.advice-when{font-family:var(--fm);font-size:10.5px;color:var(--muted);margin-left:auto}
+.advice ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:9px}
+.advice li{font-family:var(--fb);font-size:14px;line-height:1.62}
+.advice li b{font-family:var(--fd);font-weight:600}
+.advice .verdict{font-family:var(--fd);font-size:13px;font-weight:600;margin-bottom:11px;
+  display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:99px;flex:0 0 auto}
+
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:13px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td{font-variant-numeric:tabular-nums}
+td.mono{font-family:var(--fm);color:var(--ink-2)}
+td.pass{color:var(--good);font-weight:600}
+td.miss{color:var(--bad);font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.latest td{background:var(--accent-soft)}
+th.r,td.r{text-align:right}
+.del{color:var(--muted);font-size:15px;line-height:1;padding:2px 5px;border-radius:4px}
+.del:hover{color:var(--bad);background:var(--bad-soft)}
+
+.sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sec-h h2{font-size:15px}
+.count{font-family:var(--fm);font-size:11px;color:var(--muted)}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:11px;align-items:end}
+.f label{display:block;font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.f input{font:inherit;font-family:var(--fm);font-size:14px;width:100%;padding:8px 11px;border-radius:var(--radius-sm);
+  border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.f input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 17px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);transition:.15s}
+.btn:hover{border-color:var(--ink-2)}
+.btn-p{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+:root[data-theme="dark"] .btn-p,:root:not([data-theme="light"]) .btn-p{color:#06282F}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .btn-p{color:#fff}}
+.btn-p:hover{filter:brightness(1.08);border-color:var(--accent)}
+.note{font-size:12px;color:var(--muted);line-height:1.55}
+.empty{text-align:center;padding:30px 16px;color:var(--muted)}
+.empty h3{font-size:15px;color:var(--ink);margin-bottom:6px}
+.empty p{font-size:13px;max-width:46ch;margin-inline:auto;line-height:1.6}
+.demo-flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);font-size:9.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ochre);background:var(--ochre-soft);
+  border:1px solid var(--ochre-line);border-radius:99px;padding:2.5px 9px}
+.foot{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
+.foot a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="t">
+      <h1>Reading Pace Log</h1>
+      <p class="sub">Two numbers decide your Reading band, and they pull against each other. Accuracy is nearly
+        there; pace is what is costing you the last half band. They get one chart each — never one chart with
+        two scales, because the crossing lines would mean nothing.</p>
+    </div>
+    <div class="hbtns">
+      <button class="icon-btn" id="demoBtn" title="Show example data" aria-label="Show example data">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12.5 6 7l3 3 5-6.5"/></svg></button>
+      <button class="icon-btn" id="themeBtn" title="Switch theme" aria-label="Switch theme"></button>
+    </div>
+  </header>
+
+  <div id="demoBar"></div>
+  <div class="charts" id="charts"></div>
+  <div id="advice"></div>
+
+  <div class="panel" style="margin-bottom:20px">
+    <div class="sec-h"><h2>Sessions</h2><span class="count" id="sCount"></span></div>
+    <div id="table"></div>
+  </div>
+
+  <div class="panel">
+    <div class="sec-h"><h2>Log a session</h2></div>
+    <p class="note" style="margin-bottom:14px">Straight off the Reading section of the study app — it gives you
+      score and seconds together at the top of the page. The daily task also copies them across on its own, so
+      this form is only for papers you sit outside the app.</p>
+    <div class="form">
+      <div class="f"><label for="f-date">Date</label><input type="date" id="f-date"></div>
+      <div class="f"><label for="f-score">Score</label><input type="number" id="f-score" min="0" placeholder="6"></div>
+      <div class="f"><label for="f-out">Out of</label><input type="number" id="f-out" min="1" placeholder="7"></div>
+      <div class="f"><label for="f-min">Minutes</label><input type="number" id="f-min" min="0" placeholder="14"></div>
+      <div class="f"><label for="f-sec">Seconds</label><input type="number" id="f-sec" min="0" max="59" placeholder="30"></div>
+      <div class="f"><button class="btn btn-p" id="addBtn" style="width:100%">Add</button></div>
+    </div>
+    <p class="note" id="formErr" style="margin-top:10px;color:var(--bad)" hidden></p>
+  </div>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   READING PACE LOG — companion to the Band Ladder study app.
+
+   NORMALISATION. A 7-question set and a 13-question set are not comparable
+   raw, so every session's time is scaled to what a FULL-LENGTH passage
+   would have taken at the same seconds-per-question:
+
+       normalised = seconds / questions × 13
+
+   13 is the question count of one full IELTS Academic passage (40 questions
+   over three passages). The target line sits at 20:00, which is the pace
+   that finishes all three passages inside the hour with time to transfer.
+   ══════════════════════════════════════════════════════════════════════ */
+
+const FULL_Q = 13;
+const TARGET_PCT = 87;
+const TARGET_SEC = 20 * 60;
+const norm = s => Math.round(s.seconds / s.questions * FULL_Q);
+
+const mmss = t => `${Math.floor(t / 60)}:${String(Math.round(t) % 60).padStart(2, '0')}`;
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtDate = iso => { const [y,m,d] = iso.split('-').map(Number);
+  return new Date(y, m-1, d).toLocaleDateString(undefined, {month:'short', day:'numeric'}); };
+
+/* Clearly-labelled example data. Shown only when the viewer asks, never
+   mixed with real sessions, never written to the database. */
+const DEMO = [
+  {id:'demo1', date:'2026-08-24', score:5, outOf:7, seconds:1010, questions:7, passage:'Example — Seed banks'},
+  {id:'demo2', date:'2026-08-28', score:5, outOf:7, seconds: 960, questions:7, passage:'Example — Urban heat'},
+  {id:'demo3', date:'2026-09-02', score:6, outOf:7, seconds: 940, questions:7, passage:'Example — Lithium'},
+  {id:'demo4', date:'2026-09-07', score:6, outOf:7, seconds: 815, questions:7, passage:'Example — Coral'},
+  {id:'demo5', date:'2026-09-12', score:6, outOf:7, seconds: 760, questions:7, passage:'Example — Tramways'},
+  {id:'demo6', date:'2026-09-17', score:7, outOf:7, seconds: 700, questions:7, passage:'Example — Antikythera'}
+];
+
+let db = null, sessions = [], demoOn = false;
+
+/* ── data ───────────────────────────────────────────────────────────── */
+const shown = () => demoOn ? DEMO.slice() : sessions.slice();
+const sorted = () => shown().sort((a, b) => a.date.localeCompare(b.date) || String(a.id).localeCompare(String(b.id)));
+
+async function load(){
+  try { db = await window.claude?.use?.('db') || null; } catch(e){ db = null; }
+  if (db){
+    try {
+      const snap = await db.collection('sessions').get();
+      sessions = snap.docs.map(d => ({id:d.id, ...d.data()})).filter(s => s.date && s.questions);
+    } catch(e){ sessions = []; }
+  }
+  if (!sessions.length){
+    try { sessions = JSON.parse(localStorage.getItem('rpl:sessions') || '[]'); } catch(e){ sessions = []; }
+  }
+  render();
+}
+async function save(s){
+  sessions.push(s);
+  try { localStorage.setItem('rpl:sessions', JSON.stringify(sessions)); } catch(e){}
+  if (db){ try { await db.collection('sessions').doc(s.id).set(s); } catch(e){} }
+  render();
+}
+async function remove(id){
+  sessions = sessions.filter(s => s.id !== id);
+  try { localStorage.setItem('rpl:sessions', JSON.stringify(sessions)); } catch(e){}
+  if (db){ try { await db.collection('sessions').doc(id).delete(); } catch(e){} }
+  render();
+}
+
+/* ── chart ──────────────────────────────────────────────────────────── */
+const W = 360, H = 208, M = {t:14, r:16, b:28, l:40};
+const IW = W - M.l - M.r, IH = H - M.t - M.b;
+
+function niceDomain(vals, target, pad, step, clamp){
+  const lo = Math.min(...vals, target), hi = Math.max(...vals, target);
+  let a = Math.floor((lo - pad) / step) * step, b = Math.ceil((hi + pad) / step) * step;
+  if (clamp){ a = Math.max(a, clamp[0]); b = Math.min(b, clamp[1]); }
+  if (a >= b) b = a + step;
+  return [a, b];
+}
+
+function lineChart({el, data, key, color, target, fmt, ticks, clamp}){
+  const n = data.length;
+  const vals = data.map(key);
+  const [lo, hi] = niceDomain(vals, target, (Math.max(...vals, target) - Math.min(...vals, target)) * 0.18 || 4, ticks.step, clamp);
+  const x = i => M.l + (n === 1 ? IW / 2 : i / (n - 1) * IW);
+  const y = v => M.t + IH - (v - lo) / (hi - lo) * IH;
+
+  const gridVals = [];
+  for (let v = lo; v <= hi + 1e-6; v += ticks.step) gridVals.push(+v.toFixed(6));
+
+  const path = data.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(key(d)).toFixed(1)}`).join(' ');
+  const last = n - 1;
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(el.dataset.label)}">
+      ${gridVals.map(v => `<line x1="${M.l}" y1="${y(v).toFixed(1)}" x2="${M.l + IW}" y2="${y(v).toFixed(1)}"
+        stroke="var(--grid)" stroke-width="1" fill="none"/>`).join('')}
+      ${gridVals.map(v => `<text x="${M.l - 7}" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end"
+        font-family="var(--fm)" font-size="9" fill="var(--muted)">${fmt(v, true)}</text>`).join('')}
+      <rect x="0" y="0" width="${M.l - 6}" height="${H}" fill="var(--surface)" opacity="0"/>
+
+      <line x1="${M.l}" y1="${y(target).toFixed(1)}" x2="${M.l + IW}" y2="${y(target).toFixed(1)}"
+        stroke="var(--target)" stroke-width="1.5" stroke-dasharray="5 4" fill="none"/>
+      <rect x="${(M.l + IW - 62).toFixed(1)}" y="${(y(target) - 15).toFixed(1)}" width="62" height="12"
+        rx="2" fill="var(--surface)"/>
+      <text x="${M.l + IW}" y="${(y(target) - 5.5).toFixed(1)}" text-anchor="end"
+        font-family="var(--fm)" font-size="9" font-weight="600" fill="var(--target)">TARGET ${fmt(target, true)}</text>
+
+      <path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+      ${data.map((d, i) => i === last ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(key(d)).toFixed(1)}" r="4"
+        fill="var(--surface)" stroke="${color}" stroke-width="2"/>`).join('')}
+      <circle cx="${x(last).toFixed(1)}" cy="${y(key(data[last])).toFixed(1)}" r="5.5"
+        fill="${color}" stroke="var(--surface)" stroke-width="2"/>
+
+      <text x="${M.l}" y="${H - 9}" text-anchor="start" font-family="var(--fm)" font-size="9" fill="var(--muted)">${fmtDate(data[0].date)}</text>
+      ${n > 1 ? `<text x="${M.l + IW}" y="${H - 9}" text-anchor="end" font-family="var(--fm)" font-size="9" fill="var(--muted)">${fmtDate(data[last].date)}</text>` : ''}
+
+      <g id="cross-${el.id}" opacity="0">
+        <line y1="${M.t}" y2="${M.t + IH}" stroke="var(--line-2)" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle r="6" fill="none" stroke="${color}" stroke-width="2"/>
+      </g>
+      <rect x="${M.l}" y="${M.t}" width="${IW}" height="${IH}" fill="transparent" style="cursor:crosshair"/>
+    </svg>
+    <div class="tip"></div>`;
+
+  // hover layer
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), cross = el.querySelector(`#cross-${el.id}`);
+  const hit = el.querySelector('rect[fill="transparent"]');
+  const move = ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) / r.width * W;
+    let i = 0, best = 1e9;
+    data.forEach((d, k) => { const dd = Math.abs(x(k) - px); if (dd < best){ best = dd; i = k; } });
+    const d = data[i], vx = x(i), vy = y(key(d));
+    cross.setAttribute('opacity', '1');
+    cross.querySelector('line').setAttribute('x1', vx); cross.querySelector('line').setAttribute('x2', vx);
+    cross.querySelector('circle').setAttribute('cx', vx); cross.querySelector('circle').setAttribute('cy', vy);
+    tip.innerHTML = `<b>${fmt(key(d), false)}</b><div class="d">${fmtDate(d.date)} · ${d.score}/${d.outOf}</div>`;
+    tip.style.left = (vx / W * 100) + '%';
+    tip.style.top = (vy / H * r.height - 12) + 'px';
+    tip.classList.add('on');
+  };
+  hit.addEventListener('pointermove', move);
+  hit.addEventListener('pointerdown', move);
+  hit.addEventListener('pointerleave', () => { tip.classList.remove('on'); cross.setAttribute('opacity', '0'); });
+}
+
+function renderCharts(){
+  const box = document.getElementById('charts');
+  const data = sorted();
+  if (!data.length){
+    box.innerHTML = `<div class="panel" style="grid-column:1/-1"><div class="empty">
+      <h3>No sessions logged yet.</h3>
+      <p>Run section 03 in the study app and submit the seven questions — it records your score and your
+         seconds together, which is the pair these charts need. Or press the chart icon above to see what this
+         looks like with six sessions in it.</p></div></div>`;
+    return;
+  }
+  const lastS = data[data.length - 1];
+  box.innerHTML = `
+    <div class="panel">
+      <div class="ch-head"><span class="swatch" style="background:var(--s-acc)"></span>
+        <h3>Accuracy</h3>
+        <span class="ch-last" style="color:var(--s-acc)">${Math.round(lastS.score / lastS.outOf * 100)}%</span></div>
+      <p class="ch-sub">Share of questions correct. Target 87% — roughly 6 of 7, the level that holds a 7.5 when the passages get harder.</p>
+      <div class="plot" id="chAcc" data-label="Reading accuracy per session, against an 87 per cent target"></div>
+    </div>
+    <div class="panel">
+      <div class="ch-head"><span class="swatch" style="background:var(--s-time)"></span>
+        <h3>Time per passage</h3>
+        <span class="ch-last" style="color:var(--s-time)">${mmss(norm(lastS))}</span></div>
+      <p class="ch-sub">Normalised to a full 13-question passage, so a short set compares fairly. Target 20:00.</p>
+      <div class="plot" id="chTime" data-label="Normalised time per full-length passage, against a 20 minute target"></div>
+    </div>`;
+
+  lineChart({
+    el:document.getElementById('chAcc'), data, key:d => Math.round(d.score / d.outOf * 100),
+    color:'var(--s-acc)', target:TARGET_PCT,
+    fmt:(v, axis) => axis ? v + '%' : v + '% correct', ticks:{step:10}, clamp:[0, 100]
+  });
+  lineChart({
+    el:document.getElementById('chTime'), data, key:norm,
+    color:'var(--s-time)', target:TARGET_SEC,
+    fmt:(v, axis) => axis ? mmss(v) : mmss(v) + ' per passage', ticks:{step:120}, clamp:[0, 4800]
+  });
+}
+
+/* ── advice: the most recent session only, rebuilt from scratch every render ── */
+function renderAdvice(){
+  const box = document.getElementById('advice');
+  const data = sorted();
+  if (!data.length){ box.innerHTML = ''; return; }
+  const s = data[data.length - 1], prev = data[data.length - 2];
+  const pct = Math.round(s.score / s.outOf * 100), t = norm(s);
+  const accOK = pct >= TARGET_PCT, timeOK = t <= TARGET_SEC;
+  const missed = s.outOf - s.score;
+  const lines = [];
+
+  if (accOK && timeOK){
+    lines.push(`Both targets met — <b>${pct}%</b> at <b>${mmss(t)}</b> per passage. This is the combination that
+      holds a 7.5. Do not change anything; repeat it on a harder passage before you believe it.`);
+  } else if (accOK && !timeOK){
+    const over = t - TARGET_SEC;
+    lines.push(`Accuracy is there at <b>${pct}%</b>. Pace is not: <b>${mmss(t)}</b> is <b>${mmss(over)}</b> over
+      the 20:00 line, which across three passages is ${mmss(over * 3)} you do not have.`);
+    lines.push(`Next session, cap yourself at <b>${mmss(Math.max(TARGET_SEC, t - 90))}</b> and accept one wrong
+      answer. Reading at 7.5 is bought with speed, not with a perfect score on passage one.`);
+  } else if (!accOK && timeOK){
+    lines.push(`Fast enough at <b>${mmss(t)}</b>, but <b>${missed}</b> question${missed === 1 ? '' : 's'} went
+      down and <b>${pct}%</b> is under the 87% line. You have time in hand — spend it.`);
+    lines.push(`Re-read the two inference questions before submitting. Those are the ones where a too-strong
+      option looks right, and they are the cheapest marks you are currently giving away.`);
+  } else {
+    lines.push(`Both numbers are short: <b>${pct}%</b> against 87%, and <b>${mmss(t)}</b> against 20:00.
+      Fix accuracy first — pace built on guessing does not transfer to the real paper.`);
+    lines.push(`Run the same passage again tomorrow without the clock, and read every explanation. Then run a
+      fresh one timed.`);
+  }
+
+  if (prev){
+    const pPct = Math.round(prev.score / prev.outOf * 100), pT = norm(prev);
+    const dP = pct - pPct, dT = pT - t;
+    if (dT >= 45 && dP >= 0) lines.push(`Against the previous session you took <b>${mmss(dT)}</b> less and did not
+      lose accuracy. That is the trade going the right way — keep pushing the clock down in the same steps.`);
+    else if (dT >= 45 && dP < 0) lines.push(`You gained <b>${mmss(dT)}</b> of speed but dropped <b>${Math.abs(dP)}
+      points</b> of accuracy. That is too fast for now; give back about half the time.`);
+    else if (dT <= -45) lines.push(`This one took <b>${mmss(-dT)}</b> longer than the last. If the passage was
+      genuinely harder that is fine — if not, you are re-reading paragraphs instead of trusting the first pass.`);
+  }
+
+  const verdict = accOK && timeOK ? ['On target', 'var(--good)']
+    : accOK || timeOK ? ['One of two on target', 'var(--ochre)'] : ['Both short of target', 'var(--bad)'];
+
+  box.innerHTML = `<div class="advice">
+    <div class="advice-h"><h2>What to do next</h2>
+      <span class="advice-when">${esc(s.passage || 'session')} · ${fmtDate(s.date)}</span></div>
+    <div class="verdict"><span class="dot" style="background:${verdict[1]}"></span>${verdict[0]}</div>
+    <ol>${lines.map(l => `<li>${l}</li>`).join('')}</ol>
+    <p class="note" style="margin-top:12px">This reads your latest session only and is rewritten each time one lands —
+      there is nothing to scroll back through.</p>
+  </div>`;
+}
+
+/* ── table ──────────────────────────────────────────────────────────── */
+function renderTable(){
+  const box = document.getElementById('table');
+  const data = sorted().reverse();
+  document.getElementById('sCount').textContent = data.length
+    ? `${data.length} session${data.length === 1 ? '' : 's'}${demoOn ? ' (example data)' : ''}` : '';
+  if (!data.length){
+    box.innerHTML = `<div class="empty"><p>Nothing logged yet. Sessions arrive from the study app, or from the form below.</p></div>`;
+    return;
+  }
+  box.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Date</th><th>Passage</th><th class="r">Score</th><th class="r">Accuracy</th>
+      <th class="r">Raw</th><th class="r">Per passage</th>${demoOn ? '' : '<th></th>'}</tr></thead>
+    <tbody>${data.map((s, i) => {
+      const pct = Math.round(s.score / s.outOf * 100), t = norm(s);
+      return `<tr class="${i === 0 ? 'latest' : ''}">
+        <td class="mono">${fmtDate(s.date)}</td>
+        <td>${esc(s.passage || '—')}</td>
+        <td class="r mono">${s.score}/${s.outOf}</td>
+        <td class="r ${pct >= TARGET_PCT ? 'pass' : 'miss'}">${pct}%</td>
+        <td class="r mono">${mmss(s.seconds)}</td>
+        <td class="r ${t <= TARGET_SEC ? 'pass' : 'miss'}">${mmss(t)}</td>
+        ${demoOn ? '' : `<td class="r"><button class="del" data-del="${esc(s.id)}" aria-label="Remove this session">×</button></td>`}
+      </tr>`;
+    }).join('')}</tbody></table></div>`;
+  box.querySelectorAll('[data-del]').forEach(b => b.onclick = () => remove(b.dataset.del));
+}
+
+function renderDemoBar(){
+  document.getElementById('demoBar').innerHTML = demoOn
+    ? `<div class="panel" style="margin-bottom:16px;display:flex;gap:11px;align-items:center;flex-wrap:wrap;border-color:var(--ochre-line);background:var(--ochre-soft)">
+        <span class="demo-flag">Example data</span>
+        <span class="note" style="color:var(--ink-2)">These six sessions are made up, to show what the page looks like in use. None of your own data is shown or changed.</span>
+        <button class="btn btn-sm" id="exitDemo" style="margin-left:auto;padding:6px 13px">Show my data</button>
+      </div>` : '';
+  const b = document.getElementById('exitDemo');
+  if (b) b.onclick = () => { demoOn = false; render(); };
+}
+
+function renderFoot(){
+  const n = sessions.length;
+  document.getElementById('foot').innerHTML =
+    `Companion to <a href="https://claude.ai/artifact/FcKdhU65K2ABNALPd234Py">Band Ladder</a>, which records score
+     and seconds together when you submit a reading set. ${db ? 'Sessions are saved to this page’s own store' : 'Storage is unavailable right now, so sessions are kept in this browser only'}
+     — ${n} logged.`;
+}
+
+function render(){ renderDemoBar(); renderCharts(); renderAdvice(); renderTable(); renderFoot(); }
+
+/* ── form ───────────────────────────────────────────────────────────── */
+document.getElementById('addBtn').onclick = async () => {
+  const err = document.getElementById('formErr');
+  const g = id => document.getElementById(id).value;
+  const date = g('f-date'), score = +g('f-score'), outOf = +g('f-out');
+  const mins = +g('f-min') || 0, secs = +g('f-sec') || 0;
+  const seconds = mins * 60 + secs;
+  const fail =
+    !date ? 'Pick the date you sat the passage.' :
+    !outOf || outOf < 1 ? 'Enter how many questions the set had.' :
+    !(score >= 0) || score > outOf ? `Score has to be between 0 and ${outOf || 'the number of questions'}.` :
+    seconds <= 0 ? 'Enter how long it took, in minutes and seconds.' : '';
+  if (fail){ err.textContent = fail; err.hidden = false; return; }
+  err.hidden = true;
+  if (demoOn) demoOn = false;
+  await save({id:'s' + Date.now(), date, score, outOf, seconds, questions:outOf, passage:'Logged by hand', at:new Date().toISOString()});
+  ['f-score','f-out','f-min','f-sec'].forEach(id => document.getElementById(id).value = '');
+};
+try { document.getElementById('f-date').value = new Date().toISOString().slice(0, 10); } catch(e){}
+
+document.getElementById('demoBtn').onclick = () => { demoOn = !demoOn; render(); };
+
+/* theme */
+const SUN = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="3.1"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2 3.1 3.1"/></svg>`;
+const MOON = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M13.5 9.6A5.9 5.9 0 0 1 6.4 2.5a5.9 5.9 0 1 0 7.1 7.1Z"/></svg>`;
+const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark'
+  || (!document.documentElement.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+function paintTheme(){ document.getElementById('themeBtn').innerHTML = isDark() ? SUN : MOON; }
+document.getElementById('themeBtn').onclick = () => {
+  const d = isDark();
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  try { localStorage.setItem('rpl:theme', d ? 'light' : 'dark'); } catch(e){}
+  paintTheme(); render();
+};
+try { const t = localStorage.getItem('rpl:theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
+
+paintTheme();
+render();
+load();
+</script>

@@ -1,0 +1,225 @@
+{
+  "reading": {
+    "title": "The Rediscovery of the Tram",
+    "words": 822,
+    "minutes": 20,
+    "paras": [
+      {
+        "id": "A",
+        "text": "For most of the twentieth century the tram was treated as an embarrassment. Between 1935 and 1965 almost every large city in North America, and a great many in Western Europe, tore up its tracks, and few observers mourned them. Trams were slow; they obstructed motor traffic; and they ran on fixed routes that could not follow the suburbs then spreading outwards from every centre. The diesel bus that replaced them was cheaper to buy, required no infrastructure beyond roads that already existed, and could be rerouted overnight in response to demand. At the time, the logic seemed unanswerable."
+      },
+      {
+        "id": "B",
+        "text": "It was not, however, a purely technical judgement. Several of the largest closure programmes were promoted by consortia with a direct commercial interest in the vehicles and the fuel that took the trams' place, a fact that surfaced only decades afterwards. Yet it would be too convenient to attribute the whole reversal to commercial manoeuvring. Public enthusiasm for the private car was genuine and overwhelming, and a vehicle running down the middle of the street was an obvious obstacle to it. Where networks survived, as in much of central Europe, the decline was usually arrested by a shortage of postwar capital rather than by any argument advanced in the trams' favour."
+      },
+      {
+        "id": "C",
+        "text": "The reassessment began in the 1980s, and it began with arithmetic. A single modern tram carries between two hundred and three hundred passengers; an articulated bus carries perhaps a hundred and forty, and occupies road space that no other vehicle can use while it is loading. <<GAP1>> On a corridor already running buses at ninety-second intervals, no amount of additional scheduling can manufacture further capacity, because the buses begin to obstruct one another at the stops. Rail, by contrast, scales by lengthening the vehicle rather than by adding vehicles to a street that has no more room. The comparison is not quite like for like, since a tram demands its own alignment and a bus can in principle share a lane with everything else; but on a corridor where that alignment already exists, or can be taken from parking, the arithmetic is difficult to argue with."
+      },
+      {
+        "id": "D",
+        "text": "Evidence from cities that rebuilt their networks has been broadly consistent. Ridership on converted corridors typically rises by between twenty and sixty per cent within three years of opening, and a substantial share of that increase comes from people who previously drove rather than from bus passengers transferring across. Studies in Strasbourg, Freiburg and Portland each found that the shift away from private cars was considerably larger than the improvement in journey time alone could account for. In several cases the tram was in fact marginally slower than the bus service it replaced, and ridership rose regardless. Nantes, which opened the first of the modern French lines in 1985, still carries more passengers per route-kilometre than any bus corridor in the country. Something other than speed appears to be doing the work."
+      },
+      {
+        "id": "E",
+        "text": "The most plausible explanation is permanence. A bus route can be withdrawn at a month's notice; a tram line represents an effectively irreversible commitment of public capital to one specific street. <<GAP2>> Developers respond to that signal long before passengers do, which is why land values along announced routes usually begin to move before a single rail has been laid. Legibility reinforces the effect: a visitor can read a tram network directly from the tracks in the road without consulting a timetable, whereas a bus network remains invisible until a bus actually arrives."
+      },
+      {
+        "id": "F",
+        "text": "The standing objection is cost. A kilometre of modern tramway costs between fifteen and forty million euros to build, against almost nothing for a bus route on an existing street. Defenders reply that the comparison is misleading, since it sets the full construction cost of new infrastructure against the marginal cost of adding vehicles to roads whose building and upkeep are funded from an entirely separate budget. Once road provision is attributed honestly to the modes that use it, the gap narrows considerably — though it does not close, and honest advocates concede as much. Operating costs point in the same direction. A single driver moves two hundred passengers rather than seventy, and electric traction costs less per vehicle-kilometre than diesel wherever the electricity is not itself generated from oil."
+      },
+      {
+        "id": "G",
+        "text": "None of this makes the tram universally appropriate. Below a threshold of roughly two thousand passengers per hour in the peak direction, the capacity advantage disappears and the capital outlay cannot be defended on transport grounds alone; a number of cities have opened lines that will never carry enough people to repay them, and have justified the expense afterwards by pointing to regeneration that would arguably have occurred in any case. The lesson of the past forty years is therefore not that trams are superior to buses. It is that the mid-century decision to remove them was reached on considerably narrower grounds than the confidence of those who made it implied."
+      }
+    ],
+    "questions": [
+      {
+        "n": 1,
+        "type": "Multiple choice — inference",
+        "q": "What does the writer imply about the people who dismantled tram networks between 1935 and 1965?",
+        "options": [
+          "They were acting almost entirely on instructions from commercial consortia.",
+          "They were more certain of their reasoning than the evidence available to them warranted.",
+          "They understood the capacity arithmetic but judged it less important than flexibility.",
+          "They expected the decision to be reversed once suburban growth slowed."
+        ],
+        "answer": 1,
+        "why": "The last sentence of paragraph G is the key: the decision was reached \"on considerably narrower grounds than the confidence of those who made it implied.\" That is a statement about the gap between their certainty and their reasoning — option B. Option A overstates: paragraph B explicitly says it would be \"too convenient\" to blame commercial manoeuvring for the whole story. Option C fails because the capacity argument only emerged in the 1980s (paragraph C). Option D has no basis anywhere in the text. Note that the correct answer is never stated directly — this is what makes it an inference question, and why scanning for keywords will not find it."
+      },
+      {
+        "n": 2,
+        "type": "Multiple choice — inference",
+        "q": "What can be inferred from the findings in Strasbourg, Freiburg and Portland?",
+        "options": [
+          "Journey time is largely irrelevant to how people choose to travel.",
+          "Bus passengers are more willing to change mode than car drivers are.",
+          "Drivers were responding to something the researchers had not initially been measuring.",
+          "The three cities had unusually poor bus services before conversion."
+        ],
+        "answer": 2,
+        "why": "Paragraph D reports a shift \"considerably larger than the improvement in journey time alone could account for,\" and closes with \"Something other than speed appears to be doing the work\" — paragraph E then supplies the candidate: permanence. So the inference is that an unmeasured factor was operating: option C. Option A is the classic overstatement distractor — \"larger than journey time can account for\" is not \"journey time is irrelevant.\" Watch for that pattern: IELTS inference options are frequently wrong only because they are too strong, not because they are off-topic."
+      },
+      {
+        "n": 3,
+        "type": "Vocabulary in context",
+        "q": "In paragraph B, \"the decline was usually <b>arrested</b>\" most nearly means the decline was:",
+        "options": [
+          "reversed",
+          "halted",
+          "investigated",
+          "delayed slightly"
+        ],
+        "answer": 1,
+        "why": "Arrest here is the ordinary non-legal sense: to stop something that is in progress. Not \"reversed\" — the networks survived, they did not grow back. Not \"delayed slightly\" — that weakens it; arrest is complete stoppage, not postponement. The legal meaning is a deliberate trap for candidates who know only one sense of the word. The habit to build: when a familiar word appears in an unfamiliar context, assume the passage is testing a second meaning, and read the clause around it rather than the word itself."
+      },
+      {
+        "n": 4,
+        "type": "Vocabulary in context",
+        "q": "In paragraph F, \"the <b>marginal</b> cost of adding vehicles\" refers to the cost that is:",
+        "options": [
+          "unimportant in the overall budget",
+          "incurred by adding one more unit to what already exists",
+          "at the edge of what the city can afford",
+          "shared between several transport authorities"
+        ],
+        "answer": 1,
+        "why": "Marginal is an economics term of art here: the cost of one additional unit, as opposed to the total or average cost. Option A is the trap, because marginal in everyday English does mean slight or unimportant — and that reading destroys the argument, since the writer's point is that the comparison is unfair, not that the cost is trivial. Whenever a passage is discussing costs, budgets or returns, read marginal as \"incremental\" first and check whether the sentence still works."
+      },
+      {
+        "n": 5,
+        "type": "Sentence paraphrase",
+        "q": "Which sentence most accurately paraphrases this claim from paragraph F? <br><i>\"Defenders reply that the comparison is misleading, since it sets the full construction cost of new infrastructure against the marginal cost of adding vehicles to roads whose building and upkeep are funded from an entirely separate budget.\"</i>",
+        "options": [
+          "Supporters argue the comparison is unfair because tramways are charged for their infrastructure while buses use roads that someone else has already paid for.",
+          "Supporters argue that buses should also be required to pay the full cost of the roads they run on.",
+          "Supporters argue that the construction cost of tramways has been consistently overestimated.",
+          "Supporters argue that comparing the two modes is impossible because their budgets are managed separately."
+        ],
+        "answer": 0,
+        "why": "The original makes one claim: like is not being compared with like, because one mode's infrastructure appears in the sum and the other's does not. Option A restates exactly that, and nothing more. Option B is a policy proposal the writer never makes — a very common paraphrase distractor, turning a diagnosis into a prescription. Option C introduces a factual claim about overestimation that is absent. Option D converts \"misleading\" into \"impossible,\" which is again the too-strong trap. A reliable test: a correct paraphrase can add no new claim and can remove no existing one."
+      },
+      {
+        "n": 6,
+        "type": "Missing sentence — Gap 1",
+        "gap": "GAP1",
+        "q": "Which sentence has been removed from <b>Gap 1</b> in paragraph C?",
+        "answer": "opt2",
+        "why": "The sentence before Gap 1 gives the per-vehicle capacity figures; the sentence after begins \"On a corridor already running buses at ninety-second intervals,\" which presupposes that we are now talking about corridors that cannot simply add more buses. Option 2 supplies exactly that bridge — it takes the raw numbers and says where they bite. The give-away is \"The difference,\" a backward-pointing phrase that needs the capacity contrast immediately before it. In missing-sentence questions, always read the sentence after the gap first: it constrains the answer more tightly than the one before."
+      },
+      {
+        "n": 7,
+        "type": "Missing sentence — Gap 2",
+        "gap": "GAP2",
+        "q": "Which sentence has been removed from <b>Gap 2</b> in paragraph E?",
+        "answer": "opt5",
+        "why": "Before Gap 2: a tram line is an irreversible commitment. After Gap 2: \"Developers respond to that signal.\" The word \"signal\" is unexplained unless the missing sentence introduces it, and option 5 does precisely that — it converts permanence into a signal that other actors can read. Option 3 is the tempting wrong answer because it is about cost and cost is genuinely discussed in the passage, but it belongs in paragraph F, not here. Treat an unexplained pronoun or a bare definite reference — that signal, this effect — as the strongest single clue in the whole question type."
+      }
+    ],
+    "gapOptions": [
+      {
+        "id": "opt1",
+        "text": "Buses, however, have become considerably more comfortable over the same period."
+      },
+      {
+        "id": "opt2",
+        "text": "The difference matters most precisely where it is hardest to remedy: on corridors that are already full."
+      },
+      {
+        "id": "opt3",
+        "text": "The capital required is nonetheless difficult to raise in cities with competing priorities."
+      },
+      {
+        "id": "opt4",
+        "text": "Most of these networks were originally built by private companies in the nineteenth century."
+      },
+      {
+        "id": "opt5",
+        "text": "That permanence is itself a signal, and it is read by people who have no intention of ever boarding the vehicle."
+      },
+      {
+        "id": "opt6",
+        "text": "Passenger satisfaction surveys, however, rarely distinguish between the two modes."
+      }
+    ]
+  },
+  "writing": {
+    "grammarRef": "g-not-only-inversion",
+    "grammarLabel": "Not only + inversion",
+    "drills": [
+      {
+        "id": "t1",
+        "prompt": "The new line reduced journey times. It also raised property values along the corridor.",
+        "instruction": "Rewrite as one sentence beginning <b>Not only</b>.",
+        "model": "Not only did the new line reduce journey times, but it also raised property values along the corridor.",
+        "note": "Watch the two things that go wrong here: the auxiliary is <b>did</b> (past), and once you have it, the main verb drops back to its base form — <i>reduce</i>, not <i>reduced</i>. Writing \"Not only did the new line reduced\" is the most common version of this error."
+      },
+      {
+        "id": "t2",
+        "prompt": "Congestion charging raises revenue for the city. It reduces traffic in the centre at the same time.",
+        "instruction": "Rewrite as one sentence beginning <b>Not only</b>.",
+        "model": "Not only does congestion charging raise revenue for the city, but it also reduces traffic in the centre.",
+        "note": "Present tense with a singular subject, so the auxiliary is <b>does</b> — and <i>raises</i> becomes <i>raise</i>. \"At the same time\" is redundant once <b>but it also</b> is doing that job, so delete it: examiners notice repeated meaning, and Task 2 gives you no marks for length."
+      }
+    ],
+    "translation": {
+      "id": "tr1",
+      "zh": "政府若只著眼於短期的經濟成長，往往是以犧牲環境為代價；這樣的取捨很少被公開承認。",
+      "model": "When governments focus solely on short-term economic growth, this often comes at the expense of the environment — a trade-off that is rarely acknowledged openly.",
+      "note": "Two Day 1 items are doing the work: <b>at the expense of</b> (with <i>of</i>, and with <i>comes</i> in front of it) and <b>a trade-off</b>. The structural trap is 若 — resist \"If governments only focus\", which sounds conditional and tentative; <b>When</b> states it as a pattern, which is the stronger claim and the more natural English. Also note that Chinese lets the second clause float with 這樣的; English wants it anchored, either with a dash and an appositive noun phrase as above, or with <i>which is</i>."
+    },
+    "task2": {
+      "id": "e1",
+      "prompt": "Some people believe that governments should invest heavily in public transport rather than in building new roads. Others argue that road capacity must keep pace with demand.<br><br>Discuss both views and give your own opinion.",
+      "target": 150,
+      "checklist": [
+        "Introduction paraphrases the prompt — and uses <b>the extent to which</b> or a real position, not \"Nowadays, transport is a controversial topic.\"",
+        "Both views get a body paragraph. Yours gets the longer one.",
+        "One <b>Not only + inversion</b> sentence, in the paragraph you are most confident about. Exactly one.",
+        "At least three Day 1–3 items used accurately: mitigate, curb, a trade-off between, bear the brunt of, at the expense of…",
+        "Every body paragraph has a specific example — a city, a figure, a named policy. Not \"for example, in some countries\".",
+        "No sentence over about 35 words. Length is where your grammar accuracy goes to die.",
+        "Conclusion answers the question asked, and adds no new argument."
+      ]
+    }
+  },
+  "speaking": {
+    "part1": {
+      "label": "Part 1 — Interview",
+      "note": "4–5 questions, 20–30 seconds each. Answer, then give one reason or one example. Do not stop at one sentence; do not run past 30 seconds.",
+      "seconds": 30,
+      "questions": [
+        "How do you usually travel to work or to your classes?",
+        "Has the transport in your hometown changed since you were a child?",
+        "Do you prefer travelling by bus or by train? Why?",
+        "Is there anything about getting around your city that you would change?",
+        "Do you ever walk or cycle instead? Why, or why not?"
+      ]
+    },
+    "part2": {
+      "label": "Part 2 — Long turn",
+      "note": "1 minute to prepare, then speak for 1–2 minutes. Cover all four bullets, and save your strongest detail for last so you do not run out of things to say at 90 seconds.",
+      "prepSeconds": 60,
+      "seconds": 120,
+      "cue": "Describe a journey that you make regularly.",
+      "bullets": [
+        "where the journey starts and ends",
+        "how you travel and how long it takes",
+        "what you usually do during the journey",
+        "and explain how you feel about making this journey so often"
+      ]
+    },
+    "part3": {
+      "label": "Part 3 — Discussion",
+      "note": "45–60 seconds each. This is where Band 7.5 is won: state a position, give the mechanism, then concede a limit. The Day 1–3 grammar patterns belong here.",
+      "seconds": 60,
+      "questions": [
+        "Why do some cities invest in rail while others expand their roads instead?",
+        "Who tends to bear the brunt of poor transport planning?",
+        "To what extent should the cost of driving reflect the congestion it causes?",
+        "Some argue that remote work makes transport investment unnecessary. How far would you agree?",
+        "Were a city to remove cars from its centre entirely, what would follow?"
+      ]
+    }
+  }
+}

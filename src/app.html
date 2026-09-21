@@ -1,0 +1,1838 @@
+<title>Band Ladder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F4F6F5; --surface:#FFFFFF; --surface-2:#EDF1F0; --sunk:#E4EAE8;
+  --ink:#141A1C; --ink-2:#3D4B4E; --muted:#667578; --line:#D6DEDC; --line-2:#C2CDCA;
+  --accent:#0C6B7A; --accent-ink:#FFFFFF; --accent-soft:#DCEEF1; --accent-line:#8FC5CE;
+  --ochre:#8A5A11; --ochre-soft:#F6EEDF; --ochre-line:#DFC58C;
+  --good:#2C7A4B; --good-soft:#DFEFE4;
+  --warn:#96631B; --warn-soft:#F6EBDA;
+  --bad:#A93A36; --bad-soft:#F7E2E0;
+  --shadow:0 1px 2px rgba(20,26,28,.06),0 6px 20px -12px rgba(20,26,28,.28);
+  --radius:10px; --radius-sm:6px;
+  --rail:76px;
+  --fd:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --fb:'Literata',Georgia,'Times New Roman',serif;
+  --fm:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1416; --surface:#151D20; --surface-2:#1B2528; --sunk:#111A1C;
+    --ink:#E7EEEC; --ink-2:#C0CDCB; --muted:#8B9C9F; --line:#253134; --line-2:#334346;
+    --accent:#4CC5DB; --accent-ink:#06282F; --accent-soft:#12333A; --accent-line:#2A6675;
+    --ochre:#E0A94B; --ochre-soft:#2E2413; --ochre-line:#6B5321;
+    --good:#5FC98A; --good-soft:#12301F;
+    --warn:#D7A257; --warn-soft:#2D2314;
+    --bad:#E88880; --bad-soft:#331A18;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1416; --surface:#151D20; --surface-2:#1B2528; --sunk:#111A1C;
+  --ink:#E7EEEC; --ink-2:#C0CDCB; --muted:#8B9C9F; --line:#253134; --line-2:#334346;
+  --accent:#4CC5DB; --accent-ink:#06282F; --accent-soft:#12333A; --accent-line:#2A6675;
+  --ochre:#E0A94B; --ochre-soft:#2E2413; --ochre-line:#6B5321;
+  --good:#5FC98A; --good-soft:#12301F;
+  --warn:#D7A257; --warn-soft:#2D2314;
+  --bad:#E88880; --bad-soft:#331A18;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--fd);font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{margin:0;font-weight:600;text-wrap:balance;letter-spacing:-.011em}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+
+/* ── shell ────────────────────────────────────────────── */
+.shell{display:flex;min-height:100%;align-items:flex-start}
+.rail{position:sticky;top:env(safe-area-inset-top,0px);flex:0 0 var(--rail);width:var(--rail);
+  height:100dvh;background:var(--surface);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:stretch;padding-block:14px;gap:2px;z-index:20}
+.rail-mark{font-family:var(--fm);font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--muted);
+  text-align:center;padding-bottom:12px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.rail-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:11px 4px;
+  border-left:2px solid transparent;color:var(--muted);transition:color .15s,background .15s}
+.rail-btn .n{font-family:var(--fm);font-size:14px;font-weight:600;letter-spacing:.02em}
+.rail-btn .t{font-size:8.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;line-height:1.25;text-align:center}
+.rail-btn:hover{color:var(--ink-2);background:var(--surface-2)}
+.rail-btn[aria-current="true"]{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+.rail-badge{position:absolute;transform:translate(16px,-10px);font-family:var(--fm);font-size:9px;font-weight:600;
+  background:var(--accent);color:var(--accent-ink);border-radius:9px;padding:1px 5px;line-height:1.5}
+.rail-sp{flex:1}
+.rail-theme{display:flex;justify-content:center;padding-top:10px;border-top:1px solid var(--line)}
+.rail-theme button{width:30px;height:30px;border-radius:var(--radius-sm);color:var(--muted);display:grid;place-items:center}
+.rail-theme button:hover{background:var(--surface-2);color:var(--ink)}
+
+.main{flex:1;min-width:0;padding-inline:clamp(16px,3.4vw,40px);padding-block:0 96px}
+.wrap{max-width:860px;margin-inline:auto}
+
+/* ── header ───────────────────────────────────────────── */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:calc(clamp(16px,3.4vw,40px) * -1);
+  padding-inline:clamp(16px,3.4vw,40px);padding-block:13px;margin-bottom:30px}
+.top-in{max-width:860px;margin-inline:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-right:auto}
+.brand span{color:var(--accent)}
+.counters{display:flex;gap:7px;flex-wrap:wrap}
+.ctr{font-family:var(--fm);font-size:10.5px;font-weight:500;border:1px solid var(--line-2);border-radius:99px;
+  padding:3px 10px;color:var(--ink-2);background:var(--surface);white-space:nowrap}
+.ctr b{font-weight:600;color:var(--ink)}
+.ctr.is-accent{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent)}
+.ctr.is-ochre{border-color:var(--ochre-line);background:var(--ochre-soft);color:var(--ochre)}
+
+/* ── section furniture ────────────────────────────────── */
+.sec{animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.sec{animation:none}*{transition-duration:.01ms!important}}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-family:var(--fm);font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.sec-head h2{font-size:clamp(20px,3.6vw,26px);letter-spacing:-.025em}
+.sec-sub{color:var(--muted);font-size:13.5px;max-width:62ch;margin-bottom:22px;line-height:1.55}
+
+.tabs{display:flex;gap:2px;background:var(--sunk);border:1px solid var(--line);border-radius:var(--radius);
+  padding:3px;margin-bottom:20px;width:fit-content;max-width:100%}
+.tabs button{padding:6px 16px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.01em}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(16px,2.6vw,24px)}
+.stack{display:flex;flex-direction:column;gap:16px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);transition:.15s}
+.btn:hover{border-color:var(--ink-2)}
+.btn-p{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-p:hover{filter:brightness(1.08);border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+.note{font-size:12.5px;color:var(--muted);line-height:1.55}
+.empty{text-align:center;padding:44px 18px;color:var(--muted)}
+.empty h3{font-size:16px;color:var(--ink);margin-bottom:7px}
+.empty p{font-size:13px;max-width:44ch;margin-inline:auto;line-height:1.6}
+
+/* ── flip card ────────────────────────────────────────── */
+.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;min-height:24px}
+.tag{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:2.5px 8px;border-radius:99px;border:1px solid var(--line-2);color:var(--muted);background:var(--surface-2)}
+.tag.k-word{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+.tag.k-phrase{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-soft)}
+.tag.k-grammar{color:var(--ochre);border-color:var(--ochre-line);background:var(--ochre-soft)}
+.tag.due{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-soft)}
+.prog{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card-face{padding:clamp(20px,3.4vw,34px);min-height:210px;display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;gap:11px;cursor:pointer}
+.card-face:hover .flip-hint{color:var(--accent)}
+.item{font-family:var(--fd);font-size:clamp(26px,5.6vw,38px);font-weight:600;letter-spacing:-.03em;line-height:1.15}
+.item.long{font-size:clamp(20px,4.2vw,28px)}
+.pos{font-size:12.5px;color:var(--muted);font-style:italic;font-family:var(--fb)}
+.ipa{font-family:var(--fm);font-size:13px;color:var(--ink-2);letter-spacing:-.01em}
+.flip-hint{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:5px;transition:color .15s}
+
+.audio{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:var(--surface);
+  border-radius:99px;padding:6px 13px;font-size:12px;font-weight:600;color:var(--ink-2);transition:.15s}
+.audio:hover{border-color:var(--accent);color:var(--accent)}
+.audio.playing{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.audio.failed{border-color:var(--bad);color:var(--bad);background:var(--bad-soft)}
+.audio svg{width:13px;height:13px;flex:0 0 13px}
+.audio-err{font-size:11.5px;color:var(--bad);margin-top:6px;line-height:1.5;max-width:40ch}
+
+.back{border-top:1px solid var(--line);padding:clamp(18px,3vw,26px);display:flex;flex-direction:column;gap:0}
+.fld{padding-block:13px;border-bottom:1px solid var(--line)}
+.fld:first-child{padding-top:0}
+.fld:last-child{border-bottom:0;padding-bottom:0}
+.fld-l{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.fld-b{font-family:var(--fb);font-size:14.5px;line-height:1.62;color:var(--ink)}
+.fld-b.mono{font-family:var(--fm);font-size:12.5px;line-height:1.75;white-space:pre-line;color:var(--ink-2)}
+.ex{font-family:var(--fb);font-size:14.5px;line-height:1.62;font-style:italic;color:var(--ink)}
+.ex-row{display:flex;gap:11px;align-items:flex-start}
+.ex-row .audio{flex:0 0 auto;margin-top:1px}
+
+.fld.zh .fld-l{color:var(--ochre)}
+.fld.zh .fld-b{font-family:var(--fb);font-size:15px;color:var(--ink)}
+.fld.why{background:var(--ochre-soft);border:1px solid var(--ochre-line);border-radius:var(--radius-sm);
+  padding:14px 16px;margin-top:13px}
+.fld.why .fld-l{color:var(--ochre);margin-bottom:7px}
+.fld.why .fld-b{font-size:13.5px;line-height:1.68;color:var(--ink)}
+.fld.err .fld-b{color:var(--bad)}
+
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.grade{padding:11px 6px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--surface);
+  display:flex;flex-direction:column;gap:3px;align-items:center;transition:.14s}
+.grade .g{font-size:12.5px;font-weight:600}
+.grade .i{font-family:var(--fm);font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.grade:hover{transform:translateY(-1px)}
+.grade.g0:hover{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.grade.g1:hover{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
+.grade.g2:hover{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.grade.g3:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.grade:hover .i{color:inherit}
+
+.recap-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.nav-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--surface);
+  display:grid;place-items:center;color:var(--ink-2);transition:.15s}
+.nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed}
+select{font:inherit;font-size:12.5px;padding:7px 11px;border-radius:var(--radius-sm);border:1px solid var(--line-2);
+  background:var(--surface);color:var(--ink);cursor:pointer;max-width:100%}
+
+/* ── recall ───────────────────────────────────────────── */
+.q-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.q-type{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:99px;padding:2.5px 9px}
+.q-stem{font-family:var(--fb);font-size:17px;line-height:1.55;margin-bottom:18px}
+.q-stem .blank{display:inline-block;min-width:88px;border-bottom:2px solid var(--accent);vertical-align:baseline}
+.q-stem em{color:var(--ochre);font-style:normal;font-weight:600}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;padding:12px 15px;border-radius:var(--radius-sm);border:1px solid var(--line-2);
+  background:var(--surface);font-size:14px;transition:.14s;display:flex;gap:11px;align-items:flex-start;line-height:1.5}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt .k{font-family:var(--fm);font-size:11px;font-weight:600;color:var(--muted);flex:0 0 auto;margin-top:2px}
+.opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good);font-weight:600}
+.opt.right .k{color:var(--good)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.opt.wrong .k{color:var(--bad)}
+input[type=text],textarea{font:inherit;width:100%;padding:11px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+input[type=text]{font-family:var(--fm);font-size:15px}
+textarea{font-family:var(--fb);font-size:14.5px;line-height:1.65;resize:vertical;min-height:90px}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.verdict{margin-top:16px;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid;font-size:13.5px;line-height:1.6}
+.verdict.ok{border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-soft)}
+.verdict.no{border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-soft)}
+.verdict-h{font-weight:700;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.verdict.ok .verdict-h{color:var(--good)}
+.verdict.no .verdict-h{color:var(--bad)}
+.verdict .why-box{margin-top:11px;padding-top:11px;border-top:1px solid var(--line);font-family:var(--fb);color:var(--ink)}
+.verdict .why-l{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre);margin-bottom:5px}
+
+.bar{height:4px;background:var(--sunk);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.score-big{font-family:var(--fm);font-size:42px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+
+/* ── reading ──────────────────────────────────────────── */
+.clock{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:12;display:flex;align-items:center;gap:11px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 15px;margin-bottom:20px;
+  box-shadow:var(--shadow);flex-wrap:wrap}
+.clock-t{font-family:var(--fm);font-size:21px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.clock-t.over{color:var(--bad)}
+.clock-l{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.clock.idle .clock-t{color:var(--muted)}
+.passage{font-family:var(--fb);font-size:15.5px;line-height:1.72;max-width:66ch}
+.passage p{margin-bottom:15px;text-align:left}
+.passage .pid{font-family:var(--fm);font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.1em;
+  margin-right:9px;vertical-align:2px}
+.gap{display:inline;background:var(--accent-soft);border-bottom:2px solid var(--accent);border-radius:3px;
+  padding:1px 7px;font-family:var(--fm);font-size:12px;font-weight:600;color:var(--accent)}
+.gap.filled{font-family:var(--fb);font-size:15.5px;font-weight:400;font-style:italic;background:var(--ochre-soft);
+  border-bottom-color:var(--ochre);color:var(--ink)}
+.rq{border-top:1px solid var(--line);padding-top:20px;margin-top:20px}
+.rq:first-of-type{border-top:0;margin-top:0}
+.rq-n{font-family:var(--fm);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.rq-t{font-family:var(--fm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.exp{margin-top:13px;padding:13px 15px;border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:var(--surface-2);font-family:var(--fb);font-size:13.5px;line-height:1.65}
+.exp-h{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.exp.ok .exp-h{color:var(--good)}
+.exp.no .exp-h{color:var(--bad)}
+.gap-list{display:flex;flex-direction:column;gap:7px;margin-top:11px}
+.gap-opt{text-align:left;padding:10px 13px;border-radius:var(--radius-sm);border:1px solid var(--line-2);
+  background:var(--surface);font-family:var(--fb);font-size:13.5px;line-height:1.55;display:flex;gap:10px;transition:.14s}
+.gap-opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.gap-opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.gap-opt.right{border-color:var(--good);background:var(--good-soft)}
+.gap-opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.gap-opt .k{font-family:var(--fm);font-size:11px;font-weight:600;color:var(--muted);flex:0 0 auto;margin-top:1px}
+.gap-opt.used{opacity:.45}
+
+/* ── writing ──────────────────────────────────────────── */
+.drill{padding-block:18px;border-bottom:1px solid var(--line)}
+.drill:first-child{padding-top:0}
+.drill:last-child{border-bottom:0;padding-bottom:0}
+.drill-p{font-family:var(--fb);font-size:14.5px;line-height:1.6;padding:12px 15px;background:var(--sunk);
+  border-radius:var(--radius-sm);border-left:2px solid var(--accent);margin-bottom:11px}
+.drill-i{font-size:12.5px;color:var(--muted);margin-bottom:9px}
+.model{margin-top:11px;padding:13px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent-line);
+  background:var(--accent-soft)}
+.model-l{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.model-b{font-family:var(--fb);font-size:14.5px;line-height:1.6}
+.model-n{margin-top:9px;padding-top:9px;border-top:1px solid var(--accent-line);font-size:12.5px;line-height:1.6;color:var(--ink-2)}
+.wc{font-family:var(--fm);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;gap:9px;align-items:center}
+.wc b{color:var(--ink);font-weight:600}
+.wc.hit b{color:var(--good)}
+.check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.check li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.55}
+.check li:last-child{border-bottom:0}
+.check input{margin-top:3px;flex:0 0 auto;accent-color:var(--accent);width:14px;height:14px}
+.check label{cursor:pointer}
+.saved{font-family:var(--fm);font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.saved.on{color:var(--good)}
+
+/* ── speaking ─────────────────────────────────────────── */
+.sp-part{margin-bottom:26px}
+.sp-h{display:flex;align-items:baseline;gap:11px;margin-bottom:5px;flex-wrap:wrap}
+.sp-h h3{font-size:16px}
+.qlist{list-style:none;padding:0;margin:11px 0 0;display:flex;flex-direction:column;gap:2px}
+.qlist li{font-family:var(--fb);font-size:14.5px;line-height:1.6;padding:10px 0;border-bottom:1px solid var(--line);
+  display:flex;gap:12px}
+.qlist li:last-child{border-bottom:0}
+.qlist .qn{font-family:var(--fm);font-size:11px;color:var(--muted);flex:0 0 auto;margin-top:3px}
+.cue{border:1px solid var(--line-2);border-radius:var(--radius);padding:18px 20px;background:var(--sunk)}
+.cue-t{font-family:var(--fb);font-size:17px;font-weight:600;margin-bottom:11px;line-height:1.4}
+.cue ul{margin:0;padding-left:19px;font-family:var(--fb);font-size:14.5px;line-height:1.75;color:var(--ink-2)}
+.timer-box{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 18px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--surface);margin-top:14px}
+.timer-t{font-family:var(--fm);font-size:27px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;min-width:82px}
+.timer-t.over{color:var(--bad)}
+.timer-t.prep{color:var(--ochre)}
+.timer-l{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ── reference ────────────────────────────────────────── */
+.phase{display:flex;gap:16px;padding-block:17px;border-bottom:1px solid var(--line)}
+.phase:last-child{border-bottom:0}
+.phase-n{font-family:var(--fm);font-size:11px;font-weight:600;color:var(--accent);flex:0 0 58px;letter-spacing:.04em;padding-top:2px}
+.phase-b h4{font-size:14.5px;margin-bottom:5px}
+.phase-b p{font-size:13px;color:var(--ink-2);line-height:1.6;max-width:58ch}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:430px;font-size:13px}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line)}
+th{font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td{font-variant-numeric:tabular-nums}
+td.mono{font-family:var(--fm);color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:0}
+
+.banner{display:flex;gap:11px;align-items:flex-start;padding:12px 15px;border-radius:var(--radius-sm);
+  border:1px solid var(--ochre-line);background:var(--ochre-soft);font-size:12.5px;line-height:1.6;margin-bottom:18px}
+.banner b{color:var(--ochre)}
+
+/* ── narrow ───────────────────────────────────────────── */
+@media (max-width:760px){
+  .shell{flex-direction:column}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);width:100%;flex:0 0 auto;height:auto;flex-direction:row;
+    border-right:0;border-bottom:1px solid var(--line);padding:0;overflow-x:auto;gap:0}
+  .rail-mark,.rail-sp,.rail-theme{display:none}
+  .rail-btn{flex:1 0 auto;flex-direction:row;gap:6px;padding:11px 13px;border-left:0;border-bottom:2px solid transparent;
+    white-space:nowrap}
+  .rail-btn[aria-current="true"]{border-left-color:transparent;border-bottom-color:var(--accent)}
+  .rail-btn .t{font-size:9.5px}
+  .rail-badge{position:static;transform:none;margin-left:1px}
+  .main{padding-block:0 72px}
+  .top{margin-bottom:22px}
+  .clock{top:calc(env(safe-area-inset-top,0px) + 46px)}
+  .grades{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:430px){
+  body{font-size:14.5px}
+  .card-face{min-height:170px}
+  .brand{font-size:14px}
+  .ctr{font-size:10px;padding:2.5px 8px}
+}
+</style>
+
+<div class="shell">
+  <nav class="rail" aria-label="Sections">
+    <div class="rail-mark">IELTS</div>
+    <button class="rail-btn" data-go="deck"><span class="n">01</span><span class="t">Deck</span><span class="rail-badge" id="dueBadge" hidden>0</span></button>
+    <button class="rail-btn" data-go="recall"><span class="n">02</span><span class="t">Recall</span></button>
+    <button class="rail-btn" data-go="reading"><span class="n">03</span><span class="t">Reading</span></button>
+    <button class="rail-btn" data-go="writing"><span class="n">04</span><span class="t">Writing</span></button>
+    <button class="rail-btn" data-go="speaking"><span class="n">05</span><span class="t">Speaking</span></button>
+    <div class="rail-sp"></div>
+    <button class="rail-btn" data-go="ref"><span class="n">REF</span><span class="t">Plan</span></button>
+    <div class="rail-theme"><button id="themeBtn" aria-label="Switch theme" title="Switch theme"></button></div>
+  </nav>
+
+  <div class="main">
+    <header class="top">
+      <div class="top-in">
+        <div class="brand">Band<span>Ladder</span></div>
+        <div class="counters" id="counters"></div>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <section class="sec" id="s-deck"></section>
+      <section class="sec" id="s-recall" hidden></section>
+      <section class="sec" id="s-reading" hidden></section>
+      <section class="sec" id="s-writing" hidden></section>
+      <section class="sec" id="s-speaking" hidden></section>
+      <section class="sec" id="s-ref" hidden></section>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   BAND LADDER — IELTS Academic daily trainer
+   Target: R7.5 L8.0 W6 S6  →  7.5–8 overall.  30–45 min/day.
+
+   TWO COUNTERS, DELIBERATELY SEPARATE:
+     deckDay     = highest day number in DAYS that has a `cards` array.
+                   Advances every time the daily task appends a day.
+     practiceDay = highest day number in DAYS that has a `reading` object.
+                   Only moves when new practice material is authored, so
+                   an unfinished passage is never buried by new vocabulary.
+   ══════════════════════════════════════════════════════════════════════ */
+
+const DAYS = {
+1: {
+  cards: [
+      {
+        "id": "w-mitigate",
+        "kind": "word",
+        "item": "mitigate",
+        "pos": "verb",
+        "ipa": "/ˈmɪtɪˌɡeɪt/",
+        "def": "To make something bad — damage, a risk, a shortage — less severe. It does not remove the problem; it softens it.",
+        "example": "Planting street trees will not stop flooding, but it does mitigate the worst of the run-off.",
+        "zh": "減輕、緩解（使壞事沒那麼嚴重，但沒有根除）",
+        "collocations": "mitigate the impact / the effects / the risk / the damage; mitigating factor (a formal noun use)",
+        "why": "It takes a direct object with no preposition. \"Mitigate against\" is the single most common error with this word, and it happens because \"militate against\" exists and means something different (to work against). Write mitigate the impact, never mitigate against the impact. It is also a straight upgrade on reduce in your Task 2 solution paragraph, where reduce appears four times in most Band 6 scripts."
+      },
+      {
+        "id": "w-sprawl",
+        "kind": "word",
+        "item": "sprawl",
+        "pos": "noun (uncountable) / verb",
+        "ipa": "/sprɔl/",
+        "def": "The low-density, unplanned spreading of a city outwards across land that was previously rural.",
+        "example": "Sprawl has pushed the city limits eleven kilometres further west in a single decade.",
+        "zh": "（都市）無序擴張、蔓延",
+        "collocations": "urban sprawl; unchecked / low-density sprawl; sprawl consumes farmland; the city sprawls across the valley",
+        "why": "Uncountable, so no article and no plural: urban sprawl, never a sprawl or sprawls. Chinese speakers reliably add the when a noun feels specific — the urban sprawl is the error to watch. Its real value is that it compresses a whole clause (\"the city keeps growing outwards without planning\") into one word, which is exactly what Lexical Resource rewards at Band 7.5."
+      },
+      {
+        "id": "w-proximity",
+        "kind": "word",
+        "item": "proximity",
+        "pos": "noun",
+        "ipa": "/prɑkˈsɪməti/",
+        "def": "Nearness in space or time — a formal register word for closeness.",
+        "example": "Housing values rise sharply with proximity to a rail station.",
+        "zh": "鄰近、接近（正式用語）",
+        "collocations": "in close proximity to; proximity to the centre; the proximity of X to Y",
+        "why": "The preposition is to, not of, when you name what it is near: proximity to the station. The of pattern only works in the proximity of X to Y frame. Stress falls on the second syllable — prox-IM-i-ty — and putting it on the first is the mistake that marks the word as learned-but-never-heard in Speaking Part 3."
+      },
+      {
+        "id": "w-densely",
+        "kind": "word",
+        "item": "densely",
+        "pos": "adverb",
+        "ipa": "/ˈdɛnsli/",
+        "def": "Packed tightly together, with little space between units — almost always used of population or vegetation.",
+        "example": "The most densely populated districts are also the ones with the least green space.",
+        "zh": "密集地、稠密地",
+        "collocations": "densely populated; densely built; densely wooded; (opposite) sparsely populated",
+        "why": "Densely populated is a fixed adverb + participle pair, and the examiner hears it as one chunk. The error is reaching for the noun instead — high density population or dense population — which is grammatical but reads as assembled rather than known. Learn its opposite, sparsely populated, in the same breath: a contrast pair is worth two marks more than a single word."
+      },
+      {
+        "id": "w-displace",
+        "kind": "word",
+        "item": "displace",
+        "pos": "verb",
+        "ipa": "/dɪsˈpleɪs/",
+        "def": "To force people or things out of the place where they normally are, usually against their will.",
+        "example": "The new expressway displaced roughly four thousand residents from the riverside district.",
+        "zh": "迫使遷離、取代原本位置的人或物",
+        "collocations": "displace residents / communities / workers; displaced by construction; displacement (noun)",
+        "why": "Displace and replace are not interchangeable, and Chinese makes the trap worse because 取代 covers both. Displace = push out of a place. Replace = take over the function of. Solar power replaces coal; a dam displaces villagers. Writing \"the factory was displaced by a shopping centre\" when you mean replaced costs you a Lexical Resource mark for imprecision, not for vocabulary range."
+      },
+      {
+        "id": "p-at-the-expense-of",
+        "kind": "phrase",
+        "item": "at the expense of",
+        "pos": "prepositional phrase",
+        "ipa": "/ət ði ɪkˈspɛns əv/",
+        "def": "Gaining one thing by causing harm or loss to another — the cost is paid by the second thing.",
+        "example": "Growth was achieved at the expense of the city's remaining wetlands.",
+        "zh": "以⋯⋯為代價、犧牲⋯⋯換取",
+        "collocations": "at the expense of the environment / of quality / of the poorest households; come at the expense of",
+        "why": "The preposition after expense is of and nothing else — at the expense to and at the expense for are both wrong, and both are common. What makes this phrase worth memorising is that it does concession and criticism in five words, which is the exact move a Band 7.5 Task 2 body paragraph needs when you concede a benefit before attacking it."
+      },
+      {
+        "id": "p-bear-the-brunt-of",
+        "kind": "phrase",
+        "item": "bear the brunt of",
+        "pos": "verb phrase",
+        "ipa": "/bɛr ðə brʌnt əv/",
+        "def": "To suffer the worst part of something bad, more than anyone else does.",
+        "example": "Low-income households bear the brunt of rising transport costs.",
+        "zh": "承受⋯⋯的主要衝擊、首當其衝",
+        "collocations": "bear the brunt of the cuts / of the criticism / of the impact; the brunt of",
+        "why": "Brunt is uncountable and effectively only exists inside this phrase, so learn the frame whole: bear + the + brunt + of. The frequent error is suffer the brunt, which is understandable but not idiomatic. It earns marks because it introduces distributional fairness — who pays — into an essay, and that is the reasoning move that separates a 6.5 argument from a 7.5 one."
+      },
+      {
+        "id": "p-a-disproportionate-share-of",
+        "kind": "phrase",
+        "item": "a disproportionate share of",
+        "pos": "noun phrase",
+        "ipa": "/ə ˌdɪsprəˈpɔrʃənət ʃɛr əv/",
+        "def": "An amount that is much larger than would be fair or expected given the group's size.",
+        "example": "The outer suburbs absorb a disproportionate share of the region's commuting time.",
+        "zh": "不成比例的份額（多到不合理）",
+        "collocations": "a disproportionate share of the burden / of the cost / of the benefits; disproportionately affected",
+        "why": "Five syllables of Latinate precision that examiners score highly, but the stress is dis-pro-POR-tion-ate and collapsing it in Speaking makes it unintelligible. In Writing Task 1 it is the phrase that lets you describe an uneven split without listing every number: rather than quoting four percentages, say one group takes a disproportionate share and then quote just one."
+      },
+      {
+        "id": "g-not-only-inversion",
+        "kind": "grammar",
+        "item": "Not only + inversion",
+        "pos": "negative-adverbial inversion",
+        "ipa": "/nɑt ˈoʊnli/",
+        "def": "Fronting \"Not only\" forces the auxiliary in front of the subject, the same word order a question uses. It adds emphasis and formality.",
+        "patterns": "Not only + does/do/did/has/is + SUBJECT + base verb, but SUBJECT also + verb.\nNot only + auxiliary + subject + verb, but also + noun phrase.",
+        "example": "Not only does unchecked sprawl consume farmland, but it also lengthens the average commute.",
+        "zh": "不僅⋯⋯而且⋯⋯（Not only 置句首時須倒裝，助動詞提到主詞前）",
+        "errors": "Not only sprawl consumes farmland — the inversion is missing, so this reads as a plain grammar error rather than a stylistic choice.\nNot only does sprawl consumes farmland — after the auxiliary does, the main verb returns to its base form: consume.\nNot only... but also... but also — only one but also per sentence.",
+        "collocations": "Not only does X..., but it also...; Not only is this X, but it is also Y",
+        "why": "This is the highest-yield structure on the Grammatical Range descriptor, because it is one of the few things you can deliberately deploy that an examiner can point at. But it is high-risk: the whole effect collapses if you drop the auxiliary, and a failed inversion scores worse than the plain sentence would have. Use it once per Task 2 essay, in the body paragraph you are most confident about, and write the plain version first and then invert it."
+      }
+    ],
+  reading: {
+      "title": "The Rediscovery of the Tram",
+      "words": 822,
+      "minutes": 20,
+      "paras": [
+        {
+          "id": "A",
+          "text": "For most of the twentieth century the tram was treated as an embarrassment. Between 1935 and 1965 almost every large city in North America, and a great many in Western Europe, tore up its tracks, and few observers mourned them. Trams were slow; they obstructed motor traffic; and they ran on fixed routes that could not follow the suburbs then spreading outwards from every centre. The diesel bus that replaced them was cheaper to buy, required no infrastructure beyond roads that already existed, and could be rerouted overnight in response to demand. At the time, the logic seemed unanswerable."
+        },
+        {
+          "id": "B",
+          "text": "It was not, however, a purely technical judgement. Several of the largest closure programmes were promoted by consortia with a direct commercial interest in the vehicles and the fuel that took the trams' place, a fact that surfaced only decades afterwards. Yet it would be too convenient to attribute the whole reversal to commercial manoeuvring. Public enthusiasm for the private car was genuine and overwhelming, and a vehicle running down the middle of the street was an obvious obstacle to it. Where networks survived, as in much of central Europe, the decline was usually arrested by a shortage of postwar capital rather than by any argument advanced in the trams' favour."
+        },
+        {
+          "id": "C",
+          "text": "The reassessment began in the 1980s, and it began with arithmetic. A single modern tram carries between two hundred and three hundred passengers; an articulated bus carries perhaps a hundred and forty, and occupies road space that no other vehicle can use while it is loading. <<GAP1>> On a corridor already running buses at ninety-second intervals, no amount of additional scheduling can manufacture further capacity, because the buses begin to obstruct one another at the stops. Rail, by contrast, scales by lengthening the vehicle rather than by adding vehicles to a street that has no more room. The comparison is not quite like for like, since a tram demands its own alignment and a bus can in principle share a lane with everything else; but on a corridor where that alignment already exists, or can be taken from parking, the arithmetic is difficult to argue with."
+        },
+        {
+          "id": "D",
+          "text": "Evidence from cities that rebuilt their networks has been broadly consistent. Ridership on converted corridors typically rises by between twenty and sixty per cent within three years of opening, and a substantial share of that increase comes from people who previously drove rather than from bus passengers transferring across. Studies in Strasbourg, Freiburg and Portland each found that the shift away from private cars was considerably larger than the improvement in journey time alone could account for. In several cases the tram was in fact marginally slower than the bus service it replaced, and ridership rose regardless. Nantes, which opened the first of the modern French lines in 1985, still carries more passengers per route-kilometre than any bus corridor in the country. Something other than speed appears to be doing the work."
+        },
+        {
+          "id": "E",
+          "text": "The most plausible explanation is permanence. A bus route can be withdrawn at a month's notice; a tram line represents an effectively irreversible commitment of public capital to one specific street. <<GAP2>> Developers respond to that signal long before passengers do, which is why land values along announced routes usually begin to move before a single rail has been laid. Legibility reinforces the effect: a visitor can read a tram network directly from the tracks in the road without consulting a timetable, whereas a bus network remains invisible until a bus actually arrives."
+        },
+        {
+          "id": "F",
+          "text": "The standing objection is cost. A kilometre of modern tramway costs between fifteen and forty million euros to build, against almost nothing for a bus route on an existing street. Defenders reply that the comparison is misleading, since it sets the full construction cost of new infrastructure against the marginal cost of adding vehicles to roads whose building and upkeep are funded from an entirely separate budget. Once road provision is attributed honestly to the modes that use it, the gap narrows considerably — though it does not close, and honest advocates concede as much. Operating costs point in the same direction. A single driver moves two hundred passengers rather than seventy, and electric traction costs less per vehicle-kilometre than diesel wherever the electricity is not itself generated from oil."
+        },
+        {
+          "id": "G",
+          "text": "None of this makes the tram universally appropriate. Below a threshold of roughly two thousand passengers per hour in the peak direction, the capacity advantage disappears and the capital outlay cannot be defended on transport grounds alone; a number of cities have opened lines that will never carry enough people to repay them, and have justified the expense afterwards by pointing to regeneration that would arguably have occurred in any case. The lesson of the past forty years is therefore not that trams are superior to buses. It is that the mid-century decision to remove them was reached on considerably narrower grounds than the confidence of those who made it implied."
+        }
+      ],
+      "questions": [
+        {
+          "n": 1,
+          "type": "Multiple choice — inference",
+          "q": "What does the writer imply about the people who dismantled tram networks between 1935 and 1965?",
+          "options": [
+            "They were acting almost entirely on instructions from commercial consortia.",
+            "They were more certain of their reasoning than the evidence available to them warranted.",
+            "They understood the capacity arithmetic but judged it less important than flexibility.",
+            "They expected the decision to be reversed once suburban growth slowed."
+          ],
+          "answer": 1,
+          "why": "The last sentence of paragraph G is the key: the decision was reached \"on considerably narrower grounds than the confidence of those who made it implied.\" That is a statement about the gap between their certainty and their reasoning — option B. Option A overstates: paragraph B explicitly says it would be \"too convenient\" to blame commercial manoeuvring for the whole story. Option C fails because the capacity argument only emerged in the 1980s (paragraph C). Option D has no basis anywhere in the text. Note that the correct answer is never stated directly — this is what makes it an inference question, and why scanning for keywords will not find it."
+        },
+        {
+          "n": 2,
+          "type": "Multiple choice — inference",
+          "q": "What can be inferred from the findings in Strasbourg, Freiburg and Portland?",
+          "options": [
+            "Journey time is largely irrelevant to how people choose to travel.",
+            "Bus passengers are more willing to change mode than car drivers are.",
+            "Drivers were responding to something the researchers had not initially been measuring.",
+            "The three cities had unusually poor bus services before conversion."
+          ],
+          "answer": 2,
+          "why": "Paragraph D reports a shift \"considerably larger than the improvement in journey time alone could account for,\" and closes with \"Something other than speed appears to be doing the work\" — paragraph E then supplies the candidate: permanence. So the inference is that an unmeasured factor was operating: option C. Option A is the classic overstatement distractor — \"larger than journey time can account for\" is not \"journey time is irrelevant.\" Watch for that pattern: IELTS inference options are frequently wrong only because they are too strong, not because they are off-topic."
+        },
+        {
+          "n": 3,
+          "type": "Vocabulary in context",
+          "q": "In paragraph B, \"the decline was usually <b>arrested</b>\" most nearly means the decline was:",
+          "options": [
+            "reversed",
+            "halted",
+            "investigated",
+            "delayed slightly"
+          ],
+          "answer": 1,
+          "why": "Arrest here is the ordinary non-legal sense: to stop something that is in progress. Not \"reversed\" — the networks survived, they did not grow back. Not \"delayed slightly\" — that weakens it; arrest is complete stoppage, not postponement. The legal meaning is a deliberate trap for candidates who know only one sense of the word. The habit to build: when a familiar word appears in an unfamiliar context, assume the passage is testing a second meaning, and read the clause around it rather than the word itself."
+        },
+        {
+          "n": 4,
+          "type": "Vocabulary in context",
+          "q": "In paragraph F, \"the <b>marginal</b> cost of adding vehicles\" refers to the cost that is:",
+          "options": [
+            "unimportant in the overall budget",
+            "incurred by adding one more unit to what already exists",
+            "at the edge of what the city can afford",
+            "shared between several transport authorities"
+          ],
+          "answer": 1,
+          "why": "Marginal is an economics term of art here: the cost of one additional unit, as opposed to the total or average cost. Option A is the trap, because marginal in everyday English does mean slight or unimportant — and that reading destroys the argument, since the writer's point is that the comparison is unfair, not that the cost is trivial. Whenever a passage is discussing costs, budgets or returns, read marginal as \"incremental\" first and check whether the sentence still works."
+        },
+        {
+          "n": 5,
+          "type": "Sentence paraphrase",
+          "q": "Which sentence most accurately paraphrases this claim from paragraph F? <br><i>\"Defenders reply that the comparison is misleading, since it sets the full construction cost of new infrastructure against the marginal cost of adding vehicles to roads whose building and upkeep are funded from an entirely separate budget.\"</i>",
+          "options": [
+            "Supporters argue the comparison is unfair because tramways are charged for their infrastructure while buses use roads that someone else has already paid for.",
+            "Supporters argue that buses should also be required to pay the full cost of the roads they run on.",
+            "Supporters argue that the construction cost of tramways has been consistently overestimated.",
+            "Supporters argue that comparing the two modes is impossible because their budgets are managed separately."
+          ],
+          "answer": 0,
+          "why": "The original makes one claim: like is not being compared with like, because one mode's infrastructure appears in the sum and the other's does not. Option A restates exactly that, and nothing more. Option B is a policy proposal the writer never makes — a very common paraphrase distractor, turning a diagnosis into a prescription. Option C introduces a factual claim about overestimation that is absent. Option D converts \"misleading\" into \"impossible,\" which is again the too-strong trap. A reliable test: a correct paraphrase can add no new claim and can remove no existing one."
+        },
+        {
+          "n": 6,
+          "type": "Missing sentence — Gap 1",
+          "gap": "GAP1",
+          "q": "Which sentence has been removed from <b>Gap 1</b> in paragraph C?",
+          "answer": "opt2",
+          "why": "The sentence before Gap 1 gives the per-vehicle capacity figures; the sentence after begins \"On a corridor already running buses at ninety-second intervals,\" which presupposes that we are now talking about corridors that cannot simply add more buses. Option 2 supplies exactly that bridge — it takes the raw numbers and says where they bite. The give-away is \"The difference,\" a backward-pointing phrase that needs the capacity contrast immediately before it. In missing-sentence questions, always read the sentence after the gap first: it constrains the answer more tightly than the one before."
+        },
+        {
+          "n": 7,
+          "type": "Missing sentence — Gap 2",
+          "gap": "GAP2",
+          "q": "Which sentence has been removed from <b>Gap 2</b> in paragraph E?",
+          "answer": "opt5",
+          "why": "Before Gap 2: a tram line is an irreversible commitment. After Gap 2: \"Developers respond to that signal.\" The word \"signal\" is unexplained unless the missing sentence introduces it, and option 5 does precisely that — it converts permanence into a signal that other actors can read. Option 3 is the tempting wrong answer because it is about cost and cost is genuinely discussed in the passage, but it belongs in paragraph F, not here. Treat an unexplained pronoun or a bare definite reference — that signal, this effect — as the strongest single clue in the whole question type."
+        }
+      ],
+      "gapOptions": [
+        {
+          "id": "opt1",
+          "text": "Buses, however, have become considerably more comfortable over the same period."
+        },
+        {
+          "id": "opt2",
+          "text": "The difference matters most precisely where it is hardest to remedy: on corridors that are already full."
+        },
+        {
+          "id": "opt3",
+          "text": "The capital required is nonetheless difficult to raise in cities with competing priorities."
+        },
+        {
+          "id": "opt4",
+          "text": "Most of these networks were originally built by private companies in the nineteenth century."
+        },
+        {
+          "id": "opt5",
+          "text": "That permanence is itself a signal, and it is read by people who have no intention of ever boarding the vehicle."
+        },
+        {
+          "id": "opt6",
+          "text": "Passenger satisfaction surveys, however, rarely distinguish between the two modes."
+        }
+      ]
+    },
+  writing: {
+      "grammarRef": "g-not-only-inversion",
+      "grammarLabel": "Not only + inversion",
+      "drills": [
+        {
+          "id": "t1",
+          "prompt": "The new line reduced journey times. It also raised property values along the corridor.",
+          "instruction": "Rewrite as one sentence beginning <b>Not only</b>.",
+          "model": "Not only did the new line reduce journey times, but it also raised property values along the corridor.",
+          "note": "Watch the two things that go wrong here: the auxiliary is <b>did</b> (past), and once you have it, the main verb drops back to its base form — <i>reduce</i>, not <i>reduced</i>. Writing \"Not only did the new line reduced\" is the most common version of this error."
+        },
+        {
+          "id": "t2",
+          "prompt": "Congestion charging raises revenue for the city. It reduces traffic in the centre at the same time.",
+          "instruction": "Rewrite as one sentence beginning <b>Not only</b>.",
+          "model": "Not only does congestion charging raise revenue for the city, but it also reduces traffic in the centre.",
+          "note": "Present tense with a singular subject, so the auxiliary is <b>does</b> — and <i>raises</i> becomes <i>raise</i>. \"At the same time\" is redundant once <b>but it also</b> is doing that job, so delete it: examiners notice repeated meaning, and Task 2 gives you no marks for length."
+        }
+      ],
+      "translation": {
+        "id": "tr1",
+        "zh": "政府若只著眼於短期的經濟成長，往往是以犧牲環境為代價；這樣的取捨很少被公開承認。",
+        "model": "When governments focus solely on short-term economic growth, this often comes at the expense of the environment — a trade-off that is rarely acknowledged openly.",
+        "note": "Two Day 1 items are doing the work: <b>at the expense of</b> (with <i>of</i>, and with <i>comes</i> in front of it) and <b>a trade-off</b>. The structural trap is 若 — resist \"If governments only focus\", which sounds conditional and tentative; <b>When</b> states it as a pattern, which is the stronger claim and the more natural English. Also note that Chinese lets the second clause float with 這樣的; English wants it anchored, either with a dash and an appositive noun phrase as above, or with <i>which is</i>."
+      },
+      "task2": {
+        "id": "e1",
+        "prompt": "Some people believe that governments should invest heavily in public transport rather than in building new roads. Others argue that road capacity must keep pace with demand.<br><br>Discuss both views and give your own opinion.",
+        "target": 150,
+        "checklist": [
+          "Introduction paraphrases the prompt — and uses <b>the extent to which</b> or a real position, not \"Nowadays, transport is a controversial topic.\"",
+          "Both views get a body paragraph. Yours gets the longer one.",
+          "One <b>Not only + inversion</b> sentence, in the paragraph you are most confident about. Exactly one.",
+          "At least three Day 1–3 items used accurately: mitigate, curb, a trade-off between, bear the brunt of, at the expense of…",
+          "Every body paragraph has a specific example — a city, a figure, a named policy. Not \"for example, in some countries\".",
+          "No sentence over about 35 words. Length is where your grammar accuracy goes to die.",
+          "Conclusion answers the question asked, and adds no new argument."
+        ]
+      }
+    },
+  speaking: {
+      "part1": {
+        "label": "Part 1 — Interview",
+        "note": "4–5 questions, 20–30 seconds each. Answer, then give one reason or one example. Do not stop at one sentence; do not run past 30 seconds.",
+        "seconds": 30,
+        "questions": [
+          "How do you usually travel to work or to your classes?",
+          "Has the transport in your hometown changed since you were a child?",
+          "Do you prefer travelling by bus or by train? Why?",
+          "Is there anything about getting around your city that you would change?",
+          "Do you ever walk or cycle instead? Why, or why not?"
+        ]
+      },
+      "part2": {
+        "label": "Part 2 — Long turn",
+        "note": "1 minute to prepare, then speak for 1–2 minutes. Cover all four bullets, and save your strongest detail for last so you do not run out of things to say at 90 seconds.",
+        "prepSeconds": 60,
+        "seconds": 120,
+        "cue": "Describe a journey that you make regularly.",
+        "bullets": [
+          "where the journey starts and ends",
+          "how you travel and how long it takes",
+          "what you usually do during the journey",
+          "and explain how you feel about making this journey so often"
+        ]
+      },
+      "part3": {
+        "label": "Part 3 — Discussion",
+        "note": "45–60 seconds each. This is where Band 7.5 is won: state a position, give the mechanism, then concede a limit. The Day 1–3 grammar patterns belong here.",
+        "seconds": 60,
+        "questions": [
+          "Why do some cities invest in rail while others expand their roads instead?",
+          "Who tends to bear the brunt of poor transport planning?",
+          "To what extent should the cost of driving reflect the congestion it causes?",
+          "Some argue that remote work makes transport investment unnecessary. How far would you agree?",
+          "Were a city to remove cars from its centre entirely, what would follow?"
+        ]
+      }
+    }
+},
+2: {
+  cards: [
+      {
+        "id": "w-corroborate",
+        "kind": "word",
+        "item": "corroborate",
+        "pos": "verb",
+        "ipa": "/kəˈrɑbəˌreɪt/",
+        "def": "To provide independent evidence that confirms something someone else has claimed.",
+        "example": "Two later studies corroborated the original finding on commuting times.",
+        "zh": "證實、佐證（用另一份獨立證據支持既有說法）",
+        "collocations": "corroborate the findings / the account / the hypothesis; corroborating evidence; independently corroborated",
+        "why": "Stress on the second syllable — co-ROB-o-rate — and the first vowel reduces to a schwa. Learners who learn it from the page put the stress on the first syllable and the word stops being recognisable. Grammatically it takes a plain direct object: corroborate the findings, never corroborate to or corroborate with. It is the precise word for \"a second source agrees\", which is a distinction Reading questions test directly."
+      },
+      {
+        "id": "w-anecdotal",
+        "kind": "word",
+        "item": "anecdotal",
+        "pos": "adjective",
+        "ipa": "/ˌænɪkˈdoʊtl/",
+        "def": "Based on personal stories and individual cases rather than on systematic data.",
+        "example": "Support for the scheme is largely anecdotal; no survey has yet been conducted.",
+        "zh": "軼事的、道聽途說的（基於個別經驗而非系統性資料）",
+        "collocations": "anecdotal evidence; purely / largely / merely anecdotal; anecdotal accounts",
+        "why": "Anecdotal evidence is the single most useful two-word phrase in Task 2, because it lets you dismiss a counter-argument without calling anyone wrong. It is not a neutral word — it carries the judgement \"this is too weak to build on\", which is why it does the work of a whole sentence. Stress is an-ec-DO-tal, with the main beat on the third syllable, not the first."
+      },
+      {
+        "id": "w-spurious",
+        "kind": "word",
+        "item": "spurious",
+        "pos": "adjective",
+        "ipa": "/ˈspjʊriəs/",
+        "def": "False despite appearing genuine — used of reasoning, claims, and above all of statistical relationships.",
+        "example": "The apparent link between ice-cream sales and drowning is spurious; both simply rise in summer.",
+        "zh": "虛假的、站不住腳的（看似成立但實際不成立）",
+        "collocations": "a spurious correlation; a spurious claim / argument / distinction; spuriously",
+        "why": "Spurious correlation is the technical term for \"these two things move together but neither causes the other\", and deploying it correctly in Task 2 signals that you understand evidence, not just vocabulary. The pronunciation trap is the opening cluster: it is SPYOOR-ee-us with a /j/ glide, not SPOO-ree-us. Avoid it in Speaking until you can say it cleanly — a mangled low-frequency word scores below a clean common one."
+      },
+      {
+        "id": "w-underpin",
+        "kind": "word",
+        "item": "underpin",
+        "pos": "verb",
+        "ipa": "/ˌʌndərˈpɪn/",
+        "def": "To form the foundation that something else rests on and depends upon.",
+        "example": "Reliable public data underpins every serious claim about air quality.",
+        "zh": "支撐、構成⋯⋯的基礎",
+        "collocations": "underpin the argument / the policy / the economy; underpinned by evidence; the assumptions underpinning X",
+        "why": "Underpin and undermine are near-opposites that look and sound alike, and swapping them inverts your entire sentence — the examiner reads the opposite of what you meant. Underpin = hold up from below. Undermine = dig away from below. A useful check: if the sentence is praising the thing, it is underpin. Note also that it is usually passive in academic writing — the policy is underpinned by — which is a register cue worth copying."
+      },
+      {
+        "id": "w-plausible",
+        "kind": "word",
+        "item": "plausible",
+        "pos": "adjective",
+        "ipa": "/ˈplɔzəbəl/",
+        "def": "Reasonable enough to be believed on first inspection — usually implying it has not actually been proven.",
+        "example": "That is a plausible explanation, but it rests on a single unreplicated study.",
+        "zh": "看似合理的（通常暗示：聽起來可信，但未經證實）",
+        "collocations": "a plausible explanation / account / alternative; entirely / hardly plausible; plausibility",
+        "why": "This is a false friend for Chinese speakers who map it onto 可能 or 合理. Plausible is not a synonym for possible or reasonable: it carries a built-in hint of doubt, which is why it pairs so naturally with but. Used correctly it is a graceful concession opener in Task 2 — you grant the other side's logic and then withhold the evidence. Used as a plain compliment, it accidentally insults the idea you were trying to support."
+      },
+      {
+        "id": "p-fall-short-of",
+        "kind": "phrase",
+        "item": "fall short of",
+        "pos": "verb phrase",
+        "ipa": "/fɔl ʃɔrt əv/",
+        "def": "To fail to reach a required standard, target, or expectation — by some margin that is usually implied.",
+        "example": "Current recycling rates fall short of the target set for 2030.",
+        "zh": "未達到（標準、目標、期望）",
+        "collocations": "fall short of the target / the standard / expectations; fall well short of; fall far short of",
+        "why": "The preposition is of, and the whole frame is fixed: fall short of + noun. Fall short from and fall short to are both errors, and short of cannot take a that-clause. Its value is in Task 1, where you need a formal way to say a figure missed its target without repeating did not reach three times; adding well or far in front gives you a second, stronger version of the same move."
+      },
+      {
+        "id": "p-lend-weight-to",
+        "kind": "phrase",
+        "item": "lend weight to",
+        "pos": "verb phrase",
+        "ipa": "/lɛnd weɪt tu/",
+        "def": "To make a claim more convincing by adding support to it, without proving it outright.",
+        "example": "The 2019 census data lends weight to the argument for decentralisation.",
+        "zh": "增加⋯⋯的說服力、為⋯⋯增添分量",
+        "collocations": "lend weight to the argument / the theory / the case for; lends considerable weight to; add weight to",
+        "why": "No article before weight — lend weight to, never lend a weight to or lend the weight to — because weight is abstract and uncountable here. This is the phrase that gets you out of the Band 6 trap of writing this proves for every piece of evidence. Evidence in academic English rarely proves; it lends weight, and using the weaker verb accurately reads as more sophisticated, not less confident."
+      },
+      {
+        "id": "p-in-and-of-itself",
+        "kind": "phrase",
+        "item": "in and of itself",
+        "pos": "adverbial phrase",
+        "ipa": "/ɪn ənd əv ɪtˈsɛlf/",
+        "def": "Considered alone, separately from its effects or context — \"the thing on its own\".",
+        "example": "Population growth is not, in and of itself, a problem; the problem is where the growth is housed.",
+        "zh": "就其本身而言、單就這件事來看",
+        "collocations": "not X in and of itself; in and of itself, this is not sufficient; (shorter variant) in itself",
+        "why": "Sits between commas as an interrupter, which is half of why it scores: it shows you can punctuate a parenthetical clause, a Grammatical Range feature that Chinese speakers often lose because Chinese has no comma pair of this kind. Rhetorically it sets up the sharpest opening move in Task 2 — reject the crude version of the question, then substitute your own sharper version, all in one sentence."
+      },
+      {
+        "id": "g-the-extent-to-which",
+        "kind": "grammar",
+        "item": "the extent to which",
+        "pos": "noun clause with a fronted preposition",
+        "ipa": "/ði ɪkˈstɛnt tu wɪtʃ/",
+        "def": "A noun phrase that turns a how-much question into something you can use as a subject or an object. The preposition to belongs to extent and moves in front of which.",
+        "patterns": "The extent to which + SUBJECT + VERB + is/remains + adjective.\nIt is unclear / debatable + the extent to which + clause.\nassess / measure / determine + the extent to which + clause.",
+        "example": "The extent to which remote work reduces congestion remains unclear.",
+        "zh": "⋯⋯到什麼程度（把「多大程度」變成可當主詞或受詞的名詞子句）",
+        "errors": "The extent which remote work reduces — the to is missing; it is required because you say to an extent.\nThe extent to which remote work does reduce congestion — no auxiliary do-support: this is a noun clause, not a question.\nThe extent of which — of is the wrong preposition for this frame.",
+        "collocations": "the extent to which; to a large / limited / considerable extent; to what extent (the question form)",
+        "why": "IELTS Task 2 prompts literally use this phrase — \"To what extent do you agree?\" — so restating the question with it in your introduction shows the examiner you have read the task precisely rather than writing a memorised opener about a topic. It also rescues you from the yes/no trap: the extent to which frames your answer as a matter of degree, which is what a Band 7.5 argument sounds like."
+      }
+    ]
+},
+3: {
+  cards: [
+      {
+        "id": "w-curb",
+        "kind": "word",
+        "item": "curb",
+        "pos": "verb / noun",
+        "ipa": "/kɜrb/",
+        "def": "To keep something harmful within limits before it grows further — restrain rather than eliminate.",
+        "example": "Congestion charging is the fastest way to curb traffic in the central districts.",
+        "zh": "抑制、遏制（在情況惡化前加以限制）",
+        "collocations": "curb emissions / spending / inflation / demand; a curb on advertising; put a curb on",
+        "why": "Spelling trap: curb, not curve. They are unrelated words, and a spell-checker will not catch the swap because both are real. Also note the noun frame takes on — a curb on advertising — while the verb takes a bare object. It is a genuine register upgrade on control and stop in Task 2, and pairs naturally with mitigate from Day 1: you curb the cause and mitigate the effect."
+      },
+      {
+        "id": "w-incentivise",
+        "kind": "word",
+        "item": "incentivise",
+        "pos": "verb",
+        "ipa": "/ɪnˈsɛntɪˌvaɪz/",
+        "def": "To give people a concrete reason — usually financial — to behave in a particular way.",
+        "example": "Tax rebates incentivise households to insulate their homes.",
+        "zh": "以誘因激勵、提供動機使⋯⋯",
+        "collocations": "incentivise households / firms / drivers to do X; financial incentives; create an incentive for",
+        "why": "The pattern is incentivise someone to do something — an infinitive, never incentivise someone doing or incentivise for. On spelling: IELTS accepts both -ise and -ize, but not both in one script, so pick one and hold it for all of organise, realise, recognise too. Its argumentative value is that it names a mechanism rather than a wish — the government should incentivise X is a policy, while the government should encourage X is a hope."
+      },
+      {
+        "id": "w-offset",
+        "kind": "word",
+        "item": "offset",
+        "pos": "verb / noun",
+        "ipa": "verb /ˌɔfˈsɛt/ · noun /ˈɔfˌsɛt/",
+        "def": "To balance out a negative with an equivalent positive, so the net result is reduced or neutral.",
+        "example": "Gains in engine efficiency were offset by the rise in vehicle weight.",
+        "zh": "抵銷、平衡（用正面效果抵掉負面效果）",
+        "collocations": "offset the cost / the emissions / the losses; largely / partly / entirely offset by; a carbon offset",
+        "why": "This is a stress-shift pair, and it is the reason to keep the card: the verb is off-SET and the noun is OFF-set. Getting it backwards in Speaking Part 3 is immediately audible to an examiner even though the vowels are identical. Note too that the verb is irregular — offset, offset, offset, with no -ted form — so were offset by is correct and were offsetted is not."
+      },
+      {
+        "id": "w-stringent",
+        "kind": "word",
+        "item": "stringent",
+        "pos": "adjective",
+        "ipa": "/ˈstrɪndʒənt/",
+        "def": "Strict and tightly enforced — used of rules, standards, and tests, never of people.",
+        "example": "Countries with more stringent emissions standards saw the sharpest falls in particulates.",
+        "zh": "嚴格的、嚴苛的（用於規定、標準，不用於形容人）",
+        "collocations": "stringent regulations / standards / controls / criteria; increasingly stringent; less stringent",
+        "why": "Stringent describes rules, not people: a stringent teacher is wrong where a strict teacher is right. Keeping that boundary clear is what turns it from a thesaurus substitution into a real collocation. Practically, it is your third way of saying strict in a Task 2 paragraph that needs the idea four times — strict, stringent, tightly enforced — and that kind of controlled variation is exactly what Lexical Resource is measuring."
+      },
+      {
+        "id": "w-finite",
+        "kind": "word",
+        "item": "finite",
+        "pos": "adjective",
+        "ipa": "/ˈfaɪnaɪt/",
+        "def": "Limited in quantity — there is a fixed amount and it can run out.",
+        "example": "Groundwater is a finite resource, even where rainfall is abundant.",
+        "zh": "有限的（數量固定，會用盡）",
+        "collocations": "a finite resource; finite reserves / supply / capacity; (opposite) infinite",
+        "why": "The pronunciation is FIE-nite, with both vowels long, and it does not follow from infinite, which is IN-fi-nit with the stress on the first syllable and both vowels short. Learners who meet the pair on the page almost always say FIN-it, and once that is fossilised it is hard to move. Say them as a pair aloud today: /ˈfaɪnaɪt/ and /ˈɪnfɪnət/."
+      },
+      {
+        "id": "p-a-trade-off-between",
+        "kind": "phrase",
+        "item": "a trade-off between",
+        "pos": "noun phrase",
+        "ipa": "/ə ˈtreɪd ˌɔf bɪˈtwin/",
+        "def": "A situation where gaining more of one desirable thing necessarily means accepting less of another.",
+        "example": "There is a clear trade-off between affordability and proximity to the centre.",
+        "zh": "取捨、權衡（要多得到一樣，就得少得到另一樣）",
+        "collocations": "a trade-off between X and Y; an inevitable / unavoidable / difficult trade-off; trade one against the other",
+        "why": "Hyphenated as a noun — trade-off — and the two halves it joins take between X and Y, never between X to Y or among. Chinese speakers often reach for balance instead, but balance implies a solution exists while trade-off concedes that it does not, and that concession is the more sophisticated claim. It is the natural shape for the discuss-both-views essay, where the real answer is almost never that one side is simply right."
+      },
+      {
+        "id": "p-hinge-on",
+        "kind": "phrase",
+        "item": "hinge on",
+        "pos": "verb phrase",
+        "ipa": "/hɪndʒ ɑn/",
+        "def": "To depend entirely on one decisive factor — if that factor changes, the whole outcome changes.",
+        "example": "Whether the policy succeeds hinges on how quickly the rail link opens.",
+        "zh": "取決於（完全繫於某一關鍵因素）",
+        "collocations": "hinge on the question of / on whether / on how; the argument hinges on; everything hinges on",
+        "why": "Stronger than depend on, and that strength is the point: hinge on claims there is exactly one decisive factor, which forces you to name it. It takes on and often introduces a whether- or how-clause, which gives you a subordinate clause for free. Note that hinge on is not used of people — your success hinges on preparation is fine, but a person cannot hinge on another person."
+      },
+      {
+        "id": "p-to-a-far-greater-extent-than",
+        "kind": "phrase",
+        "item": "to a far greater extent than",
+        "pos": "comparative adverbial phrase",
+        "ipa": "/tu ə fɑr ˈɡreɪtər ɪkˈstɛnt ðæn/",
+        "def": "Much more so than something else — a graded comparison of degree rather than of amount.",
+        "example": "Building height affects street-level wind to a far greater extent than street width does.",
+        "zh": "遠比⋯⋯更甚、程度上遠超過⋯⋯",
+        "collocations": "to a far greater extent than; to a lesser extent; to some extent; to a limited extent",
+        "why": "Builds directly on Day 2's the extent to which, and shares its logic — degree, not amount — which is why more and bigger cannot replace it here. The final than needs a real comparison after it, and the elegant version repeats only the auxiliary: than street width does. Dropping that does leaves the comparison hanging, which is one of the most common Band 6.5 coherence slips."
+      },
+      {
+        "id": "g-were-to-inversion",
+        "kind": "grammar",
+        "item": "Were + subject + to V",
+        "pos": "inverted second conditional",
+        "ipa": "/wɜr/",
+        "def": "A formal conditional that drops if and inverts were to the front. It describes a hypothetical future situation and its consequence.",
+        "patterns": "Were + SUBJECT + to + base verb, SUBJECT + would / could / might + base verb.\nWere it not for + noun phrase, + SUBJECT + would + base verb.",
+        "example": "Were the government to raise fuel duty, congestion would fall within a year.",
+        "zh": "假設語氣倒裝：省略 if，把 were 提到句首（正式書面語）",
+        "errors": "Were the government raise fuel duty — the to is required: were + subject + to + verb.\nWas the government to raise — always were, for every subject, because this is the subjunctive.\nWere the government to raise fuel duty, congestion will fall — the main clause needs would/could/might, not will.",
+        "collocations": "Were X to do Y, ...; Should X do Y, ... (the same move with should); Had X done Y, ... (the past version)",
+        "why": "This is the most reliable way to show conditional range without writing a clumsy if-chain, and because it is purely a Writing structure you can prepare it in advance and drop it into your counter-argument paragraph. It pairs with Day 1's Not only inversion as your two rehearsed Grammatical Range moves — but use one of each, not two of the same, because a repeated structure stops reading as range."
+      }
+    ]
+},
+};
+
+/* ══════════════════════════════════════════════════════════════════════
+   ║  DECK APPEND POINT                                                 ║
+   ║                                                                    ║
+   ║  The daily task inserts ONE new deck-only day immediately ABOVE    ║
+   ║  this comment and BELOW the last existing day, inside DAYS.        ║
+   ║  Deck-only means: a `cards` array and nothing else. Never add      ║
+   ║  `reading`, `writing` or `speaking` here — those move practiceDay  ║
+   ║  and would bury unfinished work.                                   ║
+   ║                                                                    ║
+   ║  Exact shape — 5 word + 3 phrase + 1 grammar, in this order:       ║
+   ║                                                                    ║
+   ║  4: { cards: [                                                     ║
+   ║    { id:"w-<slug>", kind:"word", item:"…", pos:"verb",             ║
+   ║      ipa:"/…/", def:"…", example:"…", zh:"…（繁體中文）",           ║
+   ║      collocations:"…; …; …", why:"…" },                            ║
+   ║    …four more word cards…                                          ║
+   ║    { id:"p-<slug>", kind:"phrase", item:"…", pos:"verb phrase",    ║
+   ║      ipa:"/…/", def:"…", example:"…", zh:"…", collocations:"…",    ║
+   ║      why:"…" },                                                    ║
+   ║    …two more phrase cards…                                         ║
+   ║    { id:"g-<slug>", kind:"grammar", item:"…", pos:"…",             ║
+   ║      ipa:"/…/", def:"…", patterns:"…\n…", example:"…", zh:"…",     ║
+   ║      errors:"…\n…", collocations:"…", why:"…" }                    ║
+   ║  ] },                                                              ║
+   ║                                                                    ║
+   ║  `patterns` and `errors` are grammar-only. Every other field is    ║
+   ║  required on every card. `zh` is 繁體中文 — never Simplified.       ║
+   ║  ids must be globally unique; never reuse one already in DAYS.     ║
+   ╚════════════════════════════════════════════════════════════════════╝ */
+
+/* ── SRS ladder ─────────────────────────────────────────────────────── */
+const LADDER = [1, 3, 7, 16, 35, 90];
+const GRADES = [
+  {k:'Again', cls:'g0'}, {k:'Hard', cls:'g1'},
+  {k:'Good',  cls:'g2'}, {k:'Easy', cls:'g3'}
+];
+const LAST = LADDER.length - 1;
+const intervalFor = s => LADDER[Math.max(0, Math.min(s, LAST))];
+
+/* Again → back to step 0 of the ladder. Hard → hold the current step.
+   Good → one step up. Easy → two.
+   A wrong Active Recall answer is harsher than any of these: it sets the
+   interval to 0, which means today, not +1 day. */
+function nextState(step, grade){
+  if (grade === 0) return {step:0, days:LADDER[0]};
+  if (grade === 1) return {step, days:intervalFor(step)};
+  const ns = Math.min(step + (grade === 2 ? 1 : 2), LAST);
+  return {step:ns, days:intervalFor(ns)};
+}
+
+/* ── dates (real calendar, never day numbers) ───────────────────────── */
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const todayISO = () => iso(new Date());
+function addDays(n){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+n); return iso(d); }
+function prettyDate(s){
+  if (!s) return '—';
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y, m-1, d).toLocaleDateString(undefined, {month:'short', day:'numeric'});
+}
+function daysUntil(s){
+  if (!s) return 0;
+  const [y,m,d] = s.split('-').map(Number);
+  const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((new Date(y, m-1, d) - t) / 86400000);
+}
+
+/* ── day counters ───────────────────────────────────────────────────── */
+const dayKeys    = () => Object.keys(DAYS).map(Number).filter(n => !isNaN(n)).sort((a,b) => a-b);
+const deckDay    = () => Math.max(...dayKeys().filter(n => Array.isArray(DAYS[n]?.cards)), 0);
+const practiceDay= () => Math.max(...dayKeys().filter(n => DAYS[n]?.reading), 0);
+
+/* Every card ever published, tagged with the day it arrived.
+   Skipped days queue — they never vanish, because this reads DAYS, not a cursor. */
+function publishedCards(){
+  const out = [];
+  for (const n of dayKeys()){
+    if (!Array.isArray(DAYS[n]?.cards)) continue;
+    for (const c of DAYS[n].cards) out.push({...c, day:n});
+  }
+  return out;
+}
+
+/* ── storage: db capability, with a local mirror so the page works alone ── */
+const store = {
+  db:null, ready:false, cache:new Map(),
+  key: p => 'bl:' + p,
+  local(p){ try { const v = localStorage.getItem(this.key(p)); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
+  saveLocal(p, v){ try { localStorage.setItem(this.key(p), JSON.stringify(v)); } catch(e){} },
+  get(p){ if (this.cache.has(p)) return this.cache.get(p); const v = this.local(p); this.cache.set(p, v); return v; },
+  async set(p, v){
+    this.cache.set(p, v); this.saveLocal(p, v);
+    if (this.db){ try { await this.db.doc(p).set(v); } catch(e){ /* keep the local copy */ } }
+  },
+  async boot(){
+    try { this.db = await window.claude?.use?.('db') || null; } catch(e){ this.db = null; }
+    if (this.db){
+      try {
+        const snap = await this.db.collection('cards').get();
+        snap.docs.forEach(d => { this.cache.set('cards/' + d.id, d.data()); this.saveLocal('cards/' + d.id, d.data()); });
+        for (const p of ['review/last']) {
+          const s = await this.db.doc(p).get();
+          if (s.exists){ this.cache.set(p, s.data()); this.saveLocal(p, s.data()); }
+        }
+        const pd = practiceDay();
+        for (const p of [`writing/day-${pd}`, `drills/day-${pd}`, `answers/day-${pd}`]) {
+          const s = await this.db.doc(p).get();
+          if (s.exists){ this.cache.set(p, s.data()); this.saveLocal(p, s.data()); }
+        }
+      } catch(e){ /* fall back to the local mirror */ }
+    }
+    this.ready = true;
+    render();
+  }
+};
+
+/* card SRS state — never trust a stale copy of the card body, always re-read DAYS */
+function cardState(id){
+  const s = store.get('cards/' + id);
+  return s && typeof s.step === 'number' ? s : {step:0, due:todayISO(), seen:0, lapses:0};
+}
+function saveCard(card, st){
+  return store.set('cards/' + card.id, {
+    step:st.step, due:st.due, seen:st.seen, lapses:st.lapses,
+    day:card.day, kind:card.kind, item:card.item, updated:new Date().toISOString()
+  });
+}
+const dueCards = () => publishedCards()
+  .filter(c => cardState(c.id).due <= todayISO())
+  .sort((a,b) => (cardState(a.id).due).localeCompare(cardState(b.id).due) || a.day - b.day);
+
+/* ══ audio ═══════════════════════════════════════════════════════════════
+   Recorded with Piper (en-us-ryan-high) and published alongside the page —
+   external audio is blocked by the artifact CSP, and speechSynthesis alone
+   fails silently on iOS with the ringer off and inside in-app webviews.
+   So: mp3 first, speechSynthesis only as a fallback, failures made visible.
+   ════════════════════════════════════════════════════════════════════════ */
+let ttsWoken = false, currentAudio = null;
+function wakeTTS(){
+  if (ttsWoken || !('speechSynthesis' in window)) return;
+  ttsWoken = true;
+  try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch(e){}
+}
+document.addEventListener('pointerdown', wakeTTS, {once:true, capture:true});
+
+function audioFail(btn, msg){
+  if (!btn) return;
+  btn.classList.remove('playing'); btn.classList.add('failed');
+  const host = btn.closest('.audio-host') || btn.parentElement;
+  let err = host?.querySelector('.audio-err');
+  if (!err && host){ err = document.createElement('div'); err.className = 'audio-err'; host.appendChild(err); }
+  if (err) err.textContent = msg;
+}
+function clearFail(btn){
+  btn.classList.remove('failed');
+  const host = btn.closest('.audio-host') || btn.parentElement;
+  host?.querySelector('.audio-err')?.remove();
+}
+
+function speakFallback(text, btn){
+  if (!('speechSynthesis' in window)){ audioFail(btn, 'This browser has no speech support. The recording could not be reached either.'); return; }
+  wakeTTS();
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.95;
+    let started = false;
+    u.onstart = () => { started = true; btn?.classList.add('playing'); };
+    u.onend   = () => btn?.classList.remove('playing');
+    u.onerror = () => audioFail(btn, 'Your browser blocked the speech engine. On iPhone, check the silent switch on the side of the phone.');
+    speechSynthesis.speak(u);   // deliberately no cancel() first — it kills the next utterance on iOS
+    setTimeout(() => { if (!started) audioFail(btn, 'No sound came out. On iPhone, check the silent switch; in an in-app browser, open this in Safari or Chrome.'); }, 1400);
+  } catch(e){ audioFail(btn, 'Audio is unavailable in this browser.'); }
+}
+
+function playClip(id, kind, text, btn){
+  wakeTTS();
+  if (btn) clearFail(btn);
+  if (currentAudio){ try { currentAudio.pause(); } catch(e){} currentAudio = null; }
+  document.querySelectorAll('.audio.playing').forEach(b => b.classList.remove('playing'));
+  let fellBack = false;
+  const fall = () => { if (fellBack) return; fellBack = true; speakFallback(text, btn); };
+  try {
+    const a = new Audio(`audio/${id}-${kind}.mp3`);
+    currentAudio = a;
+    a.addEventListener('playing', () => btn?.classList.add('playing'));
+    a.addEventListener('ended',   () => btn?.classList.remove('playing'));
+    a.addEventListener('error', fall);
+    a.play().catch(fall);
+  } catch(e){ fall(); }
+}
+
+const SPK = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3 4 5.8H2v4.4h2L7 13V3Z"/><path d="M10.4 6a3 3 0 0 1 0 4"/><path d="M12.4 4a5.6 5.6 0 0 1 0 8"/></svg>`;
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function audioBtn(id, kind, text, label){
+  return `<span class="audio-host"><button class="audio" data-audio="${id}" data-kind="${kind}" data-text="${esc(text)}">${SPK}<span>${label}</span></button></span>`;
+}
+
+/* ── card rendering ─────────────────────────────────────────────────── */
+function cardFront(c, hint){
+  return `<div class="card-face" data-flip>
+    <div class="item${c.item.length > 18 ? ' long' : ''}">${esc(c.item)}</div>
+    <div class="pos">${esc(c.pos)}</div>
+    <div class="ipa">${esc(c.ipa)}</div>
+    ${audioBtn(c.id, 'w', c.item, 'Hear it')}
+    <div class="flip-hint">${hint}</div>
+  </div>`;
+}
+function cardBack(c){
+  const f = [];
+  f.push(`<div class="fld"><div class="fld-l">Definition</div><div class="fld-b">${esc(c.def)}</div></div>`);
+  if (c.patterns) f.push(`<div class="fld"><div class="fld-l">Patterns</div><div class="fld-b mono">${esc(c.patterns)}</div></div>`);
+  f.push(`<div class="fld"><div class="fld-l">Example</div><div class="ex-row">${audioBtn(c.id,'s',c.example,'Play')}<div class="ex">${esc(c.example)}</div></div></div>`);
+  f.push(`<div class="fld zh"><div class="fld-l">繁體中文</div><div class="fld-b">${esc(c.zh)}</div></div>`);
+  if (c.errors) f.push(`<div class="fld err"><div class="fld-l">Common errors</div><div class="fld-b mono">${esc(c.errors)}</div></div>`);
+  f.push(`<div class="fld"><div class="fld-l">Collocations</div><div class="fld-b mono">${esc(c.collocations)}</div></div>`);
+  f.push(`<div class="fld why"><div class="fld-l">Why it earns you marks</div><div class="fld-b">${esc(c.why)}</div></div>`);
+  return `<div class="back">${f.join('')}</div>`;
+}
+const kindTag = k => `<span class="tag k-${k}">${k}</span>`;
+
+/* ══ 01 DAILY DECK ══════════════════════════════════════════════════ */
+const deck = {tab:'study', flipped:false, idx:0, recapIdx:0, recapDay:'all'};
+
+function renderDeck(){
+  const el = document.getElementById('s-deck');
+  const dd = deckDay(), due = dueCards();
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">01</span><h2>Daily deck</h2></div>
+    <p class="sec-sub">Five words, three phrases and one grammar pattern per day, all on one schedule.
+      Study shows only what today's dates make due; Recap lets you walk the whole corpus without grading anything.</p>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="${deck.tab === 'study'}" data-tab="study">Study${due.length ? ` · ${due.length}` : ''}</button>
+      <button role="tab" aria-selected="${deck.tab === 'recap'}" data-tab="recap">Recap</button>
+    </div>
+    <div id="deckBody"></div>`;
+  el.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+    deck.tab = b.dataset.tab; deck.flipped = false; renderDeck();
+  });
+  (deck.tab === 'study' ? renderStudy : renderRecap)();
+}
+
+function renderStudy(){
+  const body = document.getElementById('deckBody');
+  const due = dueCards();
+  if (!due.length){
+    const all = publishedCards().map(c => cardState(c.id).due).filter(Boolean).sort();
+    const next = all[0];
+    body.innerHTML = `<div class="panel"><div class="empty">
+      <h3>Nothing due today.</h3>
+      <p>Everything on the ladder has a future date. The next card comes back on
+         <b>${prettyDate(next)}</b>${next ? ` — ${daysUntil(next)} day${daysUntil(next) === 1 ? '' : 's'} out` : ''}.
+         Spend the time on section 03 or 04 instead, or use Recap to page through what you already own.</p>
+    </div></div>`;
+    return;
+  }
+  if (deck.idx >= due.length) deck.idx = 0;
+  const c = due[deck.idx], st = cardState(c.id);
+  const isNew = !st.seen;
+  body.innerHTML = `
+    <div class="card-meta">
+      ${kindTag(c.kind)}
+      <span class="tag">Day ${c.day}</span>
+      ${isNew ? '<span class="tag due">new</span>' : `<span class="tag">step ${st.step + 1}/${LADDER.length} · +${intervalFor(st.step)}d</span>`}
+      <span class="prog">${deck.idx + 1} / ${due.length} due</span>
+    </div>
+    <div class="card">
+      ${cardFront(c, deck.flipped ? 'Tap to hide' : 'Tap to reveal')}
+      ${deck.flipped ? cardBack(c) : ''}
+    </div>
+    ${deck.flipped ? `<div class="grades">${GRADES.map((g, i) => {
+      const n = nextState(st.step, i);
+      return `<button class="grade ${g.cls}" data-grade="${i}">
+        <span class="g">${g.k}</span>
+        <span class="i">${n.days === 0 ? 'today' : '+' + n.days + 'd'}</span></button>`;
+    }).join('')}</div>` : `<p class="note" style="margin-top:14px">
+      Say it aloud before you flip. If you cannot produce it from memory, that is an <b>Again</b> regardless of whether you recognise it.</p>`}`;
+
+  body.querySelector('[data-flip]').onclick = e => {
+    if (e.target.closest('.audio')) return;
+    deck.flipped = !deck.flipped; renderStudy();
+  };
+  body.querySelectorAll('[data-grade]').forEach(b => b.onclick = async () => {
+    const g = +b.dataset.grade, n = nextState(st.step, g);
+    await saveCard(c, {step:n.step, due:addDays(n.days), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + (g === 0 ? 1 : 0)});
+    await store.set('review/last', {at:new Date().toISOString(), card:c.id, grade:GRADES[g].k, deckDay:deckDay()});
+    deck.flipped = false;
+    if (n.days === 0) deck.idx = (deck.idx + 1) % Math.max(1, dueCards().length);
+    renderStudy(); renderCounters();
+  });
+}
+
+function renderRecap(){
+  const body = document.getElementById('deckBody');
+  const all = publishedCards();
+  const days = [...new Set(all.map(c => c.day))].sort((a,b) => a-b);
+  const list = deck.recapDay === 'all' ? all : all.filter(c => c.day === +deck.recapDay);
+  if (deck.recapIdx >= list.length) deck.recapIdx = 0;
+  if (deck.recapIdx < 0) deck.recapIdx = list.length - 1;
+  const c = list[deck.recapIdx];
+  const st = cardState(c.id);
+  body.innerHTML = `
+    <div class="recap-bar">
+      <button class="nav-btn" id="rPrev" aria-label="Previous card" ${list.length < 2 ? 'disabled' : ''}>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg></button>
+      <button class="nav-btn" id="rNext" aria-label="Next card" ${list.length < 2 ? 'disabled' : ''}>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
+      <select id="rDay" aria-label="Filter by day">
+        <option value="all"${deck.recapDay === 'all' ? ' selected' : ''}>All ${all.length} cards</option>
+        ${days.map(d => `<option value="${d}"${+deck.recapDay === d ? ' selected' : ''}>Day ${d} — ${all.filter(c => c.day === d).length} cards</option>`).join('')}
+      </select>
+      <span class="prog">${deck.recapIdx + 1} / ${list.length}</span>
+    </div>
+    <div class="card-meta">
+      ${kindTag(c.kind)}<span class="tag">Day ${c.day}</span>
+      <span class="tag">${!st.seen ? 'not started' : 'due ' + prettyDate(st.due)}</span>
+    </div>
+    <div class="card">
+      ${cardFront(c, deck.flipped ? 'Tap to hide' : 'Tap to reveal')}
+      ${deck.flipped ? cardBack(c) : ''}
+    </div>
+    <p class="note" style="margin-top:14px">Recap never grades and never changes a due date. Flip as often as you like, in either direction.</p>`;
+  body.querySelector('[data-flip]').onclick = e => {
+    if (e.target.closest('.audio')) return;
+    deck.flipped = !deck.flipped; renderRecap();
+  };
+  const step = d => { deck.recapIdx += d; deck.flipped = false; renderRecap(); };
+  body.querySelector('#rPrev').onclick = () => step(-1);
+  body.querySelector('#rNext').onclick = () => step(1);
+  body.querySelector('#rDay').onchange = e => { deck.recapDay = e.target.value; deck.recapIdx = 0; deck.flipped = false; renderRecap(); };
+}
+
+/* ══ 02 ACTIVE RECALL ═══════════════════════════════════════════════ */
+/* Questions are generated from the card data, so every appended day feeds
+   this section with no extra authoring. Grammar cards are routed away from
+   the typed and 中文 types — you cannot usefully type a whole pattern, and
+   a pattern's gloss gives the answer away. */
+const recall = {round:null, i:0, answered:null, correct:0, ROUND:8};
+
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => String(s).toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+
+function buildRound(){
+  const pool = publishedCards();
+  if (pool.length < 4) return null;
+  const picked = shuffle(pool).slice(0, Math.min(recall.ROUND, pool.length));
+  return picked.map(c => {
+    const types = c.kind === 'grammar' ? ['def', 'gap'] : ['def', 'gap', 'zh', 'type'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    // distractors always come from cards of the same kind
+    const sameKind = pool.filter(x => x.kind === c.kind && x.id !== c.id);
+    const distractors = shuffle(sameKind).slice(0, 3).map(x => x.item);
+    const options = shuffle([c.item, ...distractors]);
+    return {card:c, type, options, answer:c.item};
+  });
+}
+
+function gapSentence(c){
+  const esc_ = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const head = c.item.split(/\s+/)[0];
+  const re = new RegExp(esc_(c.item), 'i');
+  if (re.test(c.example)) return c.example.replace(re, '<span class="blank"></span>');
+  const re2 = new RegExp('\\b' + esc_(head) + '\\w*', 'i');
+  if (re2.test(c.example)) return c.example.replace(re2, '<span class="blank"></span>');
+  return c.example + ' <span class="blank"></span>';
+}
+
+function renderRecall(){
+  const el = document.getElementById('s-recall');
+  if (!recall.round){
+    const pool = publishedCards();
+    el.innerHTML = `
+      <div class="sec-head"><span class="sec-num">02</span><h2>Active recall</h2></div>
+      <p class="sec-sub">Eight questions, generated fresh from your own cards. Definition→item, gap-fill, 中文→item,
+        and type-it with no options. Get one wrong and that card's interval resets to zero and comes back today.</p>
+      <div class="panel"><div class="empty">
+        <h3>${pool.length} cards in the pool.</h3>
+        <p>A round is eight questions and takes about four minutes. Distractors are pulled from other cards of the
+           same kind, so the wrong answers are always plausible — that is the point.</p>
+        <button class="btn btn-p" id="startRound" style="margin-top:18px">Start a round</button>
+      </div></div>`;
+    const b = el.querySelector('#startRound');
+    if (b) b.onclick = () => {
+      recall.round = buildRound(); recall.i = 0; recall.correct = 0; recall.answered = null; renderRecall();
+    };
+    return;
+  }
+
+  if (recall.i >= recall.round.length){
+    const pct = Math.round(recall.correct / recall.round.length * 100);
+    el.innerHTML = `
+      <div class="sec-head"><span class="sec-num">02</span><h2>Round complete</h2></div>
+      <div class="panel" style="text-align:center;padding-block:38px">
+        <div class="score-big" style="color:var(--${pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'bad'})">${recall.correct}<span style="color:var(--muted);font-size:24px">/${recall.round.length}</span></div>
+        <p class="note" style="margin-top:10px;max-width:46ch;margin-inline:auto">
+          ${pct >= 88 ? 'Clean round. The misses below are the only cards that moved.'
+            : pct >= 63 ? 'Solid. Every card you missed is back in today’s Study queue — clear it before you close the app.'
+            : 'Rough round, which is useful information. The missed cards are due again today; run Study first, then come back.'}
+        </p>
+        <button class="btn btn-p" id="againRound" style="margin-top:20px">Another round</button>
+        <button class="btn" id="toDeck" style="margin-top:20px">Go to Study queue</button>
+      </div>`;
+    el.querySelector('#againRound').onclick = () => { recall.round = buildRound(); recall.i = 0; recall.correct = 0; recall.answered = null; renderRecall(); };
+    el.querySelector('#toDeck').onclick = () => go('deck');
+    return;
+  }
+
+  const q = recall.round[recall.i], c = q.card, a = recall.answered;
+  const stem =
+    q.type === 'def'  ? `Which item means: <em>${esc(c.def)}</em>` :
+    q.type === 'gap'  ? gapSentence(c) :
+    q.type === 'zh'   ? `Which item is: <em>${esc(c.zh)}</em>` :
+                        `Type the item that means: <em>${esc(c.def)}</em><br><span style="font-size:14px;color:var(--muted)">${esc(c.zh)}</span>`;
+  const label = {def:'Definition → item', gap:'Gap-fill', zh:'中文 → item', type:'Type it'}[q.type];
+
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">02</span><h2>Active recall</h2></div>
+    <div class="bar"><i style="width:${recall.i / recall.round.length * 100}%"></i></div>
+    <div class="panel">
+      <div class="q-head">
+        <span class="q-type">${label}</span>
+        ${kindTag(c.kind)}<span class="tag">Day ${c.day}</span>
+        <span class="prog">${recall.i + 1} / ${recall.round.length}</span>
+      </div>
+      <div class="q-stem">${stem}</div>
+      ${q.type === 'type'
+        ? `<div style="display:flex;gap:9px;flex-wrap:wrap"><input type="text" id="typed" placeholder="Type it exactly" autocomplete="off" autocapitalize="off" spellcheck="false" ${a ? 'disabled' : ''} style="flex:1;min-width:180px">
+           <button class="btn btn-p" id="checkTyped" ${a ? 'disabled' : ''}>Check</button></div>`
+        : `<div class="opts">${q.options.map((o, i) => {
+            let cls = '';
+            if (a){ if (o === q.answer) cls = 'right'; else if (o === a.given) cls = 'wrong'; }
+            return `<button class="opt ${cls}" data-opt="${esc(o)}" ${a ? 'disabled' : ''}><span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`;
+          }).join('')}</div>`}
+      ${a ? `<div class="verdict ${a.ok ? 'ok' : 'no'}">
+          <div class="verdict-h">${a.ok ? 'Correct' : `Not quite — the answer is ${esc(q.answer)}`}</div>
+          <div style="font-family:var(--fb);font-size:14px;line-height:1.6">${esc(c.example)}</div>
+          ${a.ok ? '' : '<div class="note" style="margin-top:8px">This card’s interval has been reset to zero. It is due again today.</div>'}
+          <div class="why-box"><div class="why-l">Why it earns you marks</div>${esc(c.why)}</div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap">
+          ${audioBtn(c.id, 's', c.example, 'Hear the example')}
+          <button class="btn btn-p" id="nextQ" style="margin-left:auto">${recall.i + 1 === recall.round.length ? 'Finish round' : 'Next question'}</button>
+        </div>` : ''}
+    </div>`;
+
+  const answer = async given => {
+    const ok = q.type === 'type' ? norm(given) === norm(q.answer) : given === q.answer;
+    recall.answered = {given, ok};
+    if (ok) recall.correct++;
+    else {
+      const st = cardState(c.id);
+      await saveCard(c, {step:0, due:todayISO(), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + 1});
+      renderCounters();
+    }
+    renderRecall();
+  };
+  el.querySelectorAll('[data-opt]').forEach(b => b.onclick = () => answer(b.dataset.opt));
+  const ti = el.querySelector('#typed');
+  if (ti && !a){
+    ti.focus();
+    el.querySelector('#checkTyped').onclick = () => answer(ti.value);
+    ti.onkeydown = e => { if (e.key === 'Enter') answer(ti.value); };
+  }
+  const nq = el.querySelector('#nextQ');
+  if (nq) nq.onclick = () => { recall.i++; recall.answered = null; renderRecall(); };
+}
+
+/* ══ 03 READING ═════════════════════════════════════════════════════ */
+const reading = {started:false, elapsed:0, tick:null, answers:{}, submitted:false, result:null};
+
+function clockText(sec, limit){
+  const left = limit - sec, over = left < 0, v = Math.abs(left);
+  return {txt:`${over ? '−' : ''}${String(Math.floor(v / 60)).padStart(2, '0')}:${String(v % 60).padStart(2, '0')}`, over};
+}
+function startClock(){
+  if (reading.started || reading.submitted) return;
+  reading.started = true;
+  reading.tick = setInterval(() => { reading.elapsed++; paintClock(); }, 1000);
+  paintClock();
+}
+function stopClock(){ clearInterval(reading.tick); reading.tick = null; }
+function paintClock(){
+  const R = DAYS[practiceDay()]?.reading; if (!R) return;
+  const el = document.getElementById('clockT'); if (!el) return;
+  const {txt, over} = clockText(reading.elapsed, R.minutes * 60);
+  el.textContent = txt;
+  el.classList.toggle('over', over);
+  const box = document.getElementById('clockBox');
+  box?.classList.toggle('idle', !reading.started);
+  const lab = document.getElementById('clockL');
+  if (lab) lab.textContent = !reading.started ? 'Starts on your first answer' : over ? 'Over time — keep going' : 'Time remaining';
+}
+
+function renderReading(){
+  const el = document.getElementById('s-reading');
+  const pd = practiceDay(), R = DAYS[pd]?.reading;
+  if (!R){ el.innerHTML = `<div class="sec-head"><span class="sec-num">03</span><h2>Reading</h2></div><div class="panel"><div class="empty"><h3>No passage published yet.</h3></div></div>`; return; }
+
+  const gapQs = R.questions.filter(q => q.gap);
+  const usedOpts = gapQs.map(q => reading.answers['q' + q.n]).filter(Boolean);
+
+  const passage = R.paras.map(p => {
+    let t = esc(p.text);
+    for (const gq of gapQs){
+      const chosen = reading.answers['q' + gq.n];
+      const opt = R.gapOptions.find(o => o.id === chosen);
+      const shown = opt
+        ? `<span class="gap filled">${esc(opt.text)}</span>`
+        : `<span class="gap">GAP ${gq.gap.replace('GAP', '')} — Q${gq.n}</span>`;
+      t = t.replace(`&lt;&lt;${gq.gap}&gt;&gt;`, shown);
+    }
+    return `<p><span class="pid">${p.id}</span>${t}</p>`;
+  }).join('');
+
+  const qHtml = R.questions.map(q => {
+    const given = reading.answers['q' + q.n];
+    const done = reading.submitted;
+    const ok = done && (q.gap ? given === q.answer : given === q.answer);
+    let body;
+    if (q.gap){
+      body = `<div class="gap-list">${R.gapOptions.map((o, i) => {
+        let cls = given === o.id ? 'sel' : '';
+        if (usedOpts.includes(o.id) && given !== o.id) cls += ' used';
+        if (done){ cls = o.id === q.answer ? 'right' : (given === o.id ? 'wrong' : ''); }
+        return `<button class="gap-opt ${cls}" data-rq="${q.n}" data-val="${o.id}" ${done ? 'disabled' : ''}>
+          <span class="k">${i + 1}</span><span>${esc(o.text)}</span></button>`;
+      }).join('')}</div>`;
+    } else {
+      body = `<div class="opts">${q.options.map((o, i) => {
+        let cls = given === i ? 'sel' : '';
+        if (done){ cls = i === q.answer ? 'right' : (given === i ? 'wrong' : ''); }
+        return `<button class="opt ${cls}" data-rq="${q.n}" data-val="${i}" ${done ? 'disabled' : ''} ${given === i && !done ? 'style="border-color:var(--accent);background:var(--accent-soft)"' : ''}>
+          <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`;
+      }).join('')}</div>`;
+    }
+    return `<div class="rq">
+      <div class="q-head"><span class="rq-n">Q${q.n}</span><span class="rq-t">${esc(q.type)}</span>
+        ${done ? `<span class="tag ${ok ? '' : 'due'}" style="${ok ? 'color:var(--good);border-color:var(--good);background:var(--good-soft)' : ''}">${ok ? 'correct' : 'missed'}</span>` : ''}</div>
+      <div class="q-stem" style="font-size:15px">${q.q}</div>
+      ${body}
+      ${done ? `<div class="exp ${ok ? 'ok' : 'no'}"><div class="exp-h">${ok ? 'Why that is right' : 'Where it went wrong'}</div>${esc(q.why)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  const res = reading.result;
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">03</span><h2>Reading</h2></div>
+    <p class="sec-sub">One Academic passage, seven questions, ${R.minutes} minutes. The clock starts the moment you
+      answer anything and does not stop when it runs out — overrun counts up in red, because knowing your real
+      pace matters more than a clean number.</p>
+    <div class="clock idle" id="clockBox">
+      <span class="clock-t" id="clockT">${clockText(reading.elapsed, R.minutes * 60).txt}</span>
+      <span class="clock-l" id="clockL">Starts on your first answer</span>
+      <span class="prog" style="margin-left:auto">${Object.keys(reading.answers).length} / ${R.questions.length} answered</span>
+    </div>
+    ${res ? `<div class="banner"><div><b>Scored ${res.score}/${R.questions.length}</b> in ${Math.floor(res.seconds / 60)}:${String(res.seconds % 60).padStart(2, '0')}
+      — that is ${res.pct}% at ${res.pace} per question. Both numbers are saved together; log them on the progress page.</div></div>` : ''}
+    <div class="panel" style="margin-bottom:20px">
+      <div class="q-head"><h3 style="font-size:17px">${esc(R.title)}</h3><span class="prog">${R.words} words</span></div>
+      <div class="passage">${passage}</div>
+    </div>
+    <div class="panel">${qHtml}
+      ${!reading.submitted ? `<div style="margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-p" id="submitR">Submit all seven</button>
+        <span class="note">${Object.keys(reading.answers).length < R.questions.length ? `${R.questions.length - Object.keys(reading.answers).length} still unanswered — submit anyway if you have run out of time.` : 'All answered.'}</span>
+      </div>` : `<div style="margin-top:22px"><button class="btn" id="resetR">Reset and run it again</button></div>`}
+    </div>`;
+
+  el.querySelectorAll('[data-rq]').forEach(b => b.onclick = () => {
+    startClock();
+    const n = b.dataset.rq, v = b.dataset.val;
+    const q = R.questions.find(x => x.n === +n);
+    const val = q.gap ? v : +v;
+    if (q.gap){
+      // one option per gap: clear it from any other gap first
+      for (const gq of gapQs) if (gq.n !== q.n && reading.answers['q' + gq.n] === val) delete reading.answers['q' + gq.n];
+    }
+    reading.answers['q' + n] = val;
+    renderReading();
+  });
+  const sb = el.querySelector('#submitR');
+  if (sb) sb.onclick = async () => {
+    stopClock(); reading.submitted = true;
+    const score = R.questions.filter(q => reading.answers['q' + q.n] === q.answer).length;
+    const seconds = reading.elapsed;
+    const pct = Math.round(score / R.questions.length * 100);
+    const pace = `${Math.floor(seconds / R.questions.length / 60)}:${String(Math.round(seconds / R.questions.length) % 60).padStart(2, '0')}`;
+    reading.result = {score, seconds, pct, pace};
+    await store.set(`answers/day-${pd}`, {
+      day:pd, passage:R.title, score, outOf:R.questions.length, pct, seconds,
+      questions:R.questions.length, answers:reading.answers, at:new Date().toISOString()
+    });
+    renderReading();
+  };
+  const rb = el.querySelector('#resetR');
+  if (rb) rb.onclick = () => {
+    stopClock();
+    Object.assign(reading, {started:false, elapsed:0, tick:null, answers:{}, submitted:false, result:null});
+    renderReading();
+  };
+  paintClock();
+}
+
+/* ══ 04 WRITING ═════════════════════════════════════════════════════ */
+const writing = {reveal:{}, timers:{}};
+const wordCount = s => (String(s).trim().match(/\S+/g) || []).length;
+
+function autosave(path, field, value, badge){
+  clearTimeout(writing.timers[path + field]);
+  if (badge){ badge.textContent = 'saving…'; badge.classList.remove('on'); }
+  writing.timers[path + field] = setTimeout(async () => {
+    const cur = store.get(path) || {};
+    await store.set(path, {...cur, [field]:value, updated:new Date().toISOString()});
+    if (badge){ badge.textContent = 'saved'; badge.classList.add('on'); }
+  }, 700);
+}
+
+function renderWriting(){
+  const el = document.getElementById('s-writing');
+  const pd = practiceDay(), W = DAYS[pd]?.writing;
+  if (!W){ el.innerHTML = `<div class="sec-head"><span class="sec-num">04</span><h2>Writing</h2></div><div class="panel"><div class="empty"><h3>No writing set published yet.</h3></div></div>`; return; }
+  const dPath = `drills/day-${pd}`, wPath = `writing/day-${pd}`;
+  const dSaved = store.get(dPath) || {}, wSaved = store.get(wPath) || {};
+  const essay = wSaved.essay || '';
+  const wc = wordCount(essay);
+
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">04</span><h2>Writing</h2></div>
+    <p class="sec-sub">Grammar drill first, then the translation, then the essay. Everything autosaves as you type —
+      close the tab mid-sentence and it will be here.</p>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="q-head"><h3 style="font-size:16px">Grammar drill</h3>
+        <span class="tag k-grammar">${esc(W.grammarLabel)}</span>
+        <span class="saved" id="dSaved">${Object.keys(dSaved).length ? 'saved' : ''}</span></div>
+      ${W.drills.map(d => `<div class="drill">
+        <div class="drill-i">${d.instruction}</div>
+        <div class="drill-p">${esc(d.prompt)}</div>
+        <textarea id="dr-${d.id}" placeholder="Your version…" rows="2">${esc(dSaved[d.id] || '')}</textarea>
+        <div style="margin-top:9px"><button class="btn btn-sm" data-reveal="${d.id}">${writing.reveal[d.id] ? 'Hide' : 'Show'} model answer</button></div>
+        ${writing.reveal[d.id] ? `<div class="model"><div class="model-l">Model</div>
+          <div class="model-b">${esc(d.model)}</div><div class="model-n">${d.note}</div></div>` : ''}
+      </div>`).join('')}
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="q-head"><h3 style="font-size:16px">中 → EN translation</h3><span class="saved" id="trSaved"></span></div>
+      <div class="drill-p" style="font-size:16px;line-height:1.7">${esc(W.translation.zh)}</div>
+      <textarea id="tr-in" placeholder="Your translation…" rows="3">${esc(dSaved[W.translation.id] || '')}</textarea>
+      <div style="margin-top:9px"><button class="btn btn-sm" data-reveal="${W.translation.id}">${writing.reveal[W.translation.id] ? 'Hide' : 'Show'} model answer</button></div>
+      ${writing.reveal[W.translation.id] ? `<div class="model"><div class="model-l">Model</div>
+        <div class="model-b">${esc(W.translation.model)}</div><div class="model-n">${W.translation.note}</div></div>` : ''}
+    </div>
+
+    <div class="panel">
+      <div class="q-head"><h3 style="font-size:16px">Task 2</h3>
+        <span class="wc ${wc >= W.task2.target ? 'hit' : ''}" id="wcBox"><b>${wc}</b> / ${W.task2.target} words</span>
+        <span class="saved" id="wSaved">${essay ? 'saved' : ''}</span></div>
+      <div class="drill-p" style="margin-bottom:16px">${W.task2.prompt}</div>
+
+      <div class="fld-l" style="margin-bottom:8px">Before you start — and again before you stop</div>
+      <ul class="check">${W.task2.checklist.map((c, i) => `<li>
+        <input type="checkbox" id="ck-${pd}-${i}" ${(wSaved.checks || [])[i] ? 'checked' : ''}>
+        <label for="ck-${pd}-${i}">${c}</label></li>`).join('')}</ul>
+
+      <textarea id="essay" placeholder="Start with the position, not with background. The examiner reads your first sentence looking for an answer to the question." rows="14" style="margin-top:16px">${esc(essay)}</textarea>
+      <p class="note" style="margin-top:10px">Target starts at ${W.task2.target} words so you finish something every day.
+        Once you hit it three days running, push to 200, then 250 — the real Task 2 minimum.</p>
+    </div>`;
+
+  el.querySelectorAll('[data-reveal]').forEach(b => b.onclick = () => {
+    writing.reveal[b.dataset.reveal] = !writing.reveal[b.dataset.reveal]; renderWriting();
+  });
+  const dBadge = el.querySelector('#dSaved');
+  W.drills.forEach(d => {
+    const t = el.querySelector('#dr-' + d.id);
+    t.oninput = () => autosave(dPath, d.id, t.value, dBadge);
+  });
+  const tr = el.querySelector('#tr-in');
+  tr.oninput = () => autosave(dPath, W.translation.id, tr.value, el.querySelector('#trSaved'));
+
+  const ta = el.querySelector('#essay'), wBadge = el.querySelector('#wSaved'), wcBox = el.querySelector('#wcBox');
+  ta.oninput = () => {
+    const n = wordCount(ta.value);
+    wcBox.innerHTML = `<b>${n}</b> / ${W.task2.target} words`;
+    wcBox.classList.toggle('hit', n >= W.task2.target);
+    autosave(wPath, 'essay', ta.value, wBadge);
+  };
+  el.querySelectorAll('.check input').forEach((cb, i) => cb.onchange = () => {
+    const checks = (store.get(wPath) || {}).checks || [];
+    checks[i] = cb.checked;
+    autosave(wPath, 'checks', checks, wBadge);
+  });
+}
+
+/* ══ 05 SPEAKING ════════════════════════════════════════════════════ */
+const speak = {t:null, sec:0, running:null, phase:'talk'};
+
+function stopSpeak(){ clearInterval(speak.t); speak.t = null; speak.running = null; speak.phase = 'talk'; renderSpeaking(); }
+function runSpeak(part, withPrep){
+  clearInterval(speak.t);
+  speak.running = part; speak.sec = 0; speak.phase = withPrep ? 'prep' : 'talk';
+  speak.t = setInterval(() => {
+    speak.sec++;
+    const S = DAYS[practiceDay()].speaking[part];
+    if (speak.phase === 'prep' && speak.sec >= S.prepSeconds){ speak.phase = 'talk'; speak.sec = 0; }
+    paintSpeak(part);
+  }, 1000);
+  paintSpeak(part);
+}
+function paintSpeak(part){
+  const S = DAYS[practiceDay()].speaking[part];
+  const limit = speak.phase === 'prep' ? S.prepSeconds : S.seconds;
+  const el = document.getElementById('spT-' + part); if (!el) return;
+  const {txt, over} = clockText(speak.sec, limit);
+  el.textContent = txt;
+  el.classList.toggle('over', over && speak.phase === 'talk');
+  el.classList.toggle('prep', speak.phase === 'prep');
+  const lab = document.getElementById('spL-' + part);
+  if (lab) lab.textContent = speak.phase === 'prep' ? 'Preparing' : over ? 'Over — wrap it up' : 'Speaking';
+}
+
+function renderSpeaking(){
+  const el = document.getElementById('s-speaking');
+  const pd = practiceDay(), S = DAYS[pd]?.speaking;
+  if (!S){ el.innerHTML = `<div class="sec-head"><span class="sec-num">05</span><h2>Speaking</h2></div><div class="panel"><div class="empty"><h3>No speaking set published yet.</h3></div></div>`; return; }
+
+  const timer = (part, withPrep) => {
+    const running = speak.running === part;
+    return `<div class="timer-box">
+      <span class="timer-t" id="spT-${part}">${clockText(running ? speak.sec : 0, withPrep && (!running || speak.phase === 'prep') ? S[part].prepSeconds : S[part].seconds).txt}</span>
+      <span class="timer-l" id="spL-${part}">${running ? (speak.phase === 'prep' ? 'Preparing' : 'Speaking') : withPrep ? '1 min prep, then 2 min' : 'Rehearsal timer'}</span>
+      <button class="btn ${running ? '' : 'btn-p'} btn-sm" data-sp="${part}" data-prep="${withPrep ? 1 : 0}" style="margin-left:auto">${running ? 'Stop' : 'Start'}</button>
+    </div>`;
+  };
+
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">05</span><h2>Speaking</h2></div>
+    <p class="sec-sub">Record yourself on your phone and listen back — it is the only way to hear the stress errors
+      the cards keep warning you about. Speaking is your weakest paper, so this section is never the one to skip.</p>
+
+    <div class="sp-part panel">
+      <div class="sp-h"><h3>${esc(S.part1.label)}</h3><span class="tag">${S.part1.seconds}s each</span></div>
+      <p class="note">${esc(S.part1.note)}</p>
+      <ul class="qlist">${S.part1.questions.map((q, i) => `<li><span class="qn">${i + 1}</span><span>${esc(q)}</span></li>`).join('')}</ul>
+      ${timer('part1', false)}
+    </div>
+
+    <div class="sp-part panel">
+      <div class="sp-h"><h3>${esc(S.part2.label)}</h3><span class="tag">1 min prep · 2 min talk</span></div>
+      <p class="note" style="margin-bottom:14px">${esc(S.part2.note)}</p>
+      <div class="cue">
+        <div class="cue-t">${esc(S.part2.cue)}</div>
+        <ul>${S.part2.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>
+      </div>
+      ${timer('part2', true)}
+    </div>
+
+    <div class="sp-part panel">
+      <div class="sp-h"><h3>${esc(S.part3.label)}</h3><span class="tag">${S.part3.seconds}s each</span></div>
+      <p class="note">${esc(S.part3.note)}</p>
+      <ul class="qlist">${S.part3.questions.map((q, i) => `<li><span class="qn">${i + 1}</span><span>${esc(q)}</span></li>`).join('')}</ul>
+      ${timer('part3', false)}
+    </div>`;
+
+  el.querySelectorAll('[data-sp]').forEach(b => b.onclick = () => {
+    const p = b.dataset.sp;
+    if (speak.running === p) stopSpeak(); else runSpeak(p, b.dataset.prep === '1');
+  });
+}
+
+/* ══ REFERENCE ══════════════════════════════════════════════════════ */
+const PHASES = [
+  {n:'Weeks 1–3', h:'Stop the leaks in Writing', b:'Writing is your lowest band and the fastest to move, because a 6 usually means a small number of repeated errors rather than a missing skill. Every day: the grammar drill, the translation, and 150 words. Do not chase length yet. Get the Not only inversion and the Were-to conditional to the point where you can produce them without thinking.'},
+  {n:'Weeks 4–6', h:'Build Speaking fluency to match', b:'Speaking and Writing share the same 6, and the same cause: you know more language than you can deploy under time. Part 3 every day, recorded, 60 seconds, using at least one card from the week. Listen back once. You are listening for stress placement and for sentences that die halfway.'},
+  {n:'Weeks 7–9', h:'Reading pace, not Reading accuracy', b:'At 7.5 your accuracy is already close. What costs you the last half band is time — you spend too long on inference questions and then rush the last passage. Run section 03 daily and watch the seconds, not the score. Target is 20:00 for a full passage, and the overrun counter exists so you can see how far off you actually are.'},
+  {n:'Weeks 10–12', h:'Full papers under exam conditions', b:'Three full Reading papers a week, timed end to end, plus one complete Task 1 + Task 2 in 60 minutes. Listening at 8.0 needs maintenance only — one section a day is enough. Keep the deck running throughout; by now it costs you eight minutes and carries three months of vocabulary.'}
+];
+
+function renderRef(){
+  const el = document.getElementById('s-ref');
+  const all = publishedCards();
+  const seen = all.filter(c => cardState(c.id).seen);
+  const byStep = LADDER.map((_, i) => seen.filter(c => cardState(c.id).step === i).length);
+  const fresh = all.length - seen.length;
+  const resetToday = seen.filter(c => { const s = cardState(c.id); return s.step === 0 && s.due <= todayISO(); }).length;
+  el.innerHTML = `
+    <div class="sec-head"><span class="sec-num">REF</span><h2>Plan and ladder</h2></div>
+    <p class="sec-sub">Where you are: Reading 7.5, Listening 8.0, Writing 6, Speaking 6 — targeting 7.5–8.
+      The two 6s are the whole problem, and both are productive skills, which is why the daily order puts them after the deck but never last.</p>
+
+    <div class="panel" style="margin-bottom:20px">
+      <h3 style="font-size:16px;margin-bottom:6px">The phased plan</h3>
+      <p class="note" style="margin-bottom:6px">Twelve weeks at 30–45 minutes a day. The deck runs through all four phases without a break — it is the part that compounds.</p>
+      ${PHASES.map(p => `<div class="phase"><div class="phase-n">${p.n}</div>
+        <div class="phase-b"><h4>${p.h}</h4><p>${p.b}</p></div></div>`).join('')}
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <h3 style="font-size:16px;margin-bottom:6px">Review interval ladder</h3>
+      <p class="note" style="margin-bottom:14px">Grades move a card along this ladder. Again drops it to zero and returns it today;
+        Hard holds the step; Good advances one; Easy advances two. Dates are real calendar dates, so a skipped day
+        queues up rather than disappearing.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Step</th><th>Interval</th><th>Your cards here</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">—</td><td class="mono">today</td><td class="mono">${fresh} new${resetToday ? ` + ${resetToday} reset` : ''}</td><td>Never graded, or reset to zero by a wrong recall answer</td></tr>
+          ${LADDER.map((d, i) => `<tr><td class="mono">${i + 1}</td><td class="mono">+${d} day${d === 1 ? '' : 's'}</td>
+            <td class="mono">${byStep[i]}</td><td>${['Where Again sends a card', 'Second pass', 'Short-term secure', 'Medium-term secure', 'Long-term secure', 'Retired — exam-ready'][i]}</td></tr>`).join('')}
+        </tbody></table></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-size:16px;margin-bottom:6px">How the two day counters work</h3>
+      <p class="note" style="margin-bottom:12px">They are deliberately independent, and this is the thing to understand about the app.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Counter</th><th>Now</th><th>Advances when</th></tr></thead>
+        <tbody>
+          <tr><td><b>Deck day</b></td><td class="mono">${deckDay()}</td><td>A scheduled task appends a new day of cards — daily, at 18:00 Taipei.</td></tr>
+          <tr><td><b>Practice day</b></td><td class="mono">${practiceDay()}</td><td>A new passage and writing set are authored. Never automatically — an unfinished passage is never buried by new vocabulary.</td></tr>
+        </tbody></table></div>
+      <p class="note" style="margin-top:14px">So the deck can run ahead by weeks while you take your time over one reading passage. That is the intended behaviour, not drift.</p>
+    </div>`;
+}
+
+/* ══ chrome ═════════════════════════════════════════════════════════ */
+function renderCounters(){
+  const box = document.getElementById('counters');
+  const dd = deckDay(), pd = practiceDay(), due = dueCards().length, total = publishedCards().length;
+  const parts = [];
+  if (dd !== pd){
+    parts.push(`<span class="ctr is-accent">Deck day <b>${dd}</b></span>`);
+    parts.push(`<span class="ctr is-ochre">Practice day <b>${pd}</b></span>`);
+  } else {
+    parts.push(`<span class="ctr is-accent">Day <b>${dd}</b></span>`);
+  }
+  parts.push(`<span class="ctr">${due ? `<b>${due}</b> due` : 'nothing due'}</span>`);
+  parts.push(`<span class="ctr">${total} cards</span>`);
+  box.innerHTML = parts.join('');
+  const badge = document.getElementById('dueBadge');
+  badge.hidden = !due; badge.textContent = due;
+}
+
+const SECTIONS = {deck:renderDeck, recall:renderRecall, reading:renderReading, writing:renderWriting, speaking:renderSpeaking, ref:renderRef};
+let current = 'deck';
+function go(name){
+  current = name;
+  for (const k of Object.keys(SECTIONS)) document.getElementById('s-' + k).hidden = (k !== name);
+  document.querySelectorAll('.rail-btn').forEach(b => b.setAttribute('aria-current', String(b.dataset.go === name)));
+  SECTIONS[name]();
+  window.scrollTo({top:0, behavior:'instant'});
+  try { localStorage.setItem('bl:section', name); } catch(e){}
+}
+document.querySelectorAll('.rail-btn').forEach(b => b.onclick = () => go(b.dataset.go));
+
+/* delegated audio — survives every re-render */
+document.addEventListener('click', e => {
+  const b = e.target.closest('.audio');
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  playClip(b.dataset.audio, b.dataset.kind, b.dataset.text, b);
+});
+
+/* theme */
+const SUN = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="3.1"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2 3.1 3.1"/></svg>`;
+const MOON = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M13.5 9.6A5.9 5.9 0 0 1 6.4 2.5a5.9 5.9 0 1 0 7.1 7.1Z"/></svg>`;
+function paintTheme(){
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark'
+    || (!document.documentElement.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+  document.getElementById('themeBtn').innerHTML = dark ? SUN : MOON;
+}
+document.getElementById('themeBtn').onclick = () => {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark'
+    || (!document.documentElement.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+  try { localStorage.setItem('bl:theme', dark ? 'light' : 'dark'); } catch(e){}
+  paintTheme();
+};
+try { const t = localStorage.getItem('bl:theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
+
+function render(){ renderCounters(); SECTIONS[current](); }
+
+paintTheme();
+renderCounters();
+let boot = 'deck';
+try { boot = localStorage.getItem('bl:section') || 'deck'; } catch(e){}
+go(SECTIONS[boot] ? boot : 'deck');
+store.boot();
+</script>
