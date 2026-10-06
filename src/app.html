@@ -84,6 +84,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .ctr b{font-weight:600;color:var(--ink)}
 .ctr.is-accent{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent)}
 .ctr.is-ochre{border-color:var(--ochre-line);background:var(--ochre-soft);color:var(--ochre)}
+.ctr.is-learned{border-color:color-mix(in srgb,var(--good) 50%,transparent);background:var(--good-soft);color:var(--good)}
 
 /* ── section furniture ────────────────────────────────── */
 .sec{animation:fade .22s ease}
@@ -123,6 +124,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .tag.k-phrase{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-soft)}
 .tag.k-grammar{color:var(--ochre);border-color:var(--ochre-line);background:var(--ochre-soft)}
 .tag.due{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-soft)}
+.tag.learned{color:var(--good);border-color:color-mix(in srgb,var(--good) 50%,transparent);background:var(--good-soft)}
+.tag.easy-tally{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft);font-variant-numeric:tabular-nums}
 .prog{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
@@ -173,6 +176,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .grade.g2:hover{border-color:var(--good);background:var(--good-soft);color:var(--good)}
 .grade.g3:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
 .grade:hover .i{color:inherit}
+.grade.retires{border-color:color-mix(in srgb,var(--good) 55%,transparent);background:var(--good-soft)}
+.grade.retires .i{color:var(--good);font-weight:600}
+.grade.retires:hover{border-color:var(--good);background:var(--good-soft);color:var(--good)}
 
 .recap-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .nav-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--surface);
@@ -947,6 +953,1716 @@ const DAYS = {
       }
     ]
 },
+4: {
+  cards: [
+      {
+        "id": "w-automate",
+        "kind": "word",
+        "item": "automate",
+        "pos": "verb",
+        "ipa": "/ˈɔtəˌmeɪt/",
+        "def": "To make a process or task run by machines or software instead of by people, especially one that used to require manual work.",
+        "example": "The warehouse automated its sorting process last year, cutting staffing costs by a third.",
+        "zh": "使自動化（以機器或軟體取代人工作業）",
+        "collocations": "automate a process / a task / production; fully / partially automated; automation (noun)",
+        "why": "Watch the word family: the verb is automate, the noun is automation, and the non-word automatize is a common invented error among Chinese speakers who add -ize by analogy with other verbs. It takes a direct object with no preposition — automate the process, never automate for the process. In a Task 2 body paragraph it names a mechanism rather than a vague trend, which is exactly what separates a claim from an explanation."
+      },
+      {
+        "id": "w-supplant",
+        "kind": "word",
+        "item": "supplant",
+        "pos": "verb",
+        "ipa": "/səˈplænt/",
+        "def": "To take the place of something or someone else, usually by being more effective, more competitive, or more aggressive — a stronger and more pointed word than replace.",
+        "example": "Algorithmic scheduling has supplanted the human rota-planner in most large retail chains.",
+        "zh": "取代、篡奪（比 replace 更帶有排擠、奪取的意味）",
+        "collocations": "supplant the old system; supplant a rival; be supplanted by; threaten to supplant",
+        "why": "Supplant and displace (Day 1) and replace both translate to 取代 in Chinese, but they are not interchangeable: replace is neutral, displace moves something out of its place, and supplant specifically implies competition or usurpation — one thing pushes another out by winning. Using supplant for a calm, planned handover reads as overdramatic; save it for arguments where you want to sound alarmed about technology or a rival encroaching on a role."
+      },
+      {
+        "id": "w-menial",
+        "kind": "word",
+        "item": "menial",
+        "pos": "adjective",
+        "ipa": "/ˈminiəl/",
+        "def": "Requiring little skill and considered low in status, usually of a task or job, often repetitive.",
+        "example": "Proponents argue that automation frees workers from menial tasks so they can move into more creative roles.",
+        "zh": "低賤的、卑微的（形容工作，通常指低技術、重複性且地位低）",
+        "collocations": "menial work / tasks / labour; a menial job; regarded as menial",
+        "why": "Menial describes tasks, never people — calling a person menial is insulting, so keep it attached to work, job, task. It also carries a built-in judgement that unskilled lacks: unskilled is a neutral description of skill level, while menial adds that the work is beneath one's dignity. That precision is worth a Lexical Resource mark that a rough synonym like boring or basic would not earn."
+      },
+      {
+        "id": "w-obsolete",
+        "kind": "word",
+        "item": "obsolete",
+        "pos": "adjective",
+        "ipa": "/ˌɑbsəˈlit/",
+        "def": "No longer used because something newer has taken its place — implies the old thing is now functionally worthless, not merely old-fashioned.",
+        "example": "Voice-recognition software has made many transcription jobs almost obsolete.",
+        "zh": "過時的、被淘汰的（因有更好的東西取代而不再被使用，非僅指老舊）",
+        "collocations": "become obsolete; render X obsolete; increasingly obsolete; obsolete technology / skills",
+        "why": "A false friend for outdated: outdated only means old-fashioned and the thing may still work fine, while obsolete means it has actually been superseded and no longer serves a purpose. Render obsolete is a fixed causative frame worth learning as a unit, and it reads as more precise than makes obsolete. Keep it attached to technology, skills, or systems — applying it to people sounds dehumanising and will cost you marks for tone, not grammar."
+      },
+      {
+        "id": "w-redeploy",
+        "kind": "word",
+        "item": "redeploy",
+        "pos": "verb",
+        "ipa": "/ˌriːdɪˈplɔɪ/",
+        "def": "To move staff or resources to a different task, project, or location within the same organisation, rather than removing them.",
+        "example": "Rather than making the team redundant, the company chose to redeploy them to customer support.",
+        "zh": "重新調派、調任（在同一組織內轉換職務，而非資遣）",
+        "collocations": "redeploy staff / resources / troops; be redeployed to; redeployment (noun)",
+        "why": "The frame is redeploy someone to something, with to marking the destination — dropping to leaves the sentence incomplete. It is the precise word for a solution that avoids job losses, so it is worth more than reassign in an automation essay: reassign is a small, individual move, while redeploy implies an organisation-wide strategy responding to a change in demand for labour."
+      },
+      {
+        "id": "p-in-the-pipeline",
+        "kind": "phrase",
+        "item": "in the pipeline",
+        "pos": "prepositional phrase",
+        "ipa": "/ɪn ðə ˈpaɪpˌlaɪn/",
+        "def": "Currently being planned or developed, and expected to happen or be ready before long.",
+        "example": "Several new automation projects are in the pipeline for the coming fiscal year.",
+        "zh": "正在籌畫中、即將推出",
+        "collocations": "have X in the pipeline; more changes in the pipeline; a project in the pipeline",
+        "why": "It sits after be as a predicate — X is in the pipeline — and does not take an article of its own; writing an in the pipeline or the pipeline of X as a stand-alone subject is a mistranslation from a noun-heavy Chinese draft. It is useful precisely because it hedges: it lets you mention a future plan or policy without committing to when it will arrive, which keeps a Task 2 claim honest."
+      },
+      {
+        "id": "p-keep-pace-with",
+        "kind": "phrase",
+        "item": "keep pace with",
+        "pos": "verb phrase",
+        "ipa": "/kip peɪs wɪð/",
+        "def": "To progress or develop at the same speed as something else, so as not to fall behind it.",
+        "example": "Vocational training has struggled to keep pace with the speed of technological change.",
+        "zh": "跟上⋯⋯的腳步、與⋯⋯同步發展",
+        "collocations": "keep pace with demand / change / inflation; fail to keep pace with; struggle to keep pace with",
+        "why": "The preposition is with, never to or of — keep pace to demand is a frequent slip modelled on 跟上腳步 to. It is the natural verb for arguing that policy or training lags behind innovation, and it pairs neatly with fall behind for controlled lexical variation across a paragraph rather than repeating the same verb twice."
+      },
+      {
+        "id": "p-a-race-to-the-bottom",
+        "kind": "phrase",
+        "item": "a race to the bottom",
+        "pos": "noun phrase",
+        "ipa": "/ə reɪs tu ðə ˈbɑtəm/",
+        "def": "A destructive competitive process in which parties keep lowering standards, wages, or prices to undercut each other, leaving everyone worse off.",
+        "example": "Critics warn that outsourcing production abroad triggers a race to the bottom in labour standards.",
+        "zh": "向下沉淪的競爭（各方互相削減標準或價格，最終共同受害）",
+        "collocations": "trigger / spark a race to the bottom; a race to the bottom in wages / standards; avoid a race to the bottom",
+        "why": "This is a fixed idiom — always the bottom, never the lowest point or a rewording — so improvise the surrounding sentence but not the phrase itself. It compresses an entire causal chain, competition leading to undercutting leading to decline, into five words, and it doubles as a ready-made rebuttal to any argument that unrestricted competition automatically benefits workers."
+      },
+      {
+        "id": "g-the-more-the-more",
+        "kind": "grammar",
+        "item": "The + comparative, the + comparative",
+        "pos": "correlative comparative clause",
+        "ipa": "/ðə mɔr … ðə mɔr/",
+        "def": "A construction linking two comparative clauses so that a change in the first tracks a matching change in the second. Each clause fronts its own comparative phrase but otherwise keeps ordinary subject–verb order.",
+        "patterns": "The + comparative + SUBJECT + VERB, the + comparative + SUBJECT + VERB.\nThe more/less + noun, SUBJECT + VERB, the more/less + noun, SUBJECT + VERB.",
+        "example": "The more automated a workplace becomes, the more employers value skills a machine cannot replicate.",
+        "zh": "越⋯⋯，就越⋯⋯（前後兩個比較子句連動，呈現遞增或遞減的因果關係）",
+        "errors": "The more automated becomes a workplace — the fronted comparative phrase stays with its own subject and verb in normal order; do not invert as if asking a question.\nThe workplace more automated becomes, the more employers value skills — each clause must open with the, not bury it mid-clause.\nThe more automated a workplace is, more employers value skills — the second the cannot be dropped; both clauses need one.",
+        "collocations": "The more..., the more...; The less..., the less...; The more..., the less... (inverse relationship)",
+        "why": "This packs a causal mechanism — X increasing as Y increases — into a single sentence instead of two joined by so or therefore, which is exactly what raises Grammatical Range above a string of simple sentences. The only unusual move is fronting the comparative phrase itself; the clause behind it stays in ordinary subject–verb order, so the failure mode is over-inverting, not under-inverting. Use it once, in the paragraph where you are explaining a mechanism rather than just asserting a trend."
+      }
+    ]
+},
+5: {
+  cards: [
+      {
+        "id": "w-prevalent",
+        "kind": "word",
+        "item": "prevalent",
+        "pos": "adjective",
+        "ipa": "/ˈprɛvələnt/",
+        "def": "Existing commonly, or occurring frequently, within a particular group, area, or time period. Distinct from popular, which implies people actively like or choose something — prevalent only describes how widespread it is, with no judgement about approval.",
+        "example": "Obesity-related illness is now more prevalent in urban populations than at any point in the past fifty years.",
+        "zh": "普遍存在的、盛行的（在特定群體或地區中發生頻率高，非指受歡迎）",
+        "collocations": "prevalent among; prevalent in; increasingly prevalent; prevalence (noun); prevalence rate",
+        "why": "Prevalent takes among or in, never of — prevalent of poor diets is a common error that comes from confusing it with the pattern typical of. It is also frequently confused with popular: a disease can be highly prevalent while nobody would call it popular, so keep the word tied to frequency of occurrence, not approval. In Task 1 and Task 2 alike it lets you describe a rate without repeating common four times in one paragraph, and its noun form prevalence is the standard word for the statistic itself."
+      },
+      {
+        "id": "w-chronic",
+        "kind": "word",
+        "item": "chronic",
+        "pos": "adjective",
+        "ipa": "/ˈkrɑnɪk/",
+        "def": "Persisting for a long time, or recurring constantly — used of illnesses and problems that continue rather than resolve. It says nothing about how serious the condition is; that is a separate question from how long it lasts.",
+        "example": "Chronic back pain rarely responds to the same short course of treatment that clears an acute injury.",
+        "zh": "慢性的、長期的（強調持續時間長，非指嚴重程度）",
+        "collocations": "a chronic condition / illness / shortage; chronically ill; chronic underfunding",
+        "why": "Chronic is a false friend for Chinese speakers who map it onto 嚴重 (severe): a chronic condition can be mild, and a severe condition can be brief. The real opposite is acute, not mild, and the two form a pair worth learning together — chronic (long-lasting) versus acute (sudden and intense). Outside medicine it upgrades a plain adjective in front of any long-running problem: chronic underfunding sounds far more exact than a long-term lack of money."
+      },
+      {
+        "id": "w-sedentary",
+        "kind": "word",
+        "item": "sedentary",
+        "pos": "adjective",
+        "ipa": "/ˈsɛdənˌtɛri/",
+        "def": "Involving little physical movement, especially sitting for long periods — used of lifestyles, occupations, and behaviour, not of the people themselves.",
+        "example": "A sedentary lifestyle is now linked to a wider range of health problems than smoking was thirty years ago.",
+        "zh": "久坐少動的（形容生活型態或職業，而非直接批評一個人懶惰）",
+        "collocations": "a sedentary lifestyle / job / occupation; increasingly sedentary; sedentary behaviour",
+        "why": "Sedentary describes a pattern of behaviour, not a character trait, so pairing it with lifestyle or job keeps it neutral and precise where lazy would sound like a judgement of the person. The spelling trap is the middle syllable — sedent, not sedant — because the -ent- comes from the Latin for sitting, the same root as sediment. In a health-topic Task 2 essay it names the mechanism behind a claim about screen time or desk work, rather than just asserting that people move less."
+      },
+      {
+        "id": "w-efficacy",
+        "kind": "word",
+        "item": "efficacy",
+        "pos": "noun (uncountable)",
+        "ipa": "/ˈɛfɪkəsi/",
+        "def": "The capacity of something, especially a treatment or a policy, to produce the result it is intended to produce — typically the result achieved under ideal or controlled conditions, as opposed to real-world use.",
+        "example": "The trial measured the efficacy of the vaccine under laboratory conditions, not its performance in a general population.",
+        "zh": "功效、療效（在理想或受控條件下達成預期效果的能力，區別於現實情境中的「有效性」）",
+        "collocations": "the efficacy of; clinical efficacy; proven / limited efficacy; efficacious (adjective, rare)",
+        "why": "Efficacy and effectiveness are near-synonyms that a Band 7.5 script should keep apart: efficacy is performance under controlled, ideal conditions — a clinical trial — while effectiveness is performance in ordinary real-world use, where compliance and access are imperfect. Collapsing the distinction is a common Lexical Resource slip in health-topic essays, since Chinese typically renders both as 療效／有效性. It is uncountable, so no article before it in the general sense: efficacy is proven, not an efficacy is proven."
+      },
+      {
+        "id": "w-debilitating",
+        "kind": "word",
+        "item": "debilitating",
+        "pos": "adjective",
+        "ipa": "/dɪˈbɪlɪˌteɪtɪŋ/",
+        "def": "Causing a severe loss of strength or ability, usually gradually — used of illnesses, injuries, or conditions whose main effect is to weaken the person who has them.",
+        "example": "Untreated, the condition can become debilitating within a decade, long before it becomes life-threatening.",
+        "zh": "使人衰弱的、極度削弱體能的",
+        "collocations": "a debilitating illness / injury / condition; debilitating effects / symptoms; debilitate (verb)",
+        "why": "Debilitating names a specific consequence — loss of strength and function — rather than standing in as a generic intensifier for bad, so do not reach for it wherever severe would do; keep it for cases where weakening is genuinely the effect being described. The stress falls on the second syllable, de-BIL-i-tat-ing, and swallowing it into four syllables in Speaking is what marks the word as read rather than heard. It is one of the few adjectives that lets you distinguish an illness that kills quickly from one that instead slowly removes a person's capacity to function — a distinction examiners notice in a health-topic Part 3 answer."
+      },
+      {
+        "id": "p-take-a-toll-on",
+        "kind": "phrase",
+        "item": "take a toll on",
+        "pos": "verb phrase",
+        "ipa": "/teɪk ə toʊl ɑn/",
+        "def": "To cause gradual harm or damage to something over time, with the damage accumulating rather than appearing all at once.",
+        "example": "Years of chronic sleep deprivation take a toll on cardiovascular health long before symptoms appear.",
+        "zh": "對⋯⋯造成損害、逐漸損耗（強調累積性的傷害）",
+        "collocations": "take a toll on health / the body / mental wellbeing; take its toll; a heavy toll",
+        "why": "The preposition is on, and toll stays singular and usually article-free in this frame — a toll on health, never tolls on health. It is the natural verb for describing slow, cumulative damage where cause and effect are separated by time, which is exactly the kind of relationship health-topic Task 2 questions ask you to explain. Because it already implies gradual accumulation, pairing it with over time or gradually is redundant — let the phrase carry that meaning alone."
+      },
+      {
+        "id": "p-a-contributing-factor-to",
+        "kind": "phrase",
+        "item": "a contributing factor to",
+        "pos": "noun phrase",
+        "ipa": "/ə kənˈtrɪbjətɪŋ ˈfæktər tu/",
+        "def": "One cause among several that together help produce a result — it explicitly avoids claiming to be the sole or main cause.",
+        "example": "Poor air quality is a contributing factor to rising rates of childhood asthma, though it is rarely the only one.",
+        "zh": "促成⋯⋯的因素之一（強調並非唯一原因）",
+        "collocations": "a contributing factor to / in; a major / significant / key contributing factor; contribute to (the base verb)",
+        "why": "The preposition after factor is to (or in), never of, and the whole phrase is a deliberate hedge: naming something a contributing factor concedes that other causes exist, which is more defensible than claiming a single cause and is exactly the caution a Band 7.5 essay needs when discussing correlated health outcomes. Overusing the plain verb contribute to across a paragraph gets repetitive; this noun-phrase version lets you vary the sentence structure while keeping the same cautious claim."
+      },
+      {
+        "id": "p-compound-the-problem",
+        "kind": "phrase",
+        "item": "compound the problem",
+        "pos": "verb phrase",
+        "ipa": "/kəmˈpaʊnd ðə ˈprɑbləm/",
+        "def": "To make an already bad situation worse by adding a further negative factor, rather than by causing the original problem.",
+        "example": "Limited access to primary care compounds the problem for rural patients who are already diagnosed late.",
+        "zh": "使問題雪上加霜、加劇原有問題（在既有問題上再添一層惡化）",
+        "collocations": "compound the problem / the effect / the difficulty; compounded by; further compound",
+        "why": "Compound here is a verb, stressed on the second syllable — com-POUND — and unrelated in pronunciation to the noun compound (COM-pound) used for a chemical or an enclosed area; mixing up the stress makes the sentence briefly ambiguous in Speaking. Its precise value is that it distinguishes a cause from an aggravating factor: something else caused the original problem, and this word names the thing that makes it worse. That is a sharper claim than the vaguer make worse, and it signals that you understand causal layering, not just a single cause and effect."
+      },
+      {
+        "id": "g-having-participle",
+        "kind": "grammar",
+        "item": "Having + past participle",
+        "pos": "perfect participle clause",
+        "ipa": "/ˈhævɪŋ/",
+        "def": "A clause opening with Having + past participle that shows one action was completed before the action in the main clause. It lets two related sentences collapse into one without repeating the subject.",
+        "patterns": "Having + past participle (+ object), SUBJECT + VERB.\nNot having + past participle, SUBJECT + VERB.",
+        "example": "Having reviewed three decades of trial data, researchers concluded that the treatment's real-world efficacy was considerably lower than its efficacy in controlled trials.",
+        "zh": "完成式分詞構句：「Having + 過去分詞」置於句首，表示該動作先於主要子句發生，可省略重複主詞、精簡句子",
+        "errors": "Having reviewed the data, it was concluded that... — a dangling participle: the implied subject of having reviewed must match the main clause's subject, and it cannot have reviewed anything.\nHaving review the data, researchers concluded... — the participle must be the past participle form, reviewed, not the base form.\nHaving reviewed the data, and having presented it, researchers concluded... — stacking two having-clauses in one sentence is heavy and unnatural; keep one.",
+        "collocations": "Having done X, SUBJECT...; Having been + past participle, SUBJECT... (passive version); Not having done X, SUBJECT...",
+        "why": "This is the structure that lets you compress two of your own sentences into one without a plain and or because, and grading rubrics reward exactly that kind of range. The single failure mode to police is the dangling participle: the subject that comes immediately after the comma must be the one doing the completed action, so Having reviewed the evidence, the report concluded is wrong unless the report itself did the reviewing — say Having reviewed the evidence, the authors concluded instead. Use it once in an essay, in the sentence introducing your strongest piece of evidence, where the compression reads as control rather than decoration."
+      }
+    ]
+},
+6: {
+  cards: [
+      {
+        "id": "w-pedagogy",
+        "kind": "word",
+        "item": "pedagogy",
+        "pos": "noun (uncountable)",
+        "ipa": "/ˈpɛdəˌɡoʊdʒi/",
+        "def": "The method and practice of teaching, especially as an academic discipline or theoretical approach — not the content taught, but how it is taught.",
+        "example": "The school's pedagogy emphasises collaborative problem-solving over individual memorisation.",
+        "zh": "教育學、教學法（指教學的方法與理論，而非教學內容本身）",
+        "collocations": "traditional pedagogy; a shift in pedagogy; pedagogical approach; pedagogically sound",
+        "why": "Pedagogy is uncountable and names the method, not the subject matter — do not use it to mean curriculum, which is what is taught, not how. The adjective pedagogical shifts stress two syllables to the right, ped-a-GOG-ic-al, and defaulting to the noun's own stress pattern on the adjective is a common error in Speaking Part 3. Reaching for pedagogy instead of the flatter teaching method signals the education-topic register examiners expect at Band 7.5."
+      },
+      {
+        "id": "w-meritocracy",
+        "kind": "word",
+        "item": "meritocracy",
+        "pos": "noun (usually singular or uncountable)",
+        "ipa": "/ˌmɛrɪˈtɑkrəsi/",
+        "def": "A system in which advancement and reward are based on demonstrated ability and achievement rather than on wealth, family background, or social class.",
+        "example": "Universities like to present themselves as a meritocracy, yet access still correlates closely with parental income.",
+        "zh": "菁英制度、任人唯才（依能力而非財富或家庭背景決定成就與地位）",
+        "collocations": "a true / genuine meritocracy; the myth of meritocracy; meritocratic (adjective); a meritocratic system",
+        "why": "Meritocracy is normally treated as uncountable in the abstract sense and rarely takes a plural. It is a strong choice for a concession-then-challenge paragraph: state that a system claims to be a meritocracy, then use evidence to show the claim does not hold, which is sharper than simply asserting inequality exists. Watch the adjective meritocratic, stressed mer-it-o-CRAT-ic — candidates often keep the noun's stress pattern by mistake."
+      },
+      {
+        "id": "w-rote",
+        "kind": "word",
+        "item": "rote",
+        "pos": "noun (uncountable, attributive only)",
+        "ipa": "/roʊt/",
+        "def": "Mechanical repetition used to memorise material without necessarily understanding it. The word almost never stands alone; it modifies learning or memorisation.",
+        "example": "Critics argue that rote learning produces students who can recall facts but struggle to apply them.",
+        "zh": "死記硬背（機械式重複記憶，強調記住而非理解）",
+        "collocations": "rote learning; rote memorisation; learn by rote; rote repetition",
+        "why": "Rote functions almost exclusively as a modifier before learning or memorisation — using it as a free-standing noun is unnatural, so keep it attached to the noun it modifies. It is the standard counterpart to critical thinking or skills-based learning in an education Task 2 essay, naming the method under attack in one word instead of a clause. It is spelled identically to wrote but carries a long o, and confusing the two in a script is a spelling slip examiners do notice."
+      },
+      {
+        "id": "w-attainment",
+        "kind": "word",
+        "item": "attainment",
+        "pos": "noun (uncountable in the general sense)",
+        "ipa": "/əˈteɪnmənt/",
+        "def": "The level of success a person or group has reached, especially in education, typically measured by qualifications or test results. Distinct from achievement, which can describe any accomplishment, not only a measured educational level.",
+        "example": "The attainment gap between rural and urban schools has widened over the past decade.",
+        "zh": "（教育）成就水準、學業成就（尤指以資格或測驗結果衡量，區別於泛指的 achievement）",
+        "collocations": "educational attainment; the attainment gap; low / high attainment; attainment levels",
+        "why": "Attainment is the standard word in education-policy writing for a measured level of qualification, and pairing it with gap — the attainment gap — is the fixed collocation for unequal outcomes between groups, more precise than the vaguer education gap. It is mainly British/Commonwealth usage, so it may sound less familiar in Speaking than in Reading, but it is entirely standard in IELTS Academic passages. Keep it uncountable in the general sense: attainment is measured, not an attainment is measured."
+      },
+      {
+        "id": "w-formative",
+        "kind": "word",
+        "item": "formative",
+        "pos": "adjective",
+        "ipa": "/ˈfɔrmətɪv/",
+        "def": "Having a strong, shaping influence on development, especially early development — or, in education specifically, describing assessment used to guide and improve learning while it is still in progress, as opposed to summative assessment, which measures what has already been learned at the end.",
+        "example": "Regular formative assessment lets teachers adjust their approach before a student falls behind, rather than only discovering the gap in a final exam.",
+        "zh": "形成性的、塑造性的（教育情境中指「形成性評量」，用於學習過程中即時調整，區別於學期末的總結性評量 summative）",
+        "collocations": "formative assessment; formative years; a formative experience; (opposite) summative assessment",
+        "why": "In general use formative describes any early, shaping influence — the formative years — but in an education-topic essay its precise value is the contrast with summative: formative assessment happens during learning to guide it, summative assessment happens after learning to grade it. Naming both terms in one sentence signals real command of the topic rather than a memorised vocabulary list. Stress falls on the first syllable, FOR-ma-tive, not the second."
+      },
+      {
+        "id": "p-level-the-playing-field",
+        "kind": "phrase",
+        "item": "level the playing field",
+        "pos": "verb phrase",
+        "ipa": "/ˈlɛvəl ðə ˈpleɪɪŋ fild/",
+        "def": "To remove an unfair advantage so that everyone competes or participates under the same conditions.",
+        "example": "Providing free tutoring in under-resourced schools is one attempt to level the playing field before university admissions.",
+        "zh": "使競爭條件公平化、拉平起跑點（消除不公平優勢，讓大家在相同條件下競爭）",
+        "collocations": "level the playing field for / between; a level playing field (noun form); level the field somewhat",
+        "why": "The idiom is fixed: level functions as a verb here, not an adjective, so do not write leveling up the field or a leveled field when you mean this idiom. It condenses the whole argument for compensatory policy — scholarships, quotas, subsidised access — into five words, exactly the efficient signalling Lexical Resource rewards in a Task 2 conclusion. The noun version, a level playing field, uses level as an adjective; keep the two forms straight."
+      },
+      {
+        "id": "p-one-size-fits-all-approach",
+        "kind": "phrase",
+        "item": "a one-size-fits-all approach",
+        "pos": "noun phrase",
+        "ipa": "/ə wʌn saɪz fɪts ɔl əˈproʊtʃ/",
+        "def": "A single method applied uniformly to everyone, without adapting to individual differences or needs — used critically, to suggest the approach ignores real variation.",
+        "example": "A one-size-fits-all curriculum struggles to serve both gifted students and those who are still catching up.",
+        "zh": "一體適用的做法（不論個別差異，統一套用同一種方法，通常帶批評語氣）",
+        "collocations": "a one-size-fits-all approach / policy / curriculum; reject a one-size-fits-all model; move away from a one-size-fits-all approach",
+        "why": "The whole phrase is hyphenated and works as a single compound adjective before approach, policy or model — write it as one-size-fits-all, not as the full sentence one size fits all, when it modifies a noun. It is used almost always critically, so pair it with reject, move away from or abandon rather than adopt, unless you are quoting someone else's flawed position. In an education essay it is the natural counterpart to differentiated instruction, naming the problem before you propose the more tailored alternative."
+      },
+      {
+        "id": "p-widen-the-gap",
+        "kind": "phrase",
+        "item": "widen the gap",
+        "pos": "verb phrase",
+        "ipa": "/ˈwaɪdən ðə ɡæp/",
+        "def": "To increase the size of an existing difference between two groups, usually used of outcomes that were already unequal.",
+        "example": "School closures during the pandemic widened the gap between students with reliable internet access and those without.",
+        "zh": "擴大差距（使原本已存在的群體差異變得更大）",
+        "collocations": "widen the gap between; widen the achievement / attainment / wealth gap; the gap widens; narrow the gap (opposite)",
+        "why": "Widen takes between when you name both groups, and its natural opposite is narrow — reduce the gap is grammatical but sounds assembled rather than idiomatic. Because it names a change in an inequality over time, it is a stronger claim than simply asserting an inequality exists, and pairing it with attainment gap plugs directly into the rest of this set. Keep gap singular even when comparing more than two groups: the gap between the highest- and lowest-performing schools, not the gaps."
+      },
+      {
+        "id": "g-what-cleft",
+        "kind": "grammar",
+        "item": "What-cleft (pseudo-cleft) for emphasis",
+        "pos": "cleft sentence",
+        "ipa": "/wʌt/",
+        "def": "A sentence restructured to front the word What, isolating one element as the point of focus. It shifts emphasis onto the complement after is/was, the way other cleft structures single out one element for attention.",
+        "patterns": "What + clause (+ verb) + is/are/was/were + the emphasised element.\nWhat + subject + needs/lacks/requires + is + noun phrase.",
+        "example": "What separates high-performing education systems from the rest is not the size of the budget but the quality of teacher training.",
+        "zh": "假分裂句（What 子句），將句子重組以凸顯強調的部分，置於 is/are 之後（例：真正關鍵的是⋯⋯而非⋯⋯）",
+        "errors": "What separates the systems is the quality of teacher training is the budget — two complements cannot follow is; choose one, or use not X but Y.\nWhat is separates the systems... — is appears only once, after the What-clause, never doubled inside it.\nWhat the systems is separated by is... — the clause after What must read as a normal statement, not an awkwardly split passive fragment.",
+        "collocations": "What matters most is...; What this shows is...; What is needed is...; not X but Y (common partner structure)",
+        "why": "This structure lets you delay your main claim to the end of the sentence, where an examiner's attention is naturally highest, and it reads as considered rather than assembled because English speakers use it constantly in spoken argument. Its most common failure is trying to emphasise two things inside one What-clause; keep the frame to a single complement, and use the not X but Y pattern from the example when you want to explicitly rule out a competing explanation. Overusing it — more than once or twice in an essay — starts to sound like a rhetorical tic rather than genuine emphasis, so save it for the sentence carrying your central claim."
+      }
+    ]
+},
+7: {
+  cards: [
+      {
+        "id": "w-precarious",
+        "kind": "word",
+        "item": "precarious",
+        "pos": "adjective",
+        "ipa": "/prɪˈkɛriəs/",
+        "def": "Not securely fixed or certain to continue; liable to fail, collapse, or be withdrawn at any time. Applied to employment, it means the job's continuation, hours, or income cannot be relied on.",
+        "example": "Migrant workers are disproportionately concentrated in the most precarious segments of the labour market.",
+        "zh": "不穩定的、岌岌可危的（尤指工作、收入等隨時可能中斷或消失）",
+        "collocations": "precarious employment / work; a precarious existence; precariously balanced; precarity (noun)",
+        "why": "Stress falls on the second syllable, pri-CARE-ee-us, and moving it to the first is a common slip. Its noun form, precarity, has become the standard academic term for insecure work patterns in sociology and labour-economics writing, so reaching for it instead of \"unstable jobs\" is a direct Lexical Resource upgrade. Keep it distinct from the flatter unstable: precarious specifically implies the situation could fail or be withdrawn, not merely that it fluctuates."
+      },
+      {
+        "id": "w-redundant",
+        "kind": "word",
+        "item": "redundant",
+        "pos": "adjective",
+        "ipa": "/rɪˈdʌndənt/",
+        "def": "In British and Commonwealth employment usage, describing an employee whose position has been eliminated by an employer, usually because the role is no longer needed. Distinct from the general sense of the word, which means unnecessary or needlessly repeated.",
+        "example": "When the factory automated its packing line, forty workers were made redundant within a year.",
+        "zh": "（英式用法）被資遣、被裁員（因職位遭裁撤而失業；一般用法則指「多餘的、重複而不必要的」）",
+        "collocations": "be made redundant; redundancy payment; compulsory / voluntary redundancy; a redundant clause (general sense)",
+        "why": "This is a false-friend trap running the opposite direction from most items in this deck: redundant has an ordinary general meaning — unnecessary, repetitive, as in a redundant sentence — that learners often meet first, and then miss the specialised employment sense of \"laid off\" when it appears in a passage about restructuring. The fixed verb frame is be made redundant, never be redundant alone or fire redundant. It is British and Commonwealth usage; American English prefers laid off, so recognise both for Listening."
+      },
+      {
+        "id": "w-burnout",
+        "kind": "word",
+        "item": "burnout",
+        "pos": "noun (uncountable)",
+        "ipa": "/ˈbɜrnˌaʊt/",
+        "def": "A state of chronic physical and emotional exhaustion caused by prolonged, excessive workplace stress, typically marked by cynicism and reduced effectiveness. It describes a process that builds over time, not a single tired day.",
+        "example": "Rates of burnout have risen sharply among employees who transitioned to round-the-clock remote availability.",
+        "zh": "職業倦怠、過勞（長期工作壓力導致的身心耗竭，常伴隨憤世嫉俗與效能下降，非單純一天的疲累）",
+        "collocations": "experience / suffer / prevent burnout; burnout rate; on the verge of burnout; burn out (the verb, two words)",
+        "why": "Burnout is written as one compound noun, but the verb is two words, burn out, and mixing the two forms is a minor but noticeable spelling slip. It names a specific occupational-psychology concept rather than simple tiredness, so pair it with causes — workload, lack of control, unclear expectations — rather than using it as a synonym for tired, which weakens its precision. In Speaking Part 3 it replaces the generic \"very stressful\" that examiners hear from almost every candidate discussing work-life balance."
+      },
+      {
+        "id": "w-outsource",
+        "kind": "word",
+        "item": "outsource",
+        "pos": "verb",
+        "ipa": "/ˈaʊtˌsɔrs/",
+        "def": "To contract work or a business function out to an external company or individual, rather than performing it with in-house staff — often, though not necessarily, in another country.",
+        "example": "Many airlines have outsourced their customer-service call centres to specialist firms overseas.",
+        "zh": "外包（將工作或業務職能委託給外部公司或個人執行，未必涉及跨國）",
+        "collocations": "outsource X to Y; outsourcing (noun); an outsourced function / department; outsource production",
+        "why": "Outsource takes a direct object plus to: outsource the work to a third party, never outsource with. Keep it distinct from its frequent near-synonym offshore: outsourcing means handing the work to another organisation, offshoring means moving the work to another country, and a task can be one, both, or neither — a domestic outsourcing contract offshores nothing. Conflating the two is one of the most common precision errors in Task 2 essays about globalisation and employment."
+      },
+      {
+        "id": "w-underemployed",
+        "kind": "word",
+        "item": "underemployed",
+        "pos": "adjective",
+        "ipa": "/ˌʌndərɪmˈplɔɪd/",
+        "def": "Working, but in a job that uses less of a person's skills, qualifications or available hours than they have and would be willing to supply. Distinct from unemployed, which means not working at all.",
+        "example": "A significant share of recent graduates are underemployed, working in roles that do not require a degree.",
+        "zh": "未充分就業、大材小用（有工作但技能、學歷或工時未被充分運用，不同於完全失業的 unemployed）",
+        "collocations": "underemployed graduates / workers; underemployment (noun); chronically underemployed; underemployed relative to qualifications",
+        "why": "The prefix under- signals a mismatch in degree, not an absence, and confusing underemployed with unemployed reverses the claim entirely — one describes people with no job at all, the other people whose job wastes their capacity. It is the precise term for a labour-market problem that a plain unemployment rate does not capture, which makes it a strong Task 1 or Task 2 word when official statistics understate hardship. Stress falls on the fourth syllable, under-em-PLOYED, matching the base word employed."
+      },
+      {
+        "id": "p-diminishing-returns",
+        "kind": "phrase",
+        "item": "diminishing returns",
+        "pos": "noun phrase (plural)",
+        "ipa": "/dɪˌmɪnɪʃɪŋ rɪˈtɜrnz/",
+        "def": "A point at which each additional unit of effort, investment or time produces progressively smaller benefit than the units before it.",
+        "example": "Beyond around fifty hours a week, additional overtime tends to produce diminishing returns in output quality.",
+        "zh": "報酬遞減（投入的邊際效益隨投入增加而遞減，常用於討論過度投入而效益漸低的情況）",
+        "collocations": "diminishing returns on / to; a point of diminishing returns; hit diminishing returns; the law of diminishing returns",
+        "why": "The phrase is almost always plural, diminishing returns, and is normally introduced with a verb such as reach, hit or produce rather than used alone as a subject. It is originally an economics term — the law of diminishing returns — and using it correctly signals that you can reason about a trade-off quantitatively rather than just asserting \"too much is bad.\" In a paragraph about long working hours it lets you concede that some additional input helps while arguing more of it stops helping, which is exactly the concession-then-limit move examiners reward at Band 7.5."
+      },
+      {
+        "id": "p-at-the-discretion-of",
+        "kind": "phrase",
+        "item": "at the discretion of",
+        "pos": "prepositional phrase",
+        "ipa": "/æt ðə dɪˈskrɛʃən əv/",
+        "def": "Decided according to the judgement or choice of a particular person or body, rather than fixed by rule.",
+        "example": "Whether staff may work from home two days a week is left at the discretion of individual line managers.",
+        "zh": "由⋯⋯自行裁量決定（依某人的判斷而非固定規則決定）",
+        "collocations": "at the discretion of the manager / employer / committee; left to X's discretion; use discretion in deciding",
+        "why": "The preposition is of, and discretion itself is uncountable — a discretion and discretions are both wrong. It is the precise phrase for a policy that is formally permitted but not guaranteed: a right granted \"at the employer's discretion\" is weaker than an entitlement, and naming that distinction is sharper than simply saying a policy \"depends on the boss.\" Discretion also appears as an adjective, discretionary, in discretionary bonus or discretionary leave — learn the pair together."
+      },
+      {
+        "id": "p-a-zero-sum-game",
+        "kind": "phrase",
+        "item": "a zero-sum game",
+        "pos": "noun phrase",
+        "ipa": "/ə ˈzɪroʊ sʌm ɡeɪm/",
+        "def": "A situation in which one side's gain is necessarily matched by an exactly equivalent loss to the other side, so the total benefit across everyone stays fixed.",
+        "example": "Some economists argue that automation need not be a zero-sum game between employers' profits and workers' wages.",
+        "zh": "零和賽局（一方所得必然等於另一方所失，整體利益總和不變）",
+        "collocations": "treat X as a zero-sum game; a zero-sum contest / mentality; not a zero-sum game (common negated use)",
+        "why": "The phrase is most useful negated — arguing that a situation is not a zero-sum game is a standard Task 2 move for proposing a compromise in which both sides gain, rather than accepting a straight trade-off. Keep zero-sum as a compound adjective before game, contest or mentality; do not split it into \"a game of zero sum.\" It borrows its precision from game theory, and deploying it accurately, rather than as a vague synonym for \"competitive,\" is what separates genuine lexical range from decoration."
+      },
+      {
+        "id": "g-were-it-not-for",
+        "kind": "grammar",
+        "item": "Were it not for + noun/gerund",
+        "pos": "conditional inversion (subjunctive)",
+        "ipa": "/wɜr ɪt nɑt fɔr/",
+        "def": "A formal inverted alternative to \"If it were not for X,\" used to say that a present situation depends entirely on X — without X, the result named in the main clause would not hold. The inversion drops if and moves were in front of it.",
+        "patterns": "Were it not for + noun phrase, + subject + would/could/might + base verb.\nWere it not for + gerund phrase, + subject + would + base verb.",
+        "example": "Were it not for flexible scheduling, many parents would be forced to leave the workforce entirely.",
+        "zh": "若不是因為⋯⋯（假設語氣倒裝句，等同 If it were not for，強調現在某結果完全依賴某條件）",
+        "errors": "If it weren't for flexible scheduling, would many parents forced to leave — the main clause needs a full subject + would + base verb, not a fragment.\nWere not it for flexible scheduling — word order is wrong; it must be Were it not for, never Were not it for.\nWere it not for flexible scheduling, many parents will be forced to leave — will breaks the unreal-conditional frame; the main clause needs would, not the real-condition will.",
+        "collocations": "Were it not for X, ...; Had it not been for X, ... (past equivalent); If it were not for X (uninverted form)",
+        "why": "This is a Band 8 structure precisely because it is rare in speech and requires holding subjunctive were and inversion at once without an if. It differs in function from the Day 3 \"Were to\" inversion: that one fronts a hypothetical future action, while this one names a present dependency and states what would follow without it — learn the two as a contrasting pair, not as duplicates. Its past-tense sibling, Had it not been for X, is the version to use when the dependency is historical rather than current; using were for a past scenario is a tense-mismatch error worth avoiding."
+      }
+    ]
+},
+8: {
+  cards: [
+      {
+        "id": "w-degradation",
+        "kind": "word",
+        "item": "degradation",
+        "pos": "noun (uncountable)",
+        "ipa": "/ˌdɛɡrəˈdeɪʃən/",
+        "def": "The gradual worsening in the quality or condition of something, especially the natural environment, until it can no longer function as it once did — a process, not a single event of damage.",
+        "example": "Environmental degradation along this coastline has already wiped out three species of nesting bird, and the decline shows no sign of slowing.",
+        "zh": "退化、劣化（環境或土地品質逐漸惡化的過程，強調漸進累積而非單一破壞事件）",
+        "collocations": "environmental degradation; land / soil degradation; halt the degradation of; degrade (verb)",
+        "why": "Degradation is a noun, so it cannot sit directly in front of another noun the way an adjective can — write environmental degradation, never environment degradation. The paired verb is degrade, which takes a direct object: pollution degrades soil quality, not degrades to soil quality. Choosing degradation over the vaguer damage signals a gradual, compounding process rather than a single event, which is exactly the mechanism a Task 2 examiner wants explained rather than just asserted."
+      },
+      {
+        "id": "w-deplete",
+        "kind": "word",
+        "item": "deplete",
+        "pos": "verb",
+        "ipa": "/dɪˈplit/",
+        "def": "To reduce the amount of something, especially a resource, until very little is left — it stresses using something up, not merely lessening it.",
+        "example": "Intensive fishing has depleted stocks so severely that several species may not recover within a decade.",
+        "zh": "耗盡、使枯竭（強調資源被逐漸用盡至所剩無幾，而非單純減少）",
+        "collocations": "deplete stocks / reserves / resources; deplete the ozone layer; depleted (adjective); depletion (noun)",
+        "why": "Deplete takes a direct object with no preposition — deplete the stocks, never deplete of the stocks — and it is stronger than reduce: reduce simply means less, while deplete implies the remaining amount is now critically low. The noun depletion collocates naturally with the ozone layer and resource in academic writing, and both forms appear most often in the passive — reserves have been depleted — which matches the impersonal register a Task 2 environment paragraph expects."
+      },
+      {
+        "id": "w-encroach",
+        "kind": "word",
+        "item": "encroach",
+        "pos": "verb",
+        "ipa": "/ɪnˈkroʊtʃ/",
+        "def": "To intrude gradually into an area, right, or resource that did not previously belong to it — often development moving into natural habitat, or one issue steadily limiting another.",
+        "example": "As housing developments continue to encroach on the wetland, several bird species have already abandoned the site.",
+        "zh": "侵占、蠶食（逐漸侵入原不屬於自己的範圍，如都市開發侵占自然棲地）",
+        "collocations": "encroach on / upon; encroaching development; urban encroachment (noun); encroachment on habitat",
+        "why": "The fixed preposition is on, or the more formal upon — encroach on the wetland, never encroach into or encroach to. Its noun, encroachment, is the standard academic term for a gradual boundary violation, physical or abstract. It is sharper than the flatter expand into, because encroach always carries a negative judgement: the movement happens at somebody or something else's expense, which links directly back to Day 1's at the expense of."
+      },
+      {
+        "id": "w-resilient",
+        "kind": "word",
+        "item": "resilient",
+        "pos": "adjective",
+        "ipa": "/rɪˈzɪljənt/",
+        "def": "Able to withstand or recover quickly from damage, disruption, or difficulty — used of ecosystems, infrastructure, economies, and people alike.",
+        "example": "Coral reefs with greater species diversity tend to prove more resilient after a bleaching event.",
+        "zh": "有韌性的、能迅速恢復的（能承受衝擊或從損害中快速恢復，適用於生態系統、基礎設施、經濟或人）",
+        "collocations": "resilient to; build resilience (noun); climate-resilient infrastructure; remarkably / highly resilient",
+        "why": "The preposition is to — resilient to drought, not resilient against or resilient of. Keep it distinct from resistant: resistant means largely unaffected in the first place, while resilient concedes that damage occurs but stresses the capacity to recover afterwards, a more realistic claim in most environment essays. The noun resilience is now a standard collocation with infrastructure and communities in policy writing, and reaching for it instead of the vaguer strong is a direct Lexical Resource upgrade."
+      },
+      {
+        "id": "w-irreversible",
+        "kind": "word",
+        "item": "irreversible",
+        "pos": "adjective",
+        "ipa": "/ˌɪrɪˈvɜrsəbəl/",
+        "def": "Impossible to undo once it has happened — used to stress that a change is permanent, with no route back to the previous state.",
+        "example": "Once a species has become extinct, the loss is irreversible.",
+        "zh": "不可逆的、無法挽回的（一旦發生便無法恢復原狀）",
+        "collocations": "irreversible damage / loss / change; largely / potentially irreversible; irreversibly (adverb); reversible (opposite)",
+        "why": "The negative prefix is ir- before a root beginning with r, not un- — unreversible is not a standard word. It is often hedged with potentially or largely, as in potentially irreversible damage, rather than stated as an absolute, because an unqualified claim of certainty invites a counter-example. Pairing it with a specific consequence — extinction, ice-sheet collapse, soil loss — is far more convincing than using it as a bare intensifier for very bad, which is how many Band 6 scripts misuse it."
+      },
+      {
+        "id": "p-strike-a-balance-between",
+        "kind": "phrase",
+        "item": "strike a balance between",
+        "pos": "verb phrase",
+        "ipa": "/straɪk ə ˈbæləns bɪˈtwin/",
+        "def": "To find a satisfactory middle point between two competing demands or interests, giving neither one complete priority over the other.",
+        "example": "Coastal cities must strike a balance between protecting biodiversity and accommodating a growing population.",
+        "zh": "在⋯⋯之間取得平衡（兼顧兩種互相競爭的需求，不偏廢任一方）",
+        "collocations": "strike a balance between X and Y; strike the right balance; a delicate balance; difficult to strike a balance",
+        "why": "The verb is strike, not make, find or reach a balance — those are understandable but not the idiomatic collocation. It takes between X and Y, exactly like Day 3's a trade-off between, but the two phrases make opposite claims: a trade-off concedes that gaining one thing costs you the other, while strike a balance claims a workable middle point exists that satisfies both. Picking the wrong one of the pair can accidentally undercut your own argument, so decide first which claim you actually want to make."
+      },
+      {
+        "id": "p-run-counter-to",
+        "kind": "phrase",
+        "item": "run counter to",
+        "pos": "verb phrase",
+        "ipa": "/rʌn ˈkaʊntər tu/",
+        "def": "To go directly against or contradict something, such as a policy, an expectation, or an existing trend.",
+        "example": "Subsidising fossil fuels runs counter to a government's own stated climate targets.",
+        "zh": "與⋯⋯背道而馳、牴觸（直接違背某項政策、預期或趨勢）",
+        "collocations": "run counter to the evidence / the policy / expectations; runs directly counter to; counter to popular belief",
+        "why": "Counter keeps its own fixed preposition to — run counter to the evidence, never run counter with or run counter against. It flags a contradiction inside a single clause instead of a full sentence like this contradicts, which is an efficient rebuttal move in a Task 2 counter-argument paragraph. Do not confuse this counter with the everyday verb meaning to oppose an argument directly — inside this fixed phrase it functions only as part of the idiom."
+      },
+      {
+        "id": "p-in-the-face-of",
+        "kind": "phrase",
+        "item": "in the face of",
+        "pos": "prepositional phrase",
+        "ipa": "/ɪn ðə feɪs əv/",
+        "def": "Despite the presence of a difficulty, danger, or opposition — used to introduce a challenging circumstance that something continues or happens anyway.",
+        "example": "Coral reefs have shown surprising recovery in the face of repeated bleaching events.",
+        "zh": "面對⋯⋯（儘管存在困難、危險或反對，仍然⋯⋯）",
+        "collocations": "in the face of adversity / criticism / growing pressure; remain resilient in the face of; stand firm in the face of",
+        "why": "The frame takes of plus a noun phrase only — in the face of adversity, never in the face of that something happens — so a full clause needs despite the fact that or even though instead. It carries a more literary, formal register than the flatter despite, and it collocates naturally with resilient and recovery, making it a strong partner for this day's resilience card: something survives or improves in the face of a specific threat."
+      },
+      {
+        "id": "g-only-inversion",
+        "kind": "grammar",
+        "item": "Only when/by/after + inversion",
+        "pos": "negative-adverbial inversion",
+        "ipa": "/ˈoʊnli/",
+        "def": "Fronting an Only-clause (only when, only by, only after, only if) forces subject–auxiliary inversion in the main clause that follows, the same word order a question uses. It sharply restricts the single condition under which the main clause holds.",
+        "patterns": "Only when/by/after + clause, + auxiliary + SUBJECT + base verb.\nOnly if + clause, + auxiliary + SUBJECT + base verb.",
+        "example": "Only when reef temperatures fall will the bleached coral have any chance of recovering.",
+        "zh": "「Only + 條件子句」置於句首時，主要子句須採主詞—助動詞倒裝，強調唯有在此條件下才成立",
+        "errors": "Only when reef temperatures fall the coral will recover — inversion is missing after the fronted only-clause.\nOnly when reef temperatures will fall, the coral will recover — the inversion belongs in the main clause, not inside the only-clause itself.\nOnly by reducing emissions, we can slow the damage — after only by + gerund, the main clause still needs inversion: can we slow, not we can slow.",
+        "collocations": "Only when X, + inversion; Only by doing X, + inversion; Only after X, + inversion; Not until X, + inversion (close relative)",
+        "why": "This is the same family as Day 1's Not only inversion, but the trigger is different — a fronted only-condition, not a not only addition — and conflating the two once a candidate has learned one is a common error. It states a strict necessary condition more forcefully than a plain if-clause, ruling out every other route to the result, which is a precise, confident claim for a conclusion paragraph arguing that one specific measure — not several vague ones — actually solves the problem. As with the Day 1 structure, the whole effect collapses if the auxiliary is dropped, so write the plain sentence first, identify the auxiliary, then front only and invert."
+      }
+    ]
+},
+9: {
+  cards: [
+      {
+        "id": "w-proliferate",
+        "kind": "word",
+        "item": "proliferate",
+        "pos": "verb",
+        "ipa": "/prəˈlɪfəˌreɪt/",
+        "def": "To increase rapidly in number, often to the point of appearing everywhere. It stresses speed and multiplication, not just growth.",
+        "example": "Fabricated health claims proliferate faster on social media than fact-checked corrections ever can.",
+        "zh": "迅速增殖、大量擴散（強調數量快速增加，語氣比 increase 更強烈）",
+        "collocations": "proliferate across platforms; the proliferation of (noun); proliferate unchecked; rapidly proliferating",
+        "why": "It is intransitive — no direct object. \"Proliferate misinformation\" is wrong; you need the proliferation of misinformation or cause misinformation to proliferate, and defaulting to SVO here is the error Chinese speakers make most. The noun form proliferation is a ready-made Task 2 topic-sentence opener (\"The proliferation of X has...\"). It also carries a mildly negative, out-of-control connotation that plain increase lacks, which makes it the sharper choice in a problem paragraph."
+      },
+      {
+        "id": "w-discern",
+        "kind": "word",
+        "item": "discern",
+        "pos": "verb",
+        "ipa": "/dɪˈzɜrn/",
+        "def": "To notice or work out something that is not obvious — a pattern, a distinction, a truth — usually with some effort.",
+        "example": "Even trained fact-checkers can struggle to discern which claims are satire and which are sincere.",
+        "zh": "辨別、看出（需要仔細分辨才能察覺的事物）",
+        "collocations": "discern a pattern / a trend / the difference between X and Y; hard/difficult to discern; discernible (adjective)",
+        "why": "The c is soft: /dɪˈzɜrn/, not /dɪˈskɜrn/ — pronouncing the middle consonant as /sk/ is the single most common Speaking error with this word and instantly flags it as read-but-never-heard vocabulary. It also differs from recognize (know something again, e.g. a face): discern implies separating things that look alike, which is exactly the task facing a reader sorting fact from misinformation, so it is semantically sharper than recognize in this topic."
+      },
+      {
+        "id": "w-susceptible",
+        "kind": "word",
+        "item": "susceptible",
+        "pos": "adjective",
+        "ipa": "/səˈsɛptəbəl/",
+        "def": "Likely to be influenced, affected, or harmed by something, because of a lack of resistance to it.",
+        "example": "Older users are disproportionately susceptible to scams that mimic official bank messages.",
+        "zh": "易受影響的、易受害的（對某事物缺乏抵抗力）",
+        "collocations": "susceptible to; highly/particularly susceptible; susceptibility (noun)",
+        "why": "Takes to and only to — susceptible to pressure, never susceptible by or for pressure. It is also the register upgrade over \"easily influenced,\" which is what most Band 6 scripts write instead; the adjective-plus-to-phrase compresses a relative clause into three words, raising Lexical Resource without adding sentence-structure risk."
+      },
+      {
+        "id": "w-circumvent",
+        "kind": "word",
+        "item": "circumvent",
+        "pos": "verb",
+        "ipa": "/ˌsɜrkəmˈvɛnt/",
+        "def": "To find a way around a rule, restriction, or problem instead of confronting it directly — usually implying cleverness rather than illegality.",
+        "example": "Some advertisers circumvent content moderation simply by misspelling the words a filter is trained to catch.",
+        "zh": "規避、繞過（規則或障礙，通常暗示技巧性而非違法）",
+        "collocations": "circumvent the rules / regulations / restrictions; circumvent a filter / a ban; circumvention (noun)",
+        "why": "Stress falls on the last syllable — cir-cum-VENT — and misplacing it is common because the related word circumstance stresses the first syllable instead, and learners analogise the two. It sits closer to clever than to criminal, so do not swap it for violate or breach, which imply wrongdoing this word does not. As a one-word substitute for \"find a way around,\" it is exactly the compression examiners reward."
+      },
+      {
+        "id": "w-tangible",
+        "kind": "word",
+        "item": "tangible",
+        "pos": "adjective",
+        "ipa": "/ˈtændʒəbəl/",
+        "def": "Real and definite enough to be clearly seen, measured, or felt — the opposite of vague or merely theoretical.",
+        "example": "Platforms have made few tangible changes despite years of promising to curb the spread of false content.",
+        "zh": "具體的、實質的（可衡量、可感知的，與抽象或空泛相對）",
+        "collocations": "tangible benefits / evidence / results / changes; (opposite) intangible",
+        "why": "Its antonym intangible is equally high-value, and the pair builds a contrast sentence in Task 2 for free. The common error is pairing it with countable abstract nouns it does not fit — \"a tangible opinion\" is wrong, because tangible modifies things that could in principle be measured (a benefit, evidence, a result), not beliefs. That precision is what separates a 7 from an 8 in Lexical Resource."
+      },
+      {
+        "id": "p-at-face-value",
+        "kind": "phrase",
+        "item": "at face value",
+        "pos": "idiom / adverbial phrase",
+        "ipa": "/æt feɪs ˈvæljuː/",
+        "def": "To accept something as true or as it appears, without questioning or investigating further.",
+        "example": "Readers who take a viral claim at face value rarely check where it originated.",
+        "zh": "照字面（表面）接受、不加懷疑地相信",
+        "collocations": "take X at face value; accept at face value; not to be taken at face value",
+        "why": "Always follows take or accept, and the phrase itself stays fixed — inserting a possessive (\"at its face value\") is the error to avoid. It names a cognitive act, uncritical acceptance, rather than describing tone, so it stays fully appropriate in Academic Writing Task 2 register despite sounding idiomatic — you can use it in a formal sentence without lowering the register the way a true colloquialism would."
+      },
+      {
+        "id": "p-give-rise-to",
+        "kind": "phrase",
+        "item": "give rise to",
+        "pos": "verb phrase",
+        "ipa": "/ɡɪv raɪz tə/",
+        "def": "To cause something, usually a problem, situation, or consequence, to begin to exist.",
+        "example": "Algorithmic recommendation systems have given rise to entire communities built around a single false claim.",
+        "zh": "引起、導致（使某事物產生，語氣較 cause 正式）",
+        "collocations": "give rise to concerns / speculation / a phenomenon; has given rise to; giving rise to",
+        "why": "The fixed form is give rise to — no article before rise, and the preposition is always to, never for. It is the formal-register upgrade over cause or lead to that a Band 8 script uses in topic sentences, and because it collocates naturally with uncountable abstract nouns (concern, speculation), it sidesteps the article and countability errors that lead to and cause often trigger."
+      },
+      {
+        "id": "p-a-vicious-circle",
+        "kind": "phrase",
+        "item": "a vicious circle",
+        "pos": "noun phrase",
+        "ipa": "/ə ˈvɪʃəs ˈsɜrkəl/",
+        "def": "A sequence of events in which each problem makes the next one worse, so the situation keeps deteriorating with no natural exit point.",
+        "example": "Distrust in official sources drives people toward unverified ones, which produces more distrust — a vicious circle.",
+        "zh": "惡性循環（一個問題導致另一個問題，越滾越糟）",
+        "collocations": "a vicious circle of X; trapped in / caught in a vicious circle; break the vicious circle",
+        "why": "American usage also accepts vicious cycle — both are fine, but circle is the more traditional form and the safer choice under exam conditions. Its real value is structural: it names causation-with-feedback in four words, the hardest relationship to state clearly under time pressure, and naming it explicitly shows the examiner you distinguish a simple cause-effect link from a reinforcing loop."
+      },
+      {
+        "id": "g-such-that",
+        "kind": "grammar",
+        "item": "Such + be + noun + that",
+        "pos": "fronted-predicate result clause",
+        "ipa": "/sʌtʃ/",
+        "def": "Fronting Such before the verb be and a noun creates a formal, emphatic way of saying something is so extreme that a stated result follows. It intensifies the noun and requires a that-clause to give the consequence.",
+        "patterns": "Such + is/was + NOUN + that + CLAUSE (result).\nSuch + a/an + ADJECTIVE + NOUN + is/was this, that + CLAUSE.",
+        "example": "Such is the speed at which a single post can spread that platforms cannot fact-check claims before they are shared thousands of times.",
+        "zh": "「如此⋯⋯以致於⋯⋯」的倒裝強調句（Such 提前，be動詞緊接其後，主詞挪至其後）",
+        "errors": "Such the speed is that... — wrong order; is must come immediately after Such, before the subject noun.\nSuch is the speed that platforms cannot fact-check claims before they are shared thousands of times, is remarkable. — a dangling clause tacked on after a sentence that is already complete; the that-clause is the result and nothing should follow it.\nSo is the speed that... — confusing this with so + adjective + that; so takes a bare adjective (so fast that), such takes a noun phrase (such speed that / such a fast rate that).",
+        "collocations": "Such is the scale/speed/extent of X that...; Such was the pressure that...",
+        "why": "This is a rarer, higher-register cousin of so...that, and because so few candidates produce it correctly, a clean example is disproportionately noticed by an examiner scanning for Grammatical Range. The rule that prevents the most common error: if what follows is a bare noun, use such; if it is an adjective with no noun, use so. Practising it here on a noun (speed) rather than an adjective is deliberately the harder case."
+      }
+    ]
+},
+10: {
+  cards: [
+      {
+        "id": "w-longitudinal",
+        "kind": "word",
+        "item": "longitudinal",
+        "pos": "adjective",
+        "ipa": "/ˌlɑndʒɪˈtudɪnəl/",
+        "def": "Describing research that follows the same subjects repeatedly over an extended period, in order to track how they change over time — distinct from a single-moment snapshot of different subjects.",
+        "example": "The longitudinal study tracked the same eight hundred children from age five to age twenty-five.",
+        "zh": "縱貫性的、長期追蹤的（同一群受試者在長時間內重複測量，以觀察變化，區別於單一時間點的橫斷研究）",
+        "collocations": "a longitudinal study; longitudinal data; longitudinal research; (opposite) cross-sectional",
+        "why": "Longitudinal contrasts with cross-sectional, and the two words are the standard way IELTS Reading passages describe study design — confusing them inverts the claim about whether a finding tracks change over time or a difference between groups at one moment. Stress falls on the third syllable, lon-gi-TU-di-nal, which is easy to garble under pressure because the word is long and rarely spoken aloud outside this exact context. It always modifies study, data or research; it does not stand alone as a noun. Reaching for it instead of the vaguer over time is the kind of precise methodological vocabulary a Band 8 Speaking Part 3 answer on research needs."
+      },
+      {
+        "id": "w-conflate",
+        "kind": "word",
+        "item": "conflate",
+        "pos": "verb",
+        "ipa": "/kənˈfleɪt/",
+        "def": "To treat two distinct concepts, categories, or claims as if they were a single one, usually causing confusion or a flawed conclusion.",
+        "example": "Critics argue that the report conflates correlation with causation throughout its final chapter.",
+        "zh": "混淆、把兩種不同事物混為一談",
+        "collocations": "conflate X with Y; conflate the two; often conflated; a conflation (noun)",
+        "why": "Conflate takes with, not and — conflate X with Y, never conflate X and Y as a verb frame. It names a precise logical error rather than a vague criticism like confuse, so using it correctly signals that you can identify exactly what has gone wrong in someone else's reasoning, which is exactly what a Task 2 rebuttal paragraph needs. It sits one syllable from inflate and deflate, and that resemblance sometimes pulls the stress onto the first syllable in Speaking; keep it on the second, con-FLATE."
+      },
+      {
+        "id": "w-robust",
+        "kind": "word",
+        "item": "robust",
+        "pos": "adjective",
+        "ipa": "/roʊˈbʌst/",
+        "def": "(of evidence, methodology, or a finding) Strong enough to withstand scrutiny or replication — able to hold up under testing, not merely physically strong.",
+        "example": "The panel judged the evidence too robust to be dismissed as a single anomalous result.",
+        "zh": "穩健的、禁得起檢驗的（用於證據、方法論，指經得起驗證，而非指體格強壯）",
+        "collocations": "robust evidence / methodology / findings; a robust study design; statistically robust",
+        "why": "Robust migrates from its everyday sense of physically strong into a specific methodological judgement: a robust finding is one that survives replication, different samples, and alternative statistical tests, not simply one stated with confidence. It is the natural adjective to set alongside Day 2's anecdotal at the opposite end of a credibility scale — anecdotal evidence versus robust evidence — a ready-made contrast pair for a Task 2 evaluation paragraph. Collocate it with evidence, findings, or methodology; calling a single opinion robust misuses the word."
+      },
+      {
+        "id": "w-extrapolate",
+        "kind": "word",
+        "item": "extrapolate",
+        "pos": "verb",
+        "ipa": "/ɪkˈstræpəˌleɪt/",
+        "def": "To estimate or predict values beyond the range of the data actually collected, by assuming an observed pattern continues.",
+        "example": "It would be unwise to extrapolate national trends from a sample confined to a single city.",
+        "zh": "外推、推斷（假設觀察到的趨勢持續，推估超出實際數據範圍之外的結果）",
+        "collocations": "extrapolate from the data; extrapolate a trend; extrapolate to the wider population; extrapolation (noun)",
+        "why": "Extrapolate takes from before the data source and to before the group the conclusion is being stretched onto — extrapolate from a small sample to the whole population. It names a specific and often risky move, assuming a pattern holds outside the range where it was actually measured, which is a sharper criticism than the vague overgeneralise. Flagging that a claim extrapolates beyond its evidence is one of the most reliable ways to build a Band 7.5 critique of a study described in a Reading passage or a Task 2 prompt."
+      },
+      {
+        "id": "w-skew",
+        "kind": "word",
+        "item": "skew",
+        "pos": "verb / noun",
+        "ipa": "/skjuː/",
+        "def": "To distort a result or distribution so that it leans unfairly in one direction, usually because of a flaw in sampling or method rather than the underlying reality.",
+        "example": "A disproportionate number of urban respondents skewed the survey toward pro-cycling views.",
+        "zh": "使偏斜、扭曲（因取樣或方法上的缺陷，使結果偏向某一方向）",
+        "collocations": "skew the results / the sample / the data; skewed toward / in favour of; a skew in the data (noun)",
+        "why": "Skew takes toward or in favour of to name the direction of the distortion, and it is more precise than biased: skew usually points to a mechanical cause, such as an unrepresentative sample, rather than a deliberate or attitudinal bias. As a noun it names the statistical property directly — a skew in the data — the register a Task 1 or research-methods paragraph needs instead of the everyday unfair. Keep it distinct from bias, which can describe a person's attitude; skew more often describes what a flawed method does to a number."
+      },
+      {
+        "id": "p-call-into-question",
+        "kind": "phrase",
+        "item": "call into question",
+        "pos": "verb phrase",
+        "ipa": "/kɔl ˈɪntu ˈkwɛstʃən/",
+        "def": "To cast doubt on something previously accepted as true, reliable, or valid.",
+        "example": "The failed replication attempt called the original finding into question.",
+        "zh": "對⋯⋯提出質疑、使⋯⋯的可信度受到質疑",
+        "collocations": "call into question the validity of; call X's credibility into question; increasingly called into question",
+        "why": "The object can sit either after the whole phrase (call into question the validity of the claim) or split around it (call the claim's validity into question) — both are correct, and knowing you can split it is itself a marker of real command of the phrase rather than a memorised chunk. It is a more measured, academic alternative to the blunter prove wrong: it says a claim can no longer be trusted at face value (Day 9) without claiming it has been definitively disproven, a more defensible position in a Task 2 evaluation paragraph."
+      },
+      {
+        "id": "p-on-the-strength-of",
+        "kind": "phrase",
+        "item": "on the strength of",
+        "pos": "prepositional phrase",
+        "ipa": "/ɑn ðə strɛŋθ əv/",
+        "def": "Using a particular piece of evidence or reasoning as the basis for a decision or conclusion.",
+        "example": "The committee approved the funding on the strength of a single pilot study.",
+        "zh": "基於⋯⋯（以某項證據或理由作為判斷或決定的依據）",
+        "collocations": "on the strength of the evidence / a single study / these results; approve / decide / conclude on the strength of",
+        "why": "The preposition is fixed as of, and strength is abstract and uncountable here — on the strengths of is a common but wrong pluralisation. It names exactly what a decision rested on, which is useful for exposing a weak argument: pointing out that a policy was adopted on the strength of a single pilot study is a sharper critique than simply saying the evidence was thin, because it names the specific evidential basis being challenged."
+      },
+      {
+        "id": "p-hold-true",
+        "kind": "phrase",
+        "item": "hold true",
+        "pos": "verb phrase",
+        "ipa": "/hoʊld tru/",
+        "def": "To remain valid or applicable, especially when tested against a new context, population, or set of conditions.",
+        "example": "Findings from a single laboratory setting do not always hold true in the field.",
+        "zh": "依然成立、仍然適用（尤指在新情境或條件下經檢驗後仍然有效）",
+        "collocations": "hold true for / across / even when; the finding still holds true; fail to hold true",
+        "why": "Hold true takes for or across when you name the group it applies to, and it is the natural verb for testing generalisability — whether a pattern found in one context survives being applied to another. It pairs naturally with extrapolate: you extrapolate a claim beyond the original data, then ask whether it actually holds true there. Using fail to hold true is a controlled, formal way to report a negative result without the blunter didn't work."
+      },
+      {
+        "id": "g-not-until-inversion",
+        "kind": "grammar",
+        "item": "Not until + clause, + inversion",
+        "pos": "negative-adverbial inversion",
+        "ipa": "/nɑt ˈʌntɪl/",
+        "def": "Fronting a Not until clause forces subject–auxiliary inversion in the main clause that follows, the same word order a question uses. It states that something did not happen, or was not true, before a specific point or event.",
+        "patterns": "Not until + clause, + auxiliary + SUBJECT + base verb.\nNot until + noun phrase, + auxiliary + SUBJECT + base verb.",
+        "example": "Not until the study had been replicated three times did the research community accept the finding.",
+        "zh": "直到⋯⋯才⋯⋯（Not until 置於句首時，主要子句須採主詞—助動詞倒裝，強調某事發生之前皆不成立）",
+        "errors": "Not until the study had been replicated did the research community accepted the finding. — after the fronted auxiliary did, the main verb must return to its base form: accept, not accepted.\nNot until the study had been replicated, the research community accepted the finding. — without inversion this reads as a dangling fragment followed by a plain sentence, not the emphatic structure.\nNot until the study was replicated did accept the community it. — the inverted auxiliary must sit immediately before the subject, not detached from it with the verb stranded afterwards.",
+        "collocations": "Not until X, + inversion; Not until then; Only after X, + inversion (close relative from Day 8)",
+        "why": "This is the time-based sibling of Day 8's Only-inversion: that one names a necessary condition, this one names a point in the timeline before which something did not hold, exactly the shape of a claim about when scientific consensus shifted or a policy finally changed. As with every inversion structure in this deck, the whole effect collapses the moment the auxiliary is dropped or misplaced, so write the plain sentence first — the research community did not accept the finding until the study had been replicated three times — and only then front Not until and invert. Because it pairs naturally with a study or evidence being replicated, confirmed, or published, it is a strong candidate for the same sentence as robust or corroborate (Day 2), compounding two Band 8 items in one place."
+      }
+    ]
+},
+11: {
+  cards: [
+      {
+        "id": "w-influx",
+        "kind": "word",
+        "item": "influx",
+        "pos": "noun (countable, singular)",
+        "ipa": "/ˈɪnˌflʌks/",
+        "def": "A sudden or large-scale arrival of people, money or things into a place. It stresses the movement inward and the volume, not just an increase in number.",
+        "example": "The summer influx of visitors doubles the population of the island's main town.",
+        "zh": "湧入、大量流入（強調人或資金一次大量進入某地）",
+        "collocations": "an influx of tourists / migrants / capital / cash; a sudden / sharp influx; the influx into the city",
+        "why": "The frame is an influx of + what arrives, then into or to + where it arrives: an influx of tourists into the old town. It is countable but almost always singular, so it needs an article (an influx) and the plural influxes is rare. The stress is on the first syllable, IN-flux, and swapping it to in-FLUX is the usual Speaking slip. It also carries the direction that increase lacks, so it lets you describe both cause and destination in one noun phrase."
+      },
+      {
+        "id": "w-erode",
+        "kind": "word",
+        "item": "erode",
+        "pos": "verb",
+        "ipa": "/ɪˈroʊd/",
+        "def": "To wear something away gradually, until its strength, value or quality is much reduced. The damage is slow and cumulative, which separates it from destroy.",
+        "example": "Mass tourism can erode the very character that attracted visitors in the first place.",
+        "zh": "侵蝕、逐漸削弱（緩慢累積地損耗，可用於土地，也可用於信任、價值等抽象事物）",
+        "collocations": "erode trust / confidence / support; erode the coastline / the soil; be eroded by; erosion (noun)",
+        "why": "It takes a direct object with no preposition, and it is stressed on the second syllable, e-RODE, with a weak first vowel. Do not add away: erode away is redundant, because the verb already means wear away. The abstract use (erode public trust, erode the value of a degree) is the one that scores, because it moves the word out of geography and into argument. The noun is erosion, not erodation, which is a common invented form."
+      },
+      {
+        "id": "w-homogenise",
+        "kind": "word",
+        "item": "homogenise",
+        "pos": "verb",
+        "ipa": "/həˈmɑdʒəˌnaɪz/",
+        "def": "To make things that were different become alike, so that local variety is lost. It describes a process of levelling, usually seen as a loss.",
+        "example": "Global chains tend to homogenise high streets, so that every city centre begins to look the same.",
+        "zh": "使同質化、使趨於一致（地方差異消失，通常帶有惋惜意味）",
+        "collocations": "homogenise culture / tastes / high streets; increasingly homogenised; cultural homogenisation; (opposite) diversify",
+        "why": "Stress is on the second syllable, ho-MOG-e-nise, and it does not match the adjective homogeneous, /ˌhoʊməˈdʒiniəs/, which has a different vowel and stress. Spelling is the trap: homogeneous has the extra e, while the verb does not (homogenise, not homogenenise). Keep your -ise or -ize choice consistent with incentivise and the rest of the script. Its opposite, diversify, gives you a contrast pair for a globalisation paragraph."
+      },
+      {
+        "id": "w-commodify",
+        "kind": "word",
+        "item": "commodify",
+        "pos": "verb",
+        "ipa": "/kəˈmɑdəˌfaɪ/",
+        "def": "To treat something that is not normally bought and sold, such as culture, nature or a tradition, as a product with a price. It is stronger and more critical than commercialise, because it says the thing changes in meaning once it is priced.",
+        "example": "Critics argue that festivals staged mainly for paying tourists commodify local culture and strip it of meaning.",
+        "zh": "使商品化（把原本不屬於買賣的事物，如文化、自然、傳統，變成可標價出售的東西）",
+        "collocations": "commodify culture / heritage / nature; be commodified; the commodification of X; commodified experiences",
+        "why": "The Chinese 商品化 maps onto it almost directly, so the risk is not meaning but form: the verb ends in -ify (commodify), and commodificate is an invented error. Stress falls on the second syllable, com-MOD-i-fy. It is often used in the passive (be commodified), and the noun commodification takes of: the commodification of heritage. Commercialise only says a profit is being made, while commodify claims the thing has been reduced to a product, so choose it when you want to criticise."
+      },
+      {
+        "id": "w-revitalise",
+        "kind": "word",
+        "item": "revitalise",
+        "pos": "verb",
+        "ipa": "/riˈvaɪtəˌlaɪz/",
+        "def": "To give new life and activity to a place or system that has been declining. It is more than repair: the aim is renewed vigour, often economic.",
+        "example": "Converting disused warehouses into galleries helped revitalise the declining waterfront.",
+        "zh": "使重獲活力、振興（讓衰退的地區或產業重新活躍）",
+        "collocations": "revitalise the economy / the area / the city centre; revitalise a declining industry; urban revitalisation",
+        "why": "It takes a direct object with no preposition: revitalise the waterfront, never revitalise for. Stress is on the second syllable, re-VI-tal-ise, because it is built on vital. Keep it apart from revive, which brings back something that had stopped, and from renovate, which is about buildings only. Use it for a place that is declining but still alive. Keep the -ise spelling consistent with the rest of your script."
+      },
+      {
+        "id": "p-a-double-edged-sword",
+        "kind": "phrase",
+        "item": "a double-edged sword",
+        "pos": "noun phrase",
+        "ipa": "/ə ˈdʌbəl ɛdʒd sɔrd/",
+        "def": "Something that brings both benefits and harms at the same time, so it cannot be judged as simply good or bad.",
+        "example": "Tourism is a double-edged sword for small islands: it funds conservation but also strains water supplies.",
+        "zh": "雙面刃（同時帶來好處與壞處的事物）",
+        "collocations": "a double-edged sword for / in; prove to be a double-edged sword; technology as a double-edged sword",
+        "why": "The idiom is fixed: double-edged is hyphenated, sword stays singular, and it takes a. Do not translate 雙面刃 into double-faced blade or two-edged knife. It is followed by for or in plus the affected group: a double-edged sword for small islands. It earns marks only if you name both edges straight afterwards, as the example does with a colon. Left bare, it is an empty label. It is the natural frame for an advantages-and-disadvantages essay."
+      },
+      {
+        "id": "p-cater-to",
+        "kind": "phrase",
+        "item": "cater to",
+        "pos": "verb phrase",
+        "ipa": "/ˈkeɪtər tu/",
+        "def": "To supply what a particular group needs or wants, often by adjusting a service or product to fit them.",
+        "example": "Many heritage sites now cater to visitors who want interactive experiences rather than static displays.",
+        "zh": "迎合、滿足（特定群體的需求或口味）",
+        "collocations": "cater to demand / tastes / needs / a niche market; cater for (British variant); cater to the elderly",
+        "why": "American English uses cater to and British English prefers cater for, and both are accepted, but hold one form throughout a script, as with -ise and -ize. Cater to can also sound slightly negative, as in cater to every whim, so use cater for when the tone is neutral. There is no direct object before the preposition, so cater visitors is wrong. Stress is on the first syllable, CA-ter, and the phrase names a mechanism (the service adapts) rather than the vague provide for."
+      },
+      {
+        "id": "p-pave-the-way-for",
+        "kind": "phrase",
+        "item": "pave the way for",
+        "pos": "verb phrase",
+        "ipa": "/peɪv ðə weɪ fɔr/",
+        "def": "To create the conditions that make a later development possible. It enables the result; it does not guarantee or directly cause it.",
+        "example": "Improved rail links paved the way for a sharp rise in overseas visitors.",
+        "zh": "為⋯⋯鋪路、創造條件使⋯⋯成為可能",
+        "collocations": "pave the way for growth / reform / change; pave the way for X to happen; pave the way to (less common)",
+        "why": "The preposition is for, and the way is fixed with the: pave the way, never pave a way or pave the road. It can be followed by a noun (for growth) or by for + object + infinitive (for more people to travel). It says the earlier event made the later one possible without claiming it caused it, which is a more defensible claim than give rise to (Day 9). It is normally positive or neutral, whereas give rise to leans negative, so pick the one that fits your tone."
+      },
+      {
+        "id": "g-no-sooner-inversion",
+        "kind": "grammar",
+        "item": "No sooner + inversion",
+        "pos": "negative-adverbial inversion",
+        "ipa": "/noʊ ˈsunər … ðæn/",
+        "def": "Fronting No sooner forces the auxiliary had in front of the subject, and the second event is introduced by than. It says one past event was followed almost immediately by another.",
+        "patterns": "No sooner + had + SUBJECT + past participle + than + SUBJECT + past simple.\nHardly / Scarcely + had + SUBJECT + past participle + when + SUBJECT + past simple.",
+        "example": "No sooner had the festival ended than the town's visitor numbers collapsed.",
+        "zh": "一⋯⋯就⋯⋯（No sooner 置句首須倒裝，had 提到主詞前；後接 than）",
+        "errors": "No sooner the festival had ended than visitor numbers collapsed. — no inversion: had must come before the subject.\nNo sooner had the festival ended when visitor numbers collapsed. — sooner is a comparative, so it needs than; when belongs to Hardly and Scarcely.\nNo sooner had the festival ended than visitor numbers had collapsed. — the second clause takes past simple, not another past perfect.",
+        "collocations": "No sooner had X + past participle than Y + past simple; Hardly / Scarcely had X + past participle when Y + past simple; No sooner said than done (fixed expression)",
+        "why": "Its job is different from the other inversions in this deck (Not only, Only, Not until): it links two past events in sequence, and it fixes the tenses as past perfect first, then past simple. The link word is the trap. Sooner is a comparative, so it takes than, while Hardly and Scarcely take when. Chinese 一⋯⋯就⋯⋯ pulls you toward as soon as, which is correct but plain. Use it in a Task 2 example about a policy that backfired, or in a Speaking Part 2 story, and write the plain as-soon-as sentence first before inverting."
+      }
+    ]
+},
+12: {
+  cards: [
+        {
+          "id": "w-longevity",
+          "kind": "word",
+          "item": "longevity",
+          "pos": "noun (uncountable)",
+          "ipa": "/lɑnˈdʒɛvəti/",
+          "def": "Long life, or the fact of living or lasting for a long time. It names the phenomenon of living long, whereas life expectancy is the statistical average number of years.",
+          "example": "Rising longevity has forced several governments to raise the age at which citizens can claim a state pension.",
+          "zh": "長壽、壽命之長（強調活得久這件事，不等同於統計上的「平均餘命」）",
+          "collocations": "increased / rising longevity; gains in longevity; human longevity; the longevity of equipment",
+          "why": "Stress falls on the second syllable, lon-GEV-i-ty, and the g is pronounced /dʒ/ like j, not /g/ as the spelling tempts you to say. It is uncountable, so there is no a and no plural: rising longevity, never a longevity or longevities. Do not use it for the number itself: write life expectancy rose to 84, but longevity has increased when you describe the trend. It also works for objects, as in the longevity of a battery, which gives you a second use outside health topics."
+        },
+        {
+          "id": "w-allocate",
+          "kind": "word",
+          "item": "allocate",
+          "pos": "verb",
+          "ipa": "/ˈæləˌkeɪt/",
+          "def": "To distribute money, time or resources among uses or groups according to a decision or plan. It stresses that someone with authority chose who or what receives which share.",
+          "example": "Governments must decide how much of the health budget to allocate to preventive care rather than emergency treatment.",
+          "zh": "分配、撥給（有計畫地把預算或資源分給特定用途或對象）",
+          "collocations": "allocate funds / resources / a budget; allocate X to Y; allocate X for a purpose; resource allocation",
+          "why": "The frame is allocate + what + to + who or what receives it: allocate funds to rural clinics. Reversing it as allocate rural clinics funds is wrong, because the verb does not take two bare objects the way give does. Stress is on the first syllable, AL-lo-cate, but the noun allocation shifts stress to the third syllable, al-lo-CA-tion, and mixing the two up is a common Speaking slip. It differs from distribute, which is about handing out to many people, because allocate implies a prior decision by an authority, which is what a Task 2 sentence about public spending usually needs."
+        },
+        {
+          "id": "w-strain",
+          "kind": "word",
+          "item": "strain",
+          "pos": "noun / verb",
+          "ipa": "/streɪn/",
+          "def": "Pressure that makes a system, budget or relationship hard to sustain; as a verb, to push it close to its limit. Unlike burden, it implies that the limit is near, not just that the load is heavy.",
+          "example": "An ageing workforce places a growing strain on hospitals that are already short of staff.",
+          "zh": "壓力、負荷；使吃緊（讓系統或資源接近承受極限）",
+          "collocations": "put / place a strain on; under strain; strain on resources / the budget; strain the system",
+          "why": "The noun takes on for the thing under pressure: a strain on the health service, not strain of or strain to. The verb takes a direct object with no preposition, so write strain the budget, never strain on the budget. Chinese 緊張 covers both nervous and tight, so learners write I am strained about the exam; strain is for systems and resources, while people feel stressed. Under strain takes no article, but the countable noun after put does: put a strain on."
+        },
+        {
+          "id": "w-cohort",
+          "kind": "word",
+          "item": "cohort",
+          "pos": "noun (countable)",
+          "ipa": "/ˈkoʊˌhɔrt/",
+          "def": "A group of people who share a defining feature, usually the same birth years or the same start date, and who are tracked together in statistics. It is more precise than group because the shared feature is fixed.",
+          "example": "Each successive cohort born after 1960 is expected to live longer than the one before it.",
+          "zh": "同期群、同一批次人群（依出生年份或起始時間劃分的統計族群）",
+          "collocations": "birth cohort; age cohort; successive cohorts; cohort study; the youngest cohort",
+          "why": "Stress is on the first syllable, CO-hort, and the h is pronounced. Learners often stress the last syllable because of the ending. It is countable, and you should treat it as singular in writing: the cohort was tracked, not the cohort were. Do not use it for a loose set of people: a group of friends is not a cohort, since a cohort needs one criterion that defines membership. In Task 1 it lets you name an age band as the 25 to 34 cohort instead of repeating the group of people aged 25 to 34, and it links to the cohort studies in research-methods passages."
+        },
+        {
+          "id": "w-dwindle",
+          "kind": "word",
+          "item": "dwindle",
+          "pos": "verb (intransitive)",
+          "ipa": "/ˈdwɪndəl/",
+          "def": "To become steadily smaller, fewer or weaker over time. It describes a gradual and usually unwelcome decline, and the thing that shrinks is the subject.",
+          "example": "As birth rates fall, the number of working-age adults supporting each retiree continues to dwindle.",
+          "zh": "逐漸減少、縮小（緩慢而持續，通常帶有負面意味）",
+          "collocations": "dwindle to; dwindle from X to Y; dwindling numbers / resources / support; dwindle away",
+          "why": "It is intransitive, so it has no object and no passive: the population dwindled is correct, but dwindle the population is wrong, and you would need reduce for that. Use to for the endpoint, as in dwindled to fewer than 500. The dw- cluster is hard for Chinese speakers, who tend to insert a vowel and say duh-windle, so practise it as one sound. It is slower than plummet and more negative than decline, which lets you signal both speed and attitude with one verb."
+        },
+        {
+          "id": "p-draw-on",
+          "kind": "phrase",
+          "item": "draw on",
+          "pos": "verb phrase",
+          "ipa": "/drɔ ɑn/",
+          "def": "To make use of a store of something already built up, such as savings, experience or evidence. The source is a reserve that exists before you use it.",
+          "example": "Many retirees draw on their savings for a decade before any state support begins.",
+          "zh": "動用、利用（既有的儲備、經驗或資料）",
+          "collocations": "draw on savings / experience / research / evidence; draw heavily on; draw upon (more formal)",
+          "why": "The particle is on, and the object follows directly: draw on recent studies, not draw recent studies on. Draw upon is the formal variant, but draw from is a different pattern, used for taking something out of a container, as in draw water from a well. If you open a sentence with Drawing on, the subject of the main clause must be the one doing the drawing, or you create a dangling modifier. It replaces the flat use of use with a verb that tells the reader the source was already there."
+        },
+        {
+          "id": "p-be-at-odds-with",
+          "kind": "phrase",
+          "item": "be at odds with",
+          "pos": "verb phrase",
+          "ipa": "/bi æt ɑdz wɪð/",
+          "def": "To be in conflict or disagreement with something, so that the two cannot easily both be accepted. It is stronger than merely being different from.",
+          "example": "Policies that reward early retirement are likely to be at odds with the goal of a larger workforce.",
+          "zh": "與⋯⋯相衝突、相矛盾（兩者難以同時成立）",
+          "collocations": "be at odds with each other / with the evidence / with official policy; find itself at odds with",
+          "why": "Odds is always plural and fixed, so at odd with is wrong, and the preposition after it is with, never to or against. It fits policies, claims and findings, and also people, as in at odds with their parents, but not physical mismatches. It reports an inconsistency in one phrase, which is why it works well in an evaluation paragraph. Because it says the two cannot both hold, use it only when there is real contradiction, and choose differ from when there is not."
+        },
+        {
+          "id": "p-stand-to-gain",
+          "kind": "phrase",
+          "item": "stand to gain",
+          "pos": "verb phrase",
+          "ipa": "/stænd tu ɡeɪn/",
+          "def": "To be in a position where you are likely to gain something from a future event. The outcome is probable, not certain, and it has not happened yet.",
+          "example": "Rural communities stand to gain the most from remote-care technology.",
+          "zh": "有望獲益、可能因此得利（結果尚未發生，但機率很高）",
+          "collocations": "stand to gain / lose / benefit; stand to lose heavily; stand to gain from; those who stand to gain",
+          "why": "After stand to comes a bare infinitive, so stand to gain, never stand to gaining or stand to get benefit. It looks forward, so it describes expected results and not ones that have already happened. Name the source of the gain with from: stand to gain from the reform. The pair stand to gain and stand to lose lets you set out winners and losers of a policy in one balanced sentence, which is the structure a discussion essay needs."
+        },
+        {
+          "id": "g-the-number-of-a-number-of",
+          "kind": "grammar",
+          "item": "The number of / A number of",
+          "pos": "subject–verb agreement",
+          "ipa": "/ðə ˈnʌmbər əv/ · /ə ˈnʌmbər əv/",
+          "def": "After The number of, the head noun is number, so the verb is singular. After A number of, the phrase means several and the plural noun is the subject, so the verb is plural.",
+          "example": "The number of people aged over eighty is rising, and a number of them require full-time care.",
+          "zh": "the number of＝⋯⋯的數量（動詞用單數）；a number of＝一些、若干（動詞用複數）",
+          "collocations": "the number of X has risen / fallen; a growing number of X have; a small number of X are; the total number of X",
+          "why": "Chinese has no verb agreement and uses 數量 for both meanings, so the difference is invisible until you check it on purpose. The error costs marks in Task 1 because the number of is your natural topic subject and you repeat it in almost every sentence, so one habit becomes a recurring error in Grammatical Range and Accuracy. The test is to ask what the sentence is about: if it is about the quantity itself, use the number of and a singular verb; if it is about the things, use a number of and a plural verb. Adjectives such as large or growing come after a and keep the plural: a growing number of students have.",
+          "patterns": "The number of + plural noun + SINGULAR verb (is / has / was).\nA number of + plural noun + PLURAL verb (are / have / were).",
+          "errors": "The number of elderly people are rising. — number is the subject, so the verb must be singular: is rising.\nA number of studies has confirmed this. — a number of means several, so the verb is plural: have confirmed.\nA number of patient wait months for surgery. — the noun after a number of must be plural: patients."
+        }
+      ]
+},
+13: {
+  cards: [
+  {
+    "id": "w-disseminate",
+    "kind": "word",
+    "item": "disseminate",
+    "pos": "verb",
+    "ipa": "/dɪˈsɛməˌneɪt/",
+    "def": "To spread information, research findings or ideas widely to many people or organisations. Unlike spread, it implies deliberate distribution of something informational.",
+    "example": "Universities have a duty to disseminate their findings beyond academic journals.",
+    "zh": "傳播、散布（有意識地廣泛發布資訊或研究成果）",
+    "collocations": "disseminate information / findings / knowledge; widely disseminated; disseminate through social media; the dissemination of research",
+    "why": "Stress falls on the second syllable, dis-SEM-i-nate, and the verb ends in /eɪt/ while the noun dissemination keeps the same stressed syllable. It takes a direct object with no preposition: disseminate information, never disseminate about information. Chinese 傳播 covers both infections and ideas, so learners write that a virus was disseminated; the word is reserved for information and ideas, and you should use spread for disease. It lifts Lexical Resource in technology and media topics where spread appears in every sentence."
+  },
+  {
+    "id": "w-credibility",
+    "kind": "word",
+    "item": "credibility",
+    "pos": "noun (uncountable)",
+    "ipa": "/ˌkrɛdəˈbɪləti/",
+    "def": "The quality of being trusted and believed, usually because a source seems honest and well informed. It describes whether a source is believable, whereas reliability describes whether it gives consistent results.",
+    "example": "A single exaggerated headline can damage the credibility of an entire news outlet.",
+    "zh": "可信度、公信力（讓人願意相信的程度）",
+    "collocations": "lose / undermine / damage credibility; lend credibility to; credibility gap; a credible source",
+    "why": "Stress falls on the third syllable, cred-i-BIL-i-ty, and putting it on the first is the most common slip in Speaking Part 3. It is uncountable, so write damage credibility, never a credibility or credibilities. Learners also confuse the adjectives: credible means believable, whereas credulous means too ready to believe, and creditable means deserving praise. Using credibility instead of the vague trust gives you a precise noun for any media or research question."
+  },
+  {
+    "id": "w-ubiquitous",
+    "kind": "word",
+    "item": "ubiquitous",
+    "pos": "adjective",
+    "ipa": "/juˈbɪkwətəs/",
+    "def": "Present or found everywhere, so common that it seems impossible to avoid. It is stronger than common and usually describes a thing, not a person.",
+    "example": "Smartphones have become so ubiquitous that many teenagers cannot recall life without constant connectivity.",
+    "zh": "無所不在的、普遍存在的",
+    "collocations": "ubiquitous technology / presence; increasingly ubiquitous; become ubiquitous; ubiquitous in modern life",
+    "why": "The first sound is /ju/ as in you, so it is a ubiquitous device with a, not an. Stress falls on the second syllable, u-BIQ-ui-tous, and the qu is pronounced /kw/. It is a gradable-looking adjective but already means everywhere, so very ubiquitous and most ubiquitous are weaker than becoming ubiquitous. It compresses the clause that something is found everywhere into one word, which is exactly what Band 7.5 Lexical Resource looks for in a technology paragraph."
+  },
+  {
+    "id": "w-curate",
+    "kind": "word",
+    "item": "curate",
+    "pos": "verb",
+    "ipa": "/ˈkjʊˌreɪt/",
+    "def": "To select, organise and present content, such as information, a collection or a feed, with care and judgement. It is more selective than collect or gather.",
+    "example": "Algorithms curate each user's news feed, so two neighbours may see completely different versions of the same event.",
+    "zh": "策劃、精選並編排（內容、展覽或資訊）",
+    "collocations": "curate content / a collection / an exhibition; carefully curated; curated feed; algorithmically curated",
+    "why": "The verb is stressed on the first syllable, CUR-ate, with /kjʊ/ at the start; the noun curator is stressed on the second, cu-RA-tor. Learners know it only from museums, but modern essays use it for what social platforms do with information, which is a high-value Task 2 topic. It takes a direct object and no preposition: curate content, not curate for content. Using it signals that selection is happening and someone or something is making editorial choices, an argument point that choose or arrange cannot carry."
+  },
+  {
+    "id": "w-polarise",
+    "kind": "word",
+    "item": "polarise",
+    "pos": "verb",
+    "ipa": "/ˈpoʊləˌraɪz/",
+    "def": "To divide opinions or people into two sharply opposed groups, leaving little middle ground.",
+    "example": "Online platforms can polarise public debate by rewarding the most extreme voices.",
+    "zh": "使兩極化、使意見嚴重對立",
+    "collocations": "polarise opinion / debate / society; increasingly polarised; a polarised electorate; political polarisation",
+    "why": "The spelling follows British -ise, while American texts use polarize; both are accepted in IELTS provided you stay consistent throughout the script. Stress falls on the first syllable, PO-lar-ize, and it is a transitive verb, so say polarise opinion, but use the adjective polarised when nothing acts on the group. Chinese 兩極化 is often rendered as polarisation of two sides, which sounds redundant in English because the word already implies two poles. It is far more precise than the Band 6 phrase people disagree strongly."
+  },
+  {
+    "id": "p-play-a-pivotal-role-in",
+    "kind": "phrase",
+    "item": "play a pivotal role in",
+    "pos": "verb phrase",
+    "ipa": "/pleɪ ə ˈpɪvətl roʊl ɪn/",
+    "def": "To be the most important factor in making something happen or succeed. Pivotal is stronger than important because everything turns on it.",
+    "example": "Social media has played a pivotal role in how young people encounter the news.",
+    "zh": "在⋯⋯中扮演關鍵角色",
+    "collocations": "play a pivotal / crucial / key role in; play a pivotal role in shaping; a pivotal moment",
+    "why": "The verb is play and the preposition is in, so play a role in X, never play a role to X or play a role of X. After in, use a noun or an -ing form: play a pivotal role in shaping opinion, not in shape opinion. The role is countable, so keep the article a. Chinese 扮演重要角色 maps onto important role in every essay, and replacing it with pivotal avoids repeating the same collocation and lifts your Lexical Resource."
+  },
+  {
+    "id": "p-in-the-wake-of",
+    "kind": "phrase",
+    "item": "in the wake of",
+    "pos": "prepositional phrase",
+    "ipa": "/ɪn ðə weɪk əv/",
+    "def": "Following and often as a consequence of an important event, usually a negative one.",
+    "example": "In the wake of several data breaches, many users have deleted their accounts.",
+    "zh": "在⋯⋯之後、隨著⋯⋯而來（常指重大事件的後果）",
+    "collocations": "in the wake of the crisis / the scandal / the pandemic; in its wake; in the immediate wake of",
+    "why": "The fixed frame is in the wake of with the and of both obligatory, so in wake of and in the wake from are both wrong. It carries a causal link that after does not: after the scandal only gives a time order, while in the wake of implies the scandal triggered what followed. Because of that it is a cause-and-effect connector that gives Task 1 and Task 2 sentences without repeating because of or as a result. Use it for events, not for ordinary dates, and not with plain nouns like in the wake of Monday."
+  },
+  {
+    "id": "p-a-growing-body-of-evidence",
+    "kind": "phrase",
+    "item": "a growing body of evidence",
+    "pos": "noun phrase",
+    "ipa": "/ə ˈɡroʊɪŋ ˈbɑdi əv ˈɛvədəns/",
+    "def": "An increasing amount of research findings that point towards the same conclusion.",
+    "example": "A growing body of evidence suggests that heavy screen use disrupts adolescent sleep.",
+    "zh": "越來越多的證據（顯示）",
+    "collocations": "a growing body of evidence / research / literature; a substantial body of evidence; evidence suggests that",
+    "why": "Evidence is uncountable, so write a body of evidence, never evidences or a growing evidence. The phrase takes a singular subject, so the verb agrees with body: a growing body of evidence suggests, not suggest, a trap because evidence sits right next to the verb. Since it is cautious, pair it with suggests or indicates, not proves. It allows you to refer to research without inventing a study, which is exactly what examiners want in a Task 2 body paragraph that supports a claim."
+  },
+  {
+    "id": "g-rarely-seldom-inversion",
+    "kind": "grammar",
+    "item": "Rarely / Seldom + inversion",
+    "pos": "negative-adverbial inversion",
+    "ipa": "/ˈrɛrli/ · /ˈsɛldəm/",
+    "def": "When a negative frequency adverb opens the sentence, the auxiliary moves in front of the subject, in the same order as a question. It adds emphasis and a formal tone.",
+    "patterns": "Rarely / Seldom + auxiliary (do / does / did / have / has / is) + SUBJECT + verb.\nRarely do + SUBJECT + base verb; Rarely has + SUBJECT + past participle.",
+    "example": "Rarely do readers question the source of a story that confirms what they already believe.",
+    "zh": "鮮少⋯⋯（Rarely／Seldom 放句首時，助動詞須提到主詞前）",
+    "errors": "Rarely readers question the source. — the inversion is missing; write Rarely do readers question.\nRarely do readers questions the source. — after do the main verb stays in its base form: question.\nRarely do readers never question the source. — rarely is already negative, so adding never makes a double negative.",
+    "collocations": "Rarely do people...; Seldom has research shown...; Rarely is it the case that...; Seldom does X lead to Y",
+    "why": "Rarely and seldom are already negative, so the sentence needs no not and no never; adding either creates a double negative that Chinese speakers produce by habit. Choose the auxiliary from the tense of the plain sentence: simple present takes do or does, past takes did, perfect takes have or has, and the verb to be simply moves in front of the subject. It is a safer inversion than Not only because it needs just one clause, so use it for one claim in your conclusion or a comparison paragraph, and write the plain version first, then invert it."
+  }
+]
+},
+14: {
+  cards: [
+    {
+      "id": "w-arable",
+      "kind": "word",
+      "item": "arable",
+      "pos": "adjective",
+      "ipa": "/ˈɛrəbəl/",
+      "def": "Describes land that is suitable for growing crops, as opposed to grazing animals or building. It is almost always used before the noun \"land\".",
+      "example": "Each new housing estate on the city fringe removes arable land that cannot be replaced.",
+      "zh": "可耕種的（指適合種植農作物的土地）",
+      "collocations": "arable land; arable farming; arable crops; arable farmland; arable and pastoral",
+      "why": "Arable is an adjective only, so you cannot write \"the arable\" or \"arables\" for 耕地 the way Chinese uses 耕地 as a noun. Say arable land, which is uncountable: not \"an arable land\" and not \"arable lands\". The stress is on the first syllable, AIR-uh-bul, and learners who say a-RA-ble lose the word in Speaking Part 3. It is a precise upgrade on \"farmland\" in urbanisation and food-security essays because it says the land is fit for crops, not just used by farmers."
+    },
+    {
+      "id": "w-subsidise",
+      "kind": "word",
+      "item": "subsidise",
+      "pos": "verb",
+      "ipa": "verb /ˈsʌbsɪˌdaɪz/ · noun /ˈsʌbsɪdi/",
+      "def": "To pay part of the cost of something, usually with public money, so that it can be sold or used more cheaply. The noun is subsidy, and the two have different stress and endings.",
+      "example": "Many governments subsidise fertiliser so that smallholders can afford to plant a second crop.",
+      "zh": "補貼、資助（政府出錢降低成本）",
+      "collocations": "subsidise farmers / fuel / public transport; heavily subsidised; a government subsidy; subsidies for / on",
+      "why": "Subsidise takes the thing or group supported as a direct object, so write subsidise farmers, never \"subsidise to farmers\". The noun is countable, a subsidy, subsidies, and it takes for or on: a subsidy on fuel. The verb is -ise and the noun is -idy, so \"subsidy\" cannot be turned into \"subsidiation\". Stress is on the first syllable of both forms, and the verb ending is pronounced -dize, not -sidy. It lets you name a policy lever in one word instead of \"the government gives money to\"."
+    },
+    {
+      "id": "w-volatile",
+      "kind": "word",
+      "item": "volatile",
+      "pos": "adjective",
+      "ipa": "/ˈvɑlətəl/",
+      "def": "Liable to change suddenly and unpredictably, in either direction. It is stronger than \"unstable\" because it stresses the speed and violence of the swings.",
+      "example": "Volatile grain prices make it almost impossible for small farmers to plan a season ahead.",
+      "zh": "易變動的、劇烈波動的（起伏快而難預測）",
+      "collocations": "volatile prices / markets / weather; highly volatile; a volatile situation; price volatility",
+      "why": "Chinese 不穩定 covers both unstable and volatile, so learners use volatile for anything that is merely weak or poor. It needs swings up and down: prices, markets, exchange rates, weather, tempers. The American pronunciation ends in -tul, /ˈvɑlətəl/, not the British -tile that rhymes with while; use the first one for the en-us voice. The noun is volatility, and writing \"volatile of prices\" is the usual mistake with it."
+    },
+    {
+      "id": "w-staple",
+      "kind": "word",
+      "item": "staple",
+      "pos": "noun / adjective",
+      "ipa": "/ˈsteɪpəl/",
+      "def": "A food that forms the main, regular part of a population's diet, such as rice or wheat. Used before a noun it means main or standard.",
+      "example": "Rice remains the staple of the diet for more than half the world's population.",
+      "zh": "主食；主要的、基本的",
+      "collocations": "a staple food / crop / diet; the staple of the diet; staple commodity; a staple of",
+      "why": "As an adjective it never takes an -s: staple foods, staple crops, not \"staples foods\". As a noun it is countable and takes of: rice is a staple of the Asian diet. Do not confuse it with the office staple; the examiner will read a food context and accept only the diet meaning. It also tells the examiner you can separate main foods from \"food\" in general, which makes a food-security paragraph precise instead of vague."
+    },
+    {
+      "id": "w-scarcity",
+      "kind": "word",
+      "item": "scarcity",
+      "pos": "noun (uncountable)",
+      "ipa": "/ˈskɛrsəti/",
+      "def": "A lasting lack of something, where supply stays well below demand. It differs from \"shortage\", which suggests a temporary gap that can be fixed.",
+      "example": "Water scarcity is already forcing farmers in the region to abandon thirsty crops.",
+      "zh": "稀少、匱乏（長期供不應求）",
+      "collocations": "water / resource / food scarcity; scarcity of resources; face scarcity; chronic scarcity",
+      "why": "Take scarcity of, not scarcity for or in: the scarcity of water. In its common compounds it is uncountable, so write water scarcity, not \"a water scarcity\". The adjective is scarce, used with be, and it must not be swapped for scarcely, which means hardly. The trap is that Chinese 幾乎沒有 pulls learners towards scarcely when they mean scarce. Choose scarcity for a structural, long-run lack and shortage for a temporary gap, which is the distinction a Band 7.5 Lexical Resource mark rests on."
+    },
+    {
+      "id": "p-cushion-the-blow",
+      "kind": "phrase",
+      "item": "cushion the blow",
+      "pos": "verb phrase",
+      "ipa": "/ˈkʊʃən ðə bloʊ/",
+      "def": "To reduce the shock or harm of something unpleasant after it has arrived, without preventing it.",
+      "example": "Emergency grain reserves cushion the blow when a harvest fails.",
+      "zh": "緩和衝擊、減輕打擊",
+      "collocations": "cushion the blow of / for; cushion the impact; soften the blow; cushion the fall; cushion X against Y",
+      "why": "Cushion is transitive, so the blow is its object and there is no preposition between them: cushion the blow, not \"cushion against the blow\". If you add the cause, use of: cushion the blow of higher prices, or cushion households against rising prices. The blow is singular and takes the, so \"cushion blows\" sounds wrong. It is for the solution paragraph, when a measure softens a harm rather than removes it, which is a more honest and more Band 7.5 claim than \"solve\"."
+    },
+    {
+      "id": "p-a-heavy-reliance-on",
+      "kind": "phrase",
+      "item": "a heavy reliance on",
+      "pos": "noun phrase",
+      "ipa": "/ə ˈhɛvi rɪˈlaɪəns ɑn/",
+      "def": "A situation in which an economy or person depends too much on one thing and has no easy alternative.",
+      "example": "A heavy reliance on a single export crop leaves rural economies exposed to price shocks.",
+      "zh": "嚴重依賴⋯⋯",
+      "collocations": "a heavy reliance on imports / fossil fuels / one crop; over-reliance on; reduce our reliance on; reliant on",
+      "why": "The preposition is on, never of or to: reliance on, reliant on, rely on. Chinese 依賴於 pushes learners towards \"reliance to\". The family changes form but not the preposition, and you can switch between rely on, reliant on and reliance on to avoid repeating one. Heavy is the natural collocate, whereas \"big\" or \"high reliance\" sounds unnatural. Stress falls on -LI-, ruh-LY-uhns. It is more formal than \"depend on a lot\" and carries the negative judgement in a single phrase."
+    },
+    {
+      "id": "p-come-at-a-price",
+      "kind": "phrase",
+      "item": "come at a price",
+      "pos": "verb phrase",
+      "ipa": "/ˈkʌm ət ə ˈpraɪs/",
+      "def": "To bring a benefit that has a hidden or unwelcome cost attached. The cost may be named afterwards or left open.",
+      "example": "Cheap food has come at a price: intensive farming has degraded soil across the region.",
+      "zh": "要付出代價（好處背後有代價）",
+      "collocations": "come at a price; come at a high price; come at a cost to; at a price; the price of progress",
+      "why": "The subject is the benefit, not the people who pay: progress comes at a price. Do not mix it with pay the price, where a person is the subject and suffers a consequence. The preposition is at and the noun is singular with a, so \"come at the price\" or \"come with a price\" are both off. It differs from at the expense of, which names the victim in the phrase; come at a price leaves the cost to the next clause. A colon after it is the natural way to introduce your supporting example."
+    },
+    {
+      "id": "g-much-as-concession",
+      "kind": "grammar",
+      "item": "Much as + concession",
+      "pos": "concessive clause",
+      "ipa": "/mʌtʃ æz/",
+      "def": "\"Much as\" opens a clause meaning \"although I/they very much do this\", and the main clause then gives the opposing view. It works with verbs of feeling or wanting such as admire, want, like or sympathise.",
+      "patterns": "Much as + SUBJECT + feeling verb (+ object), SUBJECT + main clause.\nMuch as + SUBJECT + want/admire/wish + to + verb, SUBJECT + contrasting claim.",
+      "example": "Much as governments want to protect farmers, blanket subsidies tend to distort the market they are meant to support.",
+      "zh": "儘管（再怎麼）⋯⋯，仍⋯⋯（讓步句，後面不加 but）",
+      "errors": "Much as governments want to protect farmers, but subsidies distort prices. — no but: the comma already carries the contrast, as with although.\nMuch as the high cost of fuel, farmers keep going. — it needs a subject plus a finite verb of feeling, not a bare noun phrase.\nMuch as governments wanting to protect farmers, subsidies distort prices. — the verb must be finite: wanting is not allowed.",
+      "collocations": "Much as I admire X, ...; Much as it pains me to admit, ...; Much as governments want to ...; Much as we would like to ...",
+      "why": "Chinese 雖然⋯⋯但是⋯⋯ trains you to add but after the first clause, and in English Much as, like although, never takes a but in the same sentence. Do not confuse it with as much as, which means equally, or just as, which means in the same way. It is the neatest way to concede an opposing view in the first sentence of a body paragraph, and a concession that keeps your own position in the main clause is exactly what a \"discuss both views\" task asks for. Keep it to verbs of feeling or wanting; \"Much as the price is high\" is not natural."
+    }
+  ]
+},
+15: {
+  cards: [
+    {
+      "id": "w-deter",
+      "kind": "word",
+      "item": "deter",
+      "pos": "verb",
+      "ipa": "/dɪˈtɜr/",
+      "def": "To discourage someone from acting by making them fear the consequences. It works before the act, whereas punish comes after it.",
+      "example": "Harsh sentences alone rarely deter offenders who do not expect to be caught.",
+      "zh": "阻止、威懾（使人因懼怕後果而不敢做）",
+      "collocations": "deter crime / offenders / potential criminals; deter X from doing Y; a deterrent effect; act as a deterrent",
+      "why": "The frame is deter someone from + -ing: deter people from offending, never deter people to offend. Chinese 阻止 covers prevent, stop and deter at once, but deter means scaring off by the threat of consequences, so deter drivers from speeding is right and deter a flood is wrong. Stress is on the second syllable, de-TER, and the final r doubles before an ending: deterred, deterring, while the noun is deterrent. In a crime essay it names why a punishment exists, which is a sharper claim than the vague reduce crime."
+    },
+    {
+      "id": "w-rehabilitate",
+      "kind": "word",
+      "item": "rehabilitate",
+      "pos": "verb",
+      "ipa": "/ˌrihəˈbɪləˌteɪt/",
+      "def": "To help someone return to a normal, productive life after prison, addiction or illness, usually through training or treatment. It aims to change the person, not merely to hold them.",
+      "example": "Prisons that rehabilitate offenders through vocational training see fewer people return to crime.",
+      "zh": "使更生、使復原（協助重返正常生活）",
+      "collocations": "rehabilitate offenders / prisoners / addicts; a rehabilitation programme; successfully rehabilitated; rehabilitation centre",
+      "why": "The object is the person with no preposition: rehabilitate offenders, never rehabilitate to society. The return-to-society idea is already inside the verb, so adding back into society is redundant. Stress falls on the third syllable, re-ha-BIL-i-tate, and it moves to the fifth in the noun, rehabilitation. Chinese 改造 sounds like forced correction, so learners write reform, but rehabilitate implies support rather than discipline and is the neutral choice. Set it against punish in one sentence and you have the standard punishment-versus-rehabilitation contrast."
+    },
+    {
+      "id": "w-recidivism",
+      "kind": "word",
+      "item": "recidivism",
+      "pos": "noun (uncountable)",
+      "ipa": "/rɪˈsɪdɪˌvɪzəm/",
+      "def": "The tendency of a convicted offender to commit crime again after release. As a statistic, it is the share of released prisoners convicted again within a set period.",
+      "example": "Countries that invest in education behind bars report lower recidivism than those that rely on long sentences alone.",
+      "zh": "累犯率、再犯傾向",
+      "collocations": "reduce / lower recidivism; the recidivism rate; high rates of recidivism; a recidivist (the person)",
+      "why": "It is uncountable, so write high recidivism or the recidivism rate, never a recidivism or recidivisms. The behaviour is recidivism and the person is a recidivist, and mixing those up is the usual slip. Stress falls on the second syllable, re-CID-i-vism, and the c is /s/, not /k/. Chinese 再犯 is a verb phrase, so learners write the rate of reoffending, which is fine, but recidivism puts the whole statistic into one noun that can be a subject. It is the outcome measure any rehabilitation argument is judged on."
+    },
+    {
+      "id": "w-punitive",
+      "kind": "word",
+      "item": "punitive",
+      "pos": "adjective",
+      "ipa": "/ˈpjunətɪv/",
+      "def": "Intended as punishment. A punitive policy aims to make people suffer for wrongdoing rather than to change behaviour or repair harm.",
+      "example": "A purely punitive approach to youth crime ignores the poverty that often drives it.",
+      "zh": "懲罰性的（重在使人受苦，而非矯正）",
+      "collocations": "punitive measures / sentences / damages / taxes; a punitive approach; overly punitive",
+      "why": "Do not swap it with punishing: a punitive policy is designed to punish, while a punishing schedule is simply exhausting. The first syllable is /pjun/, like pune in puny, and learners who say /pʌn/ lose the word in Speaking. It carries a negative judgement of the policy, so use it when you are criticising and choose strict or stringent (Day 3) when you want neutral. It sets up the natural pair with rehabilitative in a discuss-both-views essay."
+    },
+    {
+      "id": "w-lenient",
+      "kind": "word",
+      "item": "lenient",
+      "pos": "adjective",
+      "ipa": "/ˈliniənt/",
+      "def": "Less strict than expected in applying punishment or rules, showing a willingness to forgive. It describes a person, court or penalty, and can be praise or criticism depending on the context.",
+      "example": "Critics say courts are too lenient with repeat offenders, yet the evidence for harsher sentences is weak.",
+      "zh": "寬大的、從輕處理的（可褒可貶）",
+      "collocations": "a lenient sentence / approach / judge; too lenient; be lenient with / towards offenders; lenient on crime; leniency (noun)",
+      "why": "The safe frames are lenient with, towards or on, so lenient with offenders and lenient on crime are both correct. The noun is leniency, which is the form that carries the argument: courts show leniency. Stress is on the first syllable, LEE-nee-ent, and learners often insert an extra syllable and say len-i-ent. It is the natural opposite of stringent (Day 3) and of punitive in this set, so it lets you build a spectrum of severity with three precise words instead of repeating strict and soft."
+    },
+    {
+      "id": "p-address-the-root-causes-of",
+      "kind": "phrase",
+      "item": "address the root causes of",
+      "pos": "verb phrase",
+      "ipa": "/əˈdrɛs ðə rut ˈkɔzəz əv/",
+      "def": "To deal with the underlying reasons a problem exists, not just its visible symptoms.",
+      "example": "Building more prisons does not address the root causes of crime, such as unemployment and poor housing.",
+      "zh": "從根本原因著手處理、治本",
+      "collocations": "address the root causes of crime / poverty / inequality; tackle the root causes of; treat the symptoms rather than the cause",
+      "why": "Causes is plural and fixed after root, because problems usually have several: use the root cause of X only when you claim exactly one. After of, put a noun or an -ing form: root causes of crime, not root causes for crime. Chinese 治本 tempts the verb treat, which sounds medical, while address and tackle are the standard verbs. It builds the symptoms-versus-causes contrast for a solution paragraph: mitigate the effects (Day 1), address the causes."
+    },
+    {
+      "id": "p-take-a-hard-line-on",
+      "kind": "phrase",
+      "item": "take a hard line on",
+      "pos": "verb phrase",
+      "ipa": "/teɪk ə hɑrd laɪn ɑn/",
+      "def": "To adopt a strict, uncompromising policy towards something or someone, refusing to make exceptions.",
+      "example": "Governments that take a hard line on drug possession often fill their prisons without reducing drug use.",
+      "zh": "對⋯⋯採取強硬立場（毫不通融）",
+      "collocations": "take a hard line on crime / immigration / corruption; a hard-line approach; take a softer line; adopt a tougher stance on",
+      "why": "The preposition is on, and line stays singular with a. Hyphenate only when it modifies a noun: a hard-line policy, but take a hard line with no hyphens. Chinese 強硬路線 pulls learners to a strong line, but English wants hard or tough. The phrase describes the policy, not whether it works, so follow it with evidence, as the example does."
+    },
+    {
+      "id": "p-turn-a-blind-eye-to",
+      "kind": "phrase",
+      "item": "turn a blind eye to",
+      "pos": "verb phrase",
+      "ipa": "/tɜrn ə blaɪnd aɪ tu/",
+      "def": "To pretend not to notice something wrong, usually because acting on it would be inconvenient. The ignoring is deliberate.",
+      "example": "Some employers turn a blind eye to illegal overtime because the extra output boosts profits.",
+      "zh": "對⋯⋯視而不見、睜一隻眼閉一隻眼",
+      "collocations": "turn a blind eye to the problem / abuses / corruption; authorities turned a blind eye; deliberately ignore",
+      "why": "Eye stays singular: Chinese 睜一隻眼閉一隻眼 describes two eyes, but English keeps just one blind eye, so turn a blind eye, never turn blind eyes. The preposition is to, followed by a noun or an -ing form: turn a blind eye to cheating, not to cheat. It implies choice, so it is wrong for someone who genuinely did not know, where ignore or overlook is safer. It is acceptable in formal writing as criticism of authorities or employers."
+    },
+    {
+      "id": "g-had-inversion",
+      "kind": "grammar",
+      "item": "Had + subject + past participle",
+      "pos": "inverted third conditional",
+      "ipa": "/hæd/",
+      "def": "A formal conditional about the unreal past. If is dropped and had moves in front of the subject, describing how a past situation would have turned out differently.",
+      "patterns": "Had + SUBJECT + past participle, SUBJECT + would / could / might + have + past participle.\nHad + SUBJECT + not + past participle, SUBJECT + would + have + past participle.",
+      "example": "Had the prison invested in training, fewer inmates would have reoffended within a year.",
+      "zh": "若當初⋯⋯就會⋯⋯（省略 if 的過去假設倒裝，had 提到主詞前）",
+      "errors": "Had the prison invest in training, fewer inmates would have reoffended. — after had + subject the verb must be a past participle: invested.\nHad the prison invested in training, fewer inmates would reoffend. — the result clause needs would have + past participle, not a present-form result.\nHadn't the prison invested in training, ... — the negative goes after the subject: Had the prison not invested; fronting hadn't is not used in formal writing.",
+      "collocations": "Had X done Y, Z would have ...; Had it not been for X, ...; Had they known, ...; Were X to ... / Should X ... (the present and future versions)",
+      "why": "Day 3's Were-to and Day 7's Were-it-not-for look forward or sit in the present, while this one looks backward, so both halves need the perfect: Had + participle, then would have + participle. Mixing a past if-half with a present result, as in the second error above, is the usual failure. Chinese marks the unreal past with context rather than tense, so the two perfect forms have to be built by rule. Use it once per essay to show a past policy failure with real evidence, writing the plain if sentence first and then dropping if and inverting."
+    }
+  ]
+},
+16: {
+  cards: [
+      {
+        "id": "w-intermittent",
+        "kind": "word",
+        "item": "intermittent",
+        "pos": "adjective",
+        "ipa": "/ˌɪntərˈmɪtənt/",
+        "def": "Stopping and starting at irregular intervals rather than running continuously. It differs from occasional in that the interruptions are a built-in feature of how the thing works.",
+        "example": "Solar and wind output is intermittent, so a grid that relies on them needs storage or back-up capacity.",
+        "zh": "間歇性的、時斷時續的（中斷是其運作特性）",
+        "collocations": "intermittent supply / power / rainfall; intermittent sources of energy; intermittent fasting; intermittently (adverb)",
+        "why": "Stress falls on the third syllable, in-ter-MIT-tent, and learners who stress the first lose the word in Speaking. The spelling doubles the t and ends in -ent, not -ant. Chinese 間歇 and 偶爾 blur together, so students write occasional energy, but intermittent says the supply itself keeps cutting out, which is the real problem with renewables. It is the standard adjective in any energy essay and a precise replacement for unstable or unreliable."
+      },
+      {
+        "id": "w-decarbonise",
+        "kind": "word",
+        "item": "decarbonise",
+        "pos": "verb",
+        "ipa": "/diˈkɑrbəˌnaɪz/",
+        "def": "To reduce or remove the carbon dioxide emissions produced by an economy, a sector or a process. The object is the system being cleaned up, not the gas itself.",
+        "example": "Heavy industry is the hardest sector to decarbonise because steelmaking needs temperatures that electricity struggles to reach.",
+        "zh": "去碳化、減少碳排放（對象是產業或經濟體）",
+        "collocations": "decarbonise the economy / transport / the grid / heavy industry; decarbonisation (noun); a decarbonised power sector",
+        "why": "The object is the sector, never the gas: decarbonise transport is right, decarbonise emissions is wrong, and for the gas you say cut or reduce emissions. The spelling is -ise in British style and -ize in American; IELTS accepts either if you stay consistent. Stress is on the first syllable after the prefix, dee-CAR-bon-ize, and the noun adds a syllable: decarbonisation. It packs a whole clause (reduce the carbon our economy produces) into one verb, which is exactly the compression Lexical Resource rewards at Band 7.5."
+      },
+      {
+        "id": "w-retrofit",
+        "kind": "word",
+        "item": "retrofit",
+        "pos": "verb / noun",
+        "ipa": "verb /ˈrɛtroʊˌfɪt/ · noun /ˈrɛtroʊˌfɪt/",
+        "def": "To add new technology or equipment to something already built, so that it meets a modern standard. It improves what exists instead of replacing it.",
+        "example": "It is cheaper to retrofit older housing with insulation than to demolish it and build again.",
+        "zh": "（對既有建築或設備）加裝新設備、改造翻新",
+        "collocations": "retrofit buildings / homes / power stations; retrofit with insulation / solar panels; a retrofit programme; retrofitted",
+        "why": "Retrofit takes a direct object and the new feature follows with: retrofit homes with insulation, not retrofit insulation to homes. The past form is retrofitted (the doubled t), and both the verb and noun are stressed on the first syllable, RET-ro-fit, with no stress shift to learn. Chinese 改裝 and 翻新 both exist, which is why students write renovate or renew, but those mean restoring or replacing, whereas retrofit means upgrading what is there with something new. It is the precise verb for a Task 2 solution about old buildings or infrastructure."
+      },
+      {
+        "id": "w-viable",
+        "kind": "word",
+        "item": "viable",
+        "pos": "adjective",
+        "ipa": "/ˈvaɪəbəl/",
+        "def": "Able to work successfully in practice, especially in economic or practical terms. It asks whether something can actually succeed, whereas possible only asks whether it can happen.",
+        "example": "Large-scale battery storage has only recently become a commercially viable way to smooth out renewable supply.",
+        "zh": "可行的、行得通的（實際上能成功運作）",
+        "collocations": "a viable alternative / option / solution; commercially / economically viable; financially viable; viability (noun)",
+        "why": "Viable is not a synonym for possible: a plan can be possible and still not viable, because the cost or support is missing. The pair to learn is viable alternative, never possible alternative when you mean workable. Stress is on the first syllable, VY-a-ble, and learners often add an extra syllable and say vi-a-BLE. It also tells the examiner you are evaluating a policy against evidence, which is the move that lifts a Task 2 argument above Band 6.5."
+      },
+      {
+        "id": "w-scalable",
+        "kind": "word",
+        "item": "scalable",
+        "pos": "adjective",
+        "ipa": "/ˈskeɪləbəl/",
+        "def": "Able to be expanded to a much larger size or volume without losing efficiency or being too costly. It is the question to ask of a successful pilot project.",
+        "example": "A pilot scheme that works in one village is not automatically scalable to a whole country.",
+        "zh": "可擴展的、可大規模推行的",
+        "collocations": "a scalable solution / model / technology; easily scalable; scale up; economies of scale; scalability (noun)",
+        "why": "The adjective is scalable and the noun is scalability; do not write scale-able or scalement. The phrasal verb is scale up, with the particle, and the opposite is scale down. Chinese 可擴大 leads students to write expandable, which sounds physical, while scalable carries the sense of growing without a rise in cost per unit. Use it when a Task 2 solution works locally but you need to argue it can reach everyone, because it lets you raise the obvious objection and answer it in one word."
+      },
+      {
+        "id": "p-phase-out",
+        "kind": "phrase",
+        "item": "phase out",
+        "pos": "phrasal verb",
+        "ipa": "/feɪz aʊt/",
+        "def": "To stop using or producing something gradually in stages, rather than abruptly. The gradual timetable is built into the meaning.",
+        "example": "Several countries have pledged to phase out coal-fired power stations by 2035.",
+        "zh": "逐步淘汰、分階段停用",
+        "collocations": "phase out coal / subsidies / plastic bags; phase out gradually; a phased withdrawal; phase in (the opposite)",
+        "why": "It is separable: phase out coal or phase coal out both work, but with a pronoun the particle must go last, so phase it out, never phase out it. Its opposite is phase in, so a policy can be phased in over five years. Chinese 逐步淘汰 is one verb, so learners reach for eliminate, which suggests a sudden removal and loses the gradual timetable. It is a short, exact way to describe a policy with a transition period, which is what most government-action questions want."
+      },
+      {
+        "id": "p-be-locked-into",
+        "kind": "phrase",
+        "item": "be locked into",
+        "pos": "verb phrase (passive)",
+        "ipa": "/bi lɑkt ˈɪntu/",
+        "def": "To be committed to a course of action or system that is difficult or expensive to change later. It stresses the lack of an easy way out.",
+        "example": "Without reform, cities will be locked into high-emission transport for decades.",
+        "zh": "被套牢於、被鎖定在（難以抽身的做法或系統）",
+        "collocations": "be locked into a contract / a pattern / fossil fuels; locked into dependence on; lock-in effect",
+        "why": "The preposition is into, not in: locked into a contract, because it describes entering the situation. It is normally passive or reflexive, so write the city is locked into, not the policy locks the city, unless you name who does the locking. Chinese 被套牢 is a financial metaphor, and students sometimes translate it as trapped in, which is wrong in collocation, so keep locked into. It carries the idea that early decisions cost more later, which is a sharp reason for acting now in a Task 2 conclusion."
+      },
+      {
+        "id": "p-a-stopgap-measure",
+        "kind": "phrase",
+        "item": "a stopgap measure",
+        "pos": "noun phrase",
+        "ipa": "/ə ˈstɑpˌɡæp ˈmɛʒər/",
+        "def": "A temporary solution used to deal with an urgent problem until a proper long-term answer is found. It is usually offered as a criticism: the measure does not solve the underlying cause.",
+        "example": "Subsidising fuel is a stopgap measure that delays rather than solves the underlying shortage.",
+        "zh": "權宜之計、臨時應急措施",
+        "collocations": "a stopgap measure / solution / answer; as a stopgap; merely a stopgap; a short-term fix",
+        "why": "Stopgap is one word, with the stress on the first syllable, STOP-gap, and it works as a noun or as a modifier: a stopgap, or a stopgap measure. Do not write stop-gap-measure with a gap between, and do not add an s to measure unless the noun is plural. Chinese 權宜之計 is neutral, but the English phrase is usually mildly negative, which is why it fits the criticism half of a discuss-both-views essay. It pairs with long-term, so a short-term stopgap and a lasting solution can share one sentence."
+      },
+      {
+        "id": "g-mandative-subjunctive",
+        "kind": "grammar",
+        "item": "It is essential that + subject + base verb",
+        "pos": "mandative subjunctive",
+        "ipa": "/ɪt ɪz ɪˈsɛnʃəl ðæt/",
+        "def": "After adjectives and verbs of necessity or recommendation, the verb in the that-clause stays in the base form, whatever the subject. There is no -s for third person and no tense change.",
+        "patterns": "It is + essential / vital / crucial / imperative / desirable + that + SUBJECT + base verb.\nSUBJECT + insist / recommend / demand / propose + that + SUBJECT + (not) + base verb.",
+        "example": "It is essential that governments invest in grid storage before more coal plants close.",
+        "zh": "以 essential、vital、recommend 等表示必要或建議時，that 子句動詞用原形（不加 -s，也不變時態）",
+        "errors": "It is essential that the government invests in storage. — after essential that the verb is base form: invest, with no -s.\nIt is essential that the government should to invest in storage. — do not add to after should; the pattern is should + base verb, or just the base verb.\nIt is essential that the government did not ignore the grid. — past tense changes the meaning; use the base form: not ignore.",
+        "collocations": "It is vital that ... be; It is crucial that he/she/it do ...; recommend that the government adopt; insist that every student attend",
+        "why": "This is a Grammatical Range marker that sounds formal without being risky, because the rule is simpler than inversion: the verb just drops its -s. The commonest error is the third-person -s, since Chinese has no verb inflection and learners add it by habit to sound correct. Negatives use not directly before the verb: that the government not ignore, with no do. The British alternative with should (It is essential that the government should invest) is also acceptable, so pick one and stay consistent. Use it once in your solution paragraph to state what must happen."
+      }
+    ]
+},
+17: {
+  cards: [
+    {
+      "id": "w-autonomy",
+      "kind": "word",
+      "item": "autonomy",
+      "pos": "noun (uncountable)",
+      "ipa": "/ɔˈtɑnəmi/",
+      "def": "The freedom and ability to make your own decisions and manage your own affairs without being controlled by others. It is about decision-making power, which separates it from independence, the broader state of needing no help.",
+      "example": "Teenagers who are given some autonomy over their study schedules tend to take more responsibility for their results.",
+      "zh": "自主、自主權（自行做決定的自由與能力，不同於「獨立」）",
+      "collocations": "personal / financial autonomy; autonomy over / in; give or grant autonomy; autonomous (adjective)",
+      "why": "Stress falls on the second syllable, au-TON-o-my, and learners who stress the first syllable like \"auto\" lose the word in Speaking. In this sense it is uncountable, so write give children autonomy, never an autonomy or autonomies. The preposition is over or in: autonomy over their schedules; the pattern autonomy of belongs to institutions and regions, as in the autonomy of a university. Chinese 自主 and 自立 both slide towards independence, but independence says nobody needs help while autonomy says the person decides, and that distinction makes a parenting or education argument precise."
+    },
+    {
+      "id": "w-instil",
+      "kind": "word",
+      "item": "instil",
+      "pos": "verb",
+      "ipa": "/ɪnˈstɪl/",
+      "def": "To introduce a quality, habit or belief into someone's mind gradually, through repeated influence, until it becomes part of how they think or behave. It suggests slow absorption, whereas teach can be a single lesson.",
+      "example": "Primary schools can instil the habit of reading for pleasure long before exams begin to matter.",
+      "zh": "逐漸灌輸、使（品格、習慣）深植心中",
+      "collocations": "instil discipline / confidence / values in children; instil a sense of responsibility; instil fear in",
+      "why": "The frame is instil + quality + in (or into) + person: instil confidence in pupils, never instil pupils with confidence, which is the pattern for imbue. Spelling splits by variety: British instil has one l, American instill has two, and both give instilled in the past, so pick one and keep it. Stress is on the second syllable, in-STIL. The object must be a quality, habit or value, not a fact: you teach a date but you instil a value, which is why the verb fits discipline, curiosity and respect."
+    },
+    {
+      "id": "w-nurture",
+      "kind": "word",
+      "item": "nurture",
+      "pos": "verb / noun (uncountable)",
+      "ipa": "/ˈnɜrtʃər/",
+      "def": "To care for something and encourage its growth over time, especially a child, a talent or a relationship. As a noun it means the care and environment a person receives, as opposed to nature, the traits they are born with.",
+      "example": "Good teachers nurture curiosity instead of rewarding only the correct answer.",
+      "zh": "養育、培育；（名詞）後天養育環境，與先天 nature 相對",
+      "collocations": "nurture talent / creativity / curiosity; nature versus nurture; a nurturing environment; nurture a child",
+      "why": "The verb takes a direct object with no preposition: nurture talent, never nurture for talent. The noun is uncountable and lives almost entirely in the fixed pair nature versus nurture, with nature first. The adjective is nurturing, and it describes environments or people, not skills. Chinese 培養 covers train, cultivate and nurture, but nurture adds patience and care, so use train for skills built by drills. The ending is /tʃər/, not /tjʊr/, so it is NUR-cher, not nur-tyure."
+    },
+    {
+      "id": "w-detrimental",
+      "kind": "word",
+      "item": "detrimental",
+      "pos": "adjective",
+      "ipa": "/ˌdɛtrəˈmɛntl/",
+      "def": "Causing harm or damage, usually gradually and as a side effect rather than through direct attack. It is more formal than harmful and is almost always followed by to.",
+      "example": "Excessive homework can be detrimental to the sleep and mental health of young students.",
+      "zh": "有害的、不利的（多指逐漸或間接造成的損害）",
+      "collocations": "detrimental to health / development / performance; a detrimental effect on; potentially detrimental",
+      "why": "The adjective takes to, never for or on: detrimental to health. The on belongs to the noun frame, a detrimental effect on health, and mixing the two frames is the usual slip. Stress falls on the third syllable, det-ri-MEN-tal, and the final syllable is a weak /tl/. Its noun detriment is nearly fixed in to the detriment of, with of and no plural. It suits harm to a process or outcome (to learning, to development) better than harm to a person, where harmful reads more naturally."
+    },
+    {
+      "id": "w-adolescent",
+      "kind": "word",
+      "item": "adolescent",
+      "pos": "noun / adjective",
+      "ipa": "/ˌædəˈlɛsənt/",
+      "def": "A young person in the stage between childhood and adulthood, roughly ten to nineteen; as an adjective, relating to that stage. It is a developmental, research-style term, whereas teenager is only an age label for thirteen to nineteen.",
+      "example": "Adolescent brains are still developing, which helps explain why peer approval carries so much weight.",
+      "zh": "青少年（的）、青春期的（偏發展與研究用語，不同於泛稱的 teenager）",
+      "collocations": "adolescent development / behaviour / brain; during adolescence; adolescents aged 12 to 17; adolescent mental health",
+      "why": "Stress falls on the third syllable, ad-o-LES-cent, and the c is /s/, so /ædəˈlɛskənt/ is wrong. Keep the word family straight: adolescent is the person or adjective, while adolescence is the stage, uncountable, as in during adolescence with no article. Chinese 青少年 maps to teenager in conversation, but in a research or policy paragraph adolescent moves you into the register examiners expect. As a noun it is normally plural, adolescents, when you describe a group in a study."
+    },
+    {
+      "id": "p-lay-the-foundations-for",
+      "kind": "phrase",
+      "item": "lay the foundations for",
+      "pos": "verb phrase",
+      "ipa": "/leɪ ðə faʊnˈdeɪʃənz fɔr/",
+      "def": "To create the basic skills or conditions on which later development can be built. Unlike pave the way for, which removes obstacles, it stresses building a base that later growth rests on.",
+      "example": "Strong early reading habits lay the foundations for success in every other school subject.",
+      "zh": "為⋯⋯奠定基礎",
+      "collocations": "lay the foundations for success / growth / learning; lay solid foundations; lay the groundwork for",
+      "why": "Foundations is plural in this idiom, and lay the foundation of is the drift to avoid, since foundation of belongs to describing what something rests on. The preposition is for, followed by the later thing that gets built. The verb is lay, laid, laid, and learners often write lied or layed, so say laid the foundations. Chinese 打好基礎 pulls towards make a good base, but lay is the only verb that works here. It names early cause and later effect in one phrase, which suits an education or childhood essay."
+    },
+    {
+      "id": "p-go-hand-in-hand-with",
+      "kind": "phrase",
+      "item": "go hand in hand with",
+      "pos": "verb phrase",
+      "ipa": "/ɡoʊ hænd ɪn hænd wɪð/",
+      "def": "To occur together and be closely linked, so that one usually comes with the other. It does not say which one causes the other.",
+      "example": "Greater autonomy should go hand in hand with clearer responsibilities.",
+      "zh": "與⋯⋯密不可分、相伴而行",
+      "collocations": "go hand in hand with; X and Y go hand in hand; progress goes hand in hand with; walk hand in hand",
+      "why": "Hand stays singular in both places: hand in hand, never hands in hands. When two things are the subject, drop the with: rising wealth and rising expectations go hand in hand. The verb agrees with the subject, so a singular subject needs goes. Because it claims a link without a direction, it is a safer verb than cause in a Task 2 sentence about correlated trends, and it sits naturally after a should to state what policy must pair together."
+    },
+    {
+      "id": "p-a-sense-of-belonging",
+      "kind": "phrase",
+      "item": "a sense of belonging",
+      "pos": "noun phrase",
+      "ipa": "/ə sɛns əv bɪˈlɔŋɪŋ/",
+      "def": "The feeling of being accepted as part of a group, school or community. It describes an emotional state, not simple membership.",
+      "example": "Children who feel a sense of belonging at school are less likely to skip lessons.",
+      "zh": "歸屬感",
+      "collocations": "foster / develop a sense of belonging; a strong sense of belonging; a sense of belonging to a community; lack a sense of belonging",
+      "why": "Belonging here is an uncountable gerund, so never write a sense of belongings: belongings in the plural means possessions, a different word. The group follows with to: a sense of belonging to the team. Stress falls on the second syllable of belonging, be-LONG-ing. Chinese 歸屬感 maps neatly, so meaning is not the risk; the plural -s and the missing article before sense are. It gives you a precise psychological cause in one phrase when you explain why clubs, schools or communities reduce isolation."
+    },
+    {
+      "id": "g-should-inversion",
+      "kind": "grammar",
+      "item": "Should + subject + base verb",
+      "pos": "inverted first conditional",
+      "ipa": "/ʃʊd/",
+      "def": "A formal conditional about a possible future event, in which if is dropped and should moves in front of the subject. Should signals that the event is possible but not expected, which sounds more tentative and formal than if.",
+      "patterns": "Should + SUBJECT + base verb, SUBJECT + will / can / may / must + base verb.\nShould + SUBJECT + fail / happen / wish + to + base verb, SUBJECT + will / may + base verb.",
+      "example": "Should parents fail to set clear limits, children may struggle to regulate their own behaviour later in life.",
+      "zh": "萬一⋯⋯的話（省略 if 的正式假設，should 提到主詞前，表示可能性不高但仍可能發生）",
+      "errors": "Should parents fails to set limits, children may struggle. — after should and the subject the verb is the base form: fail, even for a third-person subject.\nShould parents to fail to set limits, children may struggle. — no to after should; the verb follows directly.\nIf should parents fail to set limits, children may struggle. — if and inversion never appear together; drop if.",
+      "collocations": "Should you require X, ...; Should X occur, ...; Should there be any doubt, ...; Should anything go wrong, ...",
+      "why": "Day 3's Were-to and Day 15's Had inversion both describe unreal situations, so their result clauses use would. Should describes a real possibility, so the result clause takes will, may, can or must: Should the school close, parents will need alternative care. Using would here is the usual mix-up. Chinese has no verb inflection, so learners add -s to the verb after a third-person subject, and with inversion that error is very visible. Use it once, in your solution paragraph, and write the plain if sentence first before you drop if and move should."
+    }
+  ]
+},
+18: {
+  cards: [
+      {
+            "id": "w-heritage",
+            "kind": "word",
+            "item": "heritage",
+            "pos": "noun (uncountable)",
+            "ipa": "/ˈhɛrətɪdʒ/",
+            "def": "Buildings, traditions, landscapes and customs inherited from the past that a society values and wants to pass on. It is broader than history, because it covers what is still preserved and still meaningful today, not just what happened.",
+            "example": "Many old towns now depend on cultural heritage to attract visitors, yet the same visitors can damage what they come to see.",
+            "zh": "（文化）遺產、傳承（指仍被保存、仍有價值的過去事物，不同於單純的「歷史」）",
+            "collocations": "cultural / natural / architectural heritage; a World Heritage Site; heritage protection; preserve our heritage",
+            "why": "In this sense it is uncountable, so write protect cultural heritage, never a heritage or heritages. Chinese 文化遺產 is a countable-feeling compound, which is why students add -s. Stress falls on the first syllable, HER-i-tij, and the middle vowel is weak, so it is three syllables, not four. Do not swap it with history: history is what happened, heritage is what survives and is worth keeping, and that distinction makes a tourism or preservation argument more precise."
+      },
+      {
+            "id": "w-authentic",
+            "kind": "word",
+            "item": "authentic",
+            "pos": "adjective",
+            "ipa": "/ɔˈθɛntɪk/",
+            "def": "Genuine and true to its origin, not a copy or an imitation made for show. It is the opposite of staged, so an authentic experience is one that has not been shaped for outsiders.",
+            "example": "Travellers increasingly seek authentic experiences, but a village that rebuilds itself for tourists soon stops being authentic.",
+            "zh": "真正的、道地的、真實的（未經包裝或仿造）",
+            "collocations": "an authentic experience / culture / cuisine; authentic materials; remain authentic; authenticity (noun)",
+            "why": "The th is the voiceless /θ/ and the stress is on the second syllable, au-THEN-tic; learners who say /ɔˈtɛntɪk/ with a t are often not understood in Speaking. The noun is authenticity, not authentication, which means checking identity or proof. Chinese 道地 and 真實 both map to it, so students use real or true where authentic is stronger, but authentic specifically says not a copy. It lets you name the central tension of tourism, preservation against performance, in one word."
+      },
+      {
+            "id": "w-lucrative",
+            "kind": "word",
+            "item": "lucrative",
+            "pos": "adjective",
+            "ipa": "/ˈlukrətɪv/",
+            "def": "Producing a large amount of money or profit. It describes a business, deal or career that pays well, not a person who is rich.",
+            "example": "Tourism is one of the most lucrative industries for coastal regions with few other sources of income.",
+            "zh": "獲利豐厚的、賺錢的",
+            "collocations": "a lucrative business / industry / contract / career; highly lucrative; prove lucrative",
+            "why": "Lucrative describes the activity, never the person: a lucrative career is correct, a lucrative man is wrong. Stress falls on the first syllable, LOO-kruh-tiv, and the spelling has a silent-feeling u-c-r cluster that students misspell as lucritive. It is stronger than profitable, because it implies unusually high returns, so reserve it for sectors with big money. It is useful in Task 2 when you explain why governments or businesses keep pursuing an activity that has costs, because money is the motive."
+      },
+      {
+            "id": "w-curtail",
+            "kind": "word",
+            "item": "curtail",
+            "pos": "verb",
+            "ipa": "/kərˈteɪl/",
+            "def": "To reduce or restrict something, usually by a deliberate decision, so that it is shorter or smaller than it would have been. It is more formal than cut and suggests imposing a limit on something that was otherwise free.",
+            "example": "Some cities have moved to curtail short-term holiday rentals because they push up rents for local residents.",
+            "zh": "縮減、限制（正式用語，多為刻意施加限制）",
+            "collocations": "curtail freedom / spending / activity / growth; severely curtailed; curtail the number of",
+            "why": "It takes a direct object with no preposition: curtail spending, never curtail on spending. Stress is on the second syllable, cur-TAIL, which rhymes with fail. The object is usually an activity or a freedom, so curtail the number of visitors works but curtail the visitors does not mean the same thing. Chinese 縮減 covers reduce, cut and curtail, but curtail adds that someone imposed the limit, which makes it the right verb in a Task 2 sentence about government regulation."
+      },
+      {
+            "id": "w-detract",
+            "kind": "word",
+            "item": "detract",
+            "pos": "verb",
+            "ipa": "/dɪˈtrækt/",
+            "def": "To take away from the value, quality or enjoyment of something, making it less impressive without destroying it. It is always about reducing a good quality, not about causing physical damage.",
+            "example": "Large advertising boards along the coast detract from the natural beauty that draws visitors there.",
+            "zh": "減損、貶低（價值或美感）",
+            "collocations": "detract from the beauty / value / quality; does not detract from; nothing detracts from",
+            "why": "It is almost always followed by from, never of or with: detract from the experience. It is intransitive, so there is no object directly after it, and writing detract the beauty is wrong. The stress is on the second syllable, de-TRACT, and it must not be confused with distract, which means to draw attention away. Chinese 減損 gives no preposition clue, which is why the from is missed. It is a concise way to state a drawback in a concession clause, as in this does not detract from the fact that."
+      },
+      {
+            "id": "p-reap-the-benefits-of",
+            "kind": "phrase",
+            "item": "reap the benefits of",
+            "pos": "verb phrase",
+            "ipa": "/rip ðə ˈbɛnəˌfɪts əv/",
+            "def": "To receive the good results of something you or someone else has done or invested in, usually after a delay. It implies the rewards arrive later and are earned.",
+            "example": "Communities that invest in sustainable tourism now will reap the benefits of it for generations.",
+            "zh": "收穫⋯⋯的成果、享受⋯⋯帶來的好處",
+            "collocations": "reap the benefits / rewards of; reap what you sow; reap the full benefits; stand to reap",
+            "why": "The preposition is of, and benefits stays plural: reap the benefits of, never reap benefit from. Reap goes with positive results only, so reap the consequences is a mistake and reap the rewards is the safe partner. Chinese 收穫 is the same farming image, so the meaning transfers, but students forget the the before benefits. It shows an examiner you can link a present action to a delayed outcome, which is the cause-and-effect reasoning that lifts a Task 2 conclusion."
+      },
+      {
+            "id": "p-be-geared-towards",
+            "kind": "phrase",
+            "item": "be geared towards",
+            "pos": "verb phrase (passive)",
+            "ipa": "/bi ɡɪrd təˈwɔrdz/",
+            "def": "To be designed or organised for a particular purpose or group of people. It describes how a service, policy or system has been set up, not what it happens to achieve.",
+            "example": "Local services should not be geared towards short stays by international tourists while long-term residents are overlooked.",
+            "zh": "以⋯⋯為導向、專為⋯⋯而設計",
+            "collocations": "be geared towards / to the needs of; geared towards profit / young people; gear up for",
+            "why": "The preposition is towards or to, followed by a noun or an -ing form: geared towards attracting visitors, not geared for attract. It is normally passive, so write the system is geared towards, not the system gears towards. Gear up for is a different phrasal verb meaning prepare, so do not mix them. Chinese 以⋯⋯為導向 translates it directly, and it is a sharp way to criticise a system whose design favours one group, which is exactly the argument in many fairness questions."
+      },
+      {
+            "id": "p-fall-victim-to",
+            "kind": "phrase",
+            "item": "fall victim to",
+            "pos": "verb phrase",
+            "ipa": "/fɔl ˈvɪktəm tu/",
+            "def": "To be harmed or damaged by something bad, usually because of weakness or lack of protection. It frames the subject as a casualty of something it could not resist.",
+            "example": "Popular heritage sites often fall victim to their own success when visitor numbers exceed what the buildings can bear.",
+            "zh": "淪為⋯⋯的受害者、被⋯⋯所害",
+            "collocations": "fall victim to crime / fraud / disease / one's own success; fall prey to; victim of",
+            "why": "The preposition is to, not of: fall victim to fraud. Victim of belongs to a different frame, a victim of fraud, so keep the two patterns apart. Victim stays singular and has no article in this phrase, so a fall a victim is wrong. The past tense is fell victim, because fall is irregular, and learners write falled. It works for things as well as people, as in the example, which is a flexible way to personify a problem in a Task 2 body paragraph."
+      },
+      {
+            "id": "g-be-said-to",
+            "kind": "grammar",
+            "item": "Subject + be said to + infinitive",
+            "pos": "passive reporting structure",
+            "ipa": "/ɪz sɛd tu/",
+            "def": "A passive structure with a reporting verb that states a widely held belief without naming who holds it. It moves the subject to the front and follows the reporting verb with to plus an infinitive.",
+            "patterns": "SUBJECT + is / are + said / believed / thought / considered / expected + to + base verb.\nSUBJECT + is / are + said + to + have + past participle (for an earlier time).",
+            "example": "Tourism is said to account for around ten per cent of global employment, although the figure varies by source.",
+            "zh": "據說⋯⋯、一般認為⋯⋯（被動式報導句型，用 to + 動詞原形，指較早時間則用 to have + 過去分詞）",
+            "errors": "It is said to tourism creates jobs. — the structure either uses It is said that + clause or Subject + is said to + verb, never a mix.\nTourism is said creating many jobs. — after said the verb must be to + base verb, not an -ing form.\nTourism is said to created many jobs. — to is followed by a base verb: to create, or to have created for the past.",
+            "collocations": "is said to be; is believed to have; is widely considered to be; is expected to rise; is thought to contribute",
+            "why": "This is the best way to report a general belief or a statistic without writing people say, which is informal. The error to avoid is the double structure: choose either It is said that tourism creates jobs or Tourism is said to create jobs. For an earlier event use the perfect infinitive, is said to have declined, and Chinese learners often forget the have because Chinese does not mark tense. It makes a claim sound careful and objective, which is useful when you do not have a source to cite in Task 2."
+      }
+]
+},
 };
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -1064,18 +2780,33 @@ const store = {
   }
 };
 
+/* A card graded Easy this many times retires to the learned pool and stops
+   appearing in Study and Active recall. The pool itself lives on the progress
+   page; the daily task copies retired cards across. */
+const LEARN_AT = 5;
+
 /* card SRS state — never trust a stale copy of the card body, always re-read DAYS */
 function cardState(id){
   const s = store.get('cards/' + id);
-  return s && typeof s.step === 'number' ? s : {step:0, due:todayISO(), seen:0, lapses:0};
+  return s && typeof s.step === 'number' ? s : {step:0, due:todayISO(), seen:0, lapses:0, easy:0, learned:false};
 }
 function saveCard(card, st){
   return store.set('cards/' + card.id, {
     step:st.step, due:st.due, seen:st.seen, lapses:st.lapses,
-    day:card.day, kind:card.kind, item:card.item, updated:new Date().toISOString()
+    easy:st.easy || 0, learned:!!st.learned, learnedAt:st.learnedAt || null,
+    /* the card body travels with the state so the progress page can show the
+       learned pool without a copy of DAYS */
+    day:card.day, kind:card.kind, item:card.item, pos:card.pos, ipa:card.ipa, zh:card.zh,
+    updated:new Date().toISOString()
   });
 }
-const dueCards = () => publishedCards()
+
+/* Everything still in rotation. Study and Active recall read this; Recap and the
+   distractor pool deliberately read publishedCards() instead. */
+const activeCards  = () => publishedCards().filter(c => !cardState(c.id).learned);
+const learnedCards = () => publishedCards().filter(c => cardState(c.id).learned);
+
+const dueCards = () => activeCards()
   .filter(c => cardState(c.id).due <= todayISO())
   .sort((a,b) => (cardState(a.id).due).localeCompare(cardState(b.id).due) || a.day - b.day);
 
@@ -1189,28 +2920,45 @@ function renderDeck(){
   (deck.tab === 'study' ? renderStudy : renderRecap)();
 }
 
+/* Shown once, immediately after the grade that retired a card. */
+function retiredBanner(){
+  if (!deck.retired) return '';
+  const r = deck.retired;
+  return `<div class="banner" style="border-color:var(--good);background:var(--good-soft)">
+    <div><b style="color:var(--good)">${esc(r.item)} is learned.</b>
+    Five Easy grades, so it leaves the deck for good — it will not appear in Study or Active recall again.
+    It is in the learned pool on the progress page, and in Recap if you want to look at it.</div></div>`;
+}
+
 function renderStudy(){
   const body = document.getElementById('deckBody');
   const due = dueCards();
+  const banner = retiredBanner(); deck.retired = null;
   if (!due.length){
     const all = publishedCards().map(c => cardState(c.id).due).filter(Boolean).sort();
     const next = all[0];
-    body.innerHTML = `<div class="panel"><div class="empty">
+    const left = activeCards().length;
+    body.innerHTML = banner + (left ? `<div class="panel"><div class="empty">
       <h3>Nothing due today.</h3>
-      <p>Everything on the ladder has a future date. The next card comes back on
+      <p>Everything still in rotation has a future date. The next card comes back on
          <b>${prettyDate(next)}</b>${next ? ` — ${daysUntil(next)} day${daysUntil(next) === 1 ? '' : 's'} out` : ''}.
          Spend the time on section 03 or 04 instead, or use Recap to page through what you already own.</p>
-    </div></div>`;
+    </div></div>` : `<div class="panel"><div class="empty">
+      <h3>Every card is learned.</h3>
+      <p>All ${publishedCards().length} have been graded Easy five times and retired to the pool on the
+         progress page. Tomorrow's deck day will bring nine more.</p>
+    </div></div>`);
     return;
   }
   if (deck.idx >= due.length) deck.idx = 0;
   const c = due[deck.idx], st = cardState(c.id);
-  const isNew = !st.seen;
-  body.innerHTML = `
+  const isNew = !st.seen, easy = st.easy || 0;
+  body.innerHTML = banner + `
     <div class="card-meta">
       ${kindTag(c.kind)}
       <span class="tag">Day ${c.day}</span>
       ${isNew ? '<span class="tag due">new</span>' : `<span class="tag">step ${st.step + 1}/${LADDER.length} · +${intervalFor(st.step)}d</span>`}
+      ${easy ? `<span class="tag easy-tally">easy ${easy}/${LEARN_AT}</span>` : ''}
       <span class="prog">${deck.idx + 1} / ${due.length} due</span>
     </div>
     <div class="card">
@@ -1219,10 +2967,14 @@ function renderStudy(){
     </div>
     ${deck.flipped ? `<div class="grades">${GRADES.map((g, i) => {
       const n = nextState(st.step, i);
-      return `<button class="grade ${g.cls}" data-grade="${i}">
+      const retires = i === 3 && easy + 1 >= LEARN_AT;
+      return `<button class="grade ${g.cls}${retires ? ' retires' : ''}" data-grade="${i}">
         <span class="g">${g.k}</span>
-        <span class="i">${n.days === 0 ? 'today' : '+' + n.days + 'd'}</span></button>`;
-    }).join('')}</div>` : `<p class="note" style="margin-top:14px">
+        <span class="i">${retires ? 'learned \u2713' : n.days === 0 ? 'today' : '+' + n.days + 'd'}</span></button>`;
+    }).join('')}</div>${easy ? `<p class="note" style="margin-top:12px">
+      <b>${easy}</b> of ${LEARN_AT} Easy grades so far. ${easy + 1 >= LEARN_AT
+        ? 'One more and this card retires to the learned pool.'
+        : `${LEARN_AT - easy} more and it retires to the learned pool.`}</p>` : ''}` : `<p class="note" style="margin-top:14px">
       Say it aloud before you flip. If you cannot produce it from memory, that is an <b>Again</b> regardless of whether you recognise it.</p>`}`;
 
   body.querySelector('[data-flip]').onclick = e => {
@@ -1231,10 +2983,18 @@ function renderStudy(){
   };
   body.querySelectorAll('[data-grade]').forEach(b => b.onclick = async () => {
     const g = +b.dataset.grade, n = nextState(st.step, g);
-    await saveCard(c, {step:n.step, due:addDays(n.days), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + (g === 0 ? 1 : 0)});
+    const easy = (st.easy || 0) + (g === 3 ? 1 : 0);
+    const learned = easy >= LEARN_AT;
+    const justRetired = learned && !st.learned;
+    await saveCard(c, {
+      step:n.step, due:addDays(n.days), seen:(st.seen || 0) + 1,
+      lapses:(st.lapses || 0) + (g === 0 ? 1 : 0),
+      easy, learned, learnedAt: learned ? (st.learnedAt || new Date().toISOString()) : null
+    });
     await store.set('review/last', {at:new Date().toISOString(), card:c.id, grade:GRADES[g].k, deckDay:deckDay()});
     deck.flipped = false;
-    if (n.days === 0) deck.idx = (deck.idx + 1) % Math.max(1, dueCards().length);
+    deck.retired = justRetired ? {item:c.item, kind:c.kind, day:c.day} : null;
+    if (n.days === 0 && !learned) deck.idx = (deck.idx + 1) % Math.max(1, dueCards().length);
     renderStudy(); renderCounters();
   });
 }
@@ -1243,7 +3003,18 @@ function renderRecap(){
   const body = document.getElementById('deckBody');
   const all = publishedCards();
   const days = [...new Set(all.map(c => c.day))].sort((a,b) => a-b);
-  const list = deck.recapDay === 'all' ? all : all.filter(c => c.day === +deck.recapDay);
+  const list = deck.recapDay === 'all' ? all
+    : deck.recapDay === 'learned' ? all.filter(c => cardState(c.id).learned)
+    : all.filter(c => c.day === +deck.recapDay);
+  if (!list.length){
+    body.innerHTML = `<div class="recap-bar"><select id="rDay" aria-label="Filter by day">
+        <option value="all">All ${all.length} cards</option>
+        <option value="learned" selected>Learned — 0 cards</option></select></div>
+      <div class="panel"><div class="empty"><h3>Nothing retired yet.</h3>
+      <p>Grade a card Easy ${LEARN_AT} times and it moves here, out of Study and Active recall for good.</p></div></div>`;
+    body.querySelector('#rDay').onchange = e => { deck.recapDay = e.target.value; deck.recapIdx = 0; renderRecap(); };
+    return;
+  }
   if (deck.recapIdx >= list.length) deck.recapIdx = 0;
   if (deck.recapIdx < 0) deck.recapIdx = list.length - 1;
   const c = list[deck.recapIdx];
@@ -1256,19 +3027,25 @@ function renderRecap(){
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
       <select id="rDay" aria-label="Filter by day">
         <option value="all"${deck.recapDay === 'all' ? ' selected' : ''}>All ${all.length} cards</option>
+        <option value="learned"${deck.recapDay === 'learned' ? ' selected' : ''}>Learned — ${learnedCards().length} cards</option>
         ${days.map(d => `<option value="${d}"${+deck.recapDay === d ? ' selected' : ''}>Day ${d} — ${all.filter(c => c.day === d).length} cards</option>`).join('')}
       </select>
       <span class="prog">${deck.recapIdx + 1} / ${list.length}</span>
     </div>
     <div class="card-meta">
       ${kindTag(c.kind)}<span class="tag">Day ${c.day}</span>
-      <span class="tag">${!st.seen ? 'not started' : 'due ' + prettyDate(st.due)}</span>
+      ${st.learned
+        ? '<span class="tag learned">learned \u2713</span>'
+        : `<span class="tag">${!st.seen ? 'not started' : 'due ' + prettyDate(st.due)}</span>`}
     </div>
     <div class="card">
       ${cardFront(c, deck.flipped ? 'Tap to hide' : 'Tap to reveal')}
       ${deck.flipped ? cardBack(c) : ''}
     </div>
-    <p class="note" style="margin-top:14px">Recap never grades and never changes a due date. Flip as often as you like, in either direction.</p>`;
+    ${st.learned ? `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">
+      <span class="note" style="flex:1;min-width:200px">Retired on ${prettyDate((st.learnedAt || '').slice(0, 10))} after ${st.easy} Easy grades. It no longer appears in Study or Active recall.</span>
+      <button class="btn btn-sm" id="unretire">Put back in the deck</button></div>`
+      : `<p class="note" style="margin-top:14px">Recap never grades and never changes a due date. Flip as often as you like, in either direction.</p>`}`;
   body.querySelector('[data-flip]').onclick = e => {
     if (e.target.closest('.audio')) return;
     deck.flipped = !deck.flipped; renderRecap();
@@ -1277,6 +3054,12 @@ function renderRecap(){
   body.querySelector('#rPrev').onclick = () => step(-1);
   body.querySelector('#rNext').onclick = () => step(1);
   body.querySelector('#rDay').onchange = e => { deck.recapDay = e.target.value; deck.recapIdx = 0; deck.flipped = false; renderRecap(); };
+  const un = body.querySelector('#unretire');
+  if (un) un.onclick = async () => {
+    /* back to the top of the ladder, Easy tally reset, due today */
+    await saveCard(c, {...st, step:0, due:todayISO(), easy:0, learned:false, learnedAt:null});
+    renderRecap(); renderCounters();
+  };
 }
 
 /* ══ 02 ACTIVE RECALL ═══════════════════════════════════════════════ */
@@ -1290,14 +3073,15 @@ const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ co
 const norm = s => String(s).toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
 
 function buildRound(){
-  const pool = publishedCards();
-  if (pool.length < 4) return null;
+  const pool = activeCards();
+  const distractorPool = publishedCards();   // retired cards still make good decoys
+  if (pool.length < 1 || distractorPool.length < 4) return null;
   const picked = shuffle(pool).slice(0, Math.min(recall.ROUND, pool.length));
   return picked.map(c => {
     const types = c.kind === 'grammar' ? ['def', 'gap'] : ['def', 'gap', 'zh', 'type'];
     const type = types[Math.floor(Math.random() * types.length)];
     // distractors always come from cards of the same kind
-    const sameKind = pool.filter(x => x.kind === c.kind && x.id !== c.id);
+    const sameKind = distractorPool.filter(x => x.kind === c.kind && x.id !== c.id);
     const distractors = shuffle(sameKind).slice(0, 3).map(x => x.item);
     const options = shuffle([c.item, ...distractors]);
     return {card:c, type, options, answer:c.item};
@@ -1317,16 +3101,20 @@ function gapSentence(c){
 function renderRecall(){
   const el = document.getElementById('s-recall');
   if (!recall.round){
-    const pool = publishedCards();
+    const pool = activeCards();
     el.innerHTML = `
       <div class="sec-head"><span class="sec-num">02</span><h2>Active recall</h2></div>
       <p class="sec-sub">Eight questions, generated fresh from your own cards. Definition→item, gap-fill, 中文→item,
         and type-it with no options. Get one wrong and that card's interval resets to zero and comes back today.</p>
       <div class="panel"><div class="empty">
-        <h3>${pool.length} cards in the pool.</h3>
+        ${pool.length ? `<h3>${pool.length} cards in the pool.</h3>
         <p>A round is eight questions and takes about four minutes. Distractors are pulled from other cards of the
-           same kind, so the wrong answers are always plausible — that is the point.</p>
-        <button class="btn btn-p" id="startRound" style="margin-top:18px">Start a round</button>
+           same kind — retired ones included, since a card you know makes a convincing wrong answer.
+           ${learnedCards().length ? `The ${learnedCards().length} learned cards are never asked about.` : ''}</p>
+        <button class="btn btn-p" id="startRound" style="margin-top:18px">Start a round</button>`
+        : `<h3>Every card is learned.</h3>
+        <p>Nothing left to test. The ${publishedCards().length} retired cards are in the pool on the progress page,
+           and tomorrow's deck day will bring nine more.</p>`}
       </div></div>`;
     const b = el.querySelector('#startRound');
     if (b) b.onclick = () => {
@@ -1398,7 +3186,7 @@ function renderRecall(){
     if (ok) recall.correct++;
     else {
       const st = cardState(c.id);
-      await saveCard(c, {step:0, due:todayISO(), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + 1});
+      await saveCard(c, {...st, step:0, due:todayISO(), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + 1});
       renderCounters();
     }
     renderRecall();
@@ -1759,6 +3547,23 @@ function renderRef(){
         </tbody></table></div>
     </div>
 
+    <div class="panel" style="margin-bottom:20px">
+      <h3 style="font-size:16px;margin-bottom:6px">The learned pool</h3>
+      <p class="note" style="margin-bottom:12px">Grade a card <b>Easy</b> ${LEARN_AT} times — not in a row, ${LEARN_AT} times in
+        total — and it retires. It leaves the Study queue and stops being asked about in Active recall, permanently.
+        It stays visible in Recap under the <b>Learned</b> filter, where you can also put it back in the deck if you
+        retired it too early.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Where</th><th>Retired cards</th></tr></thead>
+        <tbody>
+          <tr><td><b>01 Study</b></td><td>Never shown again.</td></tr>
+          <tr><td><b>02 Active recall</b></td><td>Never asked about — but still used as wrong answers, since a card you know makes a convincing decoy.</td></tr>
+          <tr><td><b>01 Recap</b></td><td>Still there, tagged <span class="tag learned">learned \u2713</span>, under the Learned filter.</td></tr>
+          <tr><td><b>Progress page</b></td><td>The pool itself lives there. It is a separate artifact with its own database, so the daily task copies retired cards across — expect them to appear the next day, not instantly.</td></tr>
+        </tbody></table></div>
+      <p class="note" style="margin-top:14px">Right now: <b>${learnedCards().length}</b> learned, <b>${activeCards().length}</b> still in rotation.</p>
+    </div>
+
     <div class="panel">
       <h3 style="font-size:16px;margin-bottom:6px">How the two day counters work</h3>
       <p class="note" style="margin-bottom:12px">They are deliberately independent, and this is the thing to understand about the app.</p>
@@ -1783,8 +3588,10 @@ function renderCounters(){
   } else {
     parts.push(`<span class="ctr is-accent">Day <b>${dd}</b></span>`);
   }
+  const learned = learnedCards().length;
   parts.push(`<span class="ctr">${due ? `<b>${due}</b> due` : 'nothing due'}</span>`);
-  parts.push(`<span class="ctr">${total} cards</span>`);
+  parts.push(`<span class="ctr">${total - learned} in rotation</span>`);
+  if (learned) parts.push(`<span class="ctr is-learned"><b>${learned}</b> learned</span>`);
   box.innerHTML = parts.join('');
   const badge = document.getElementById('dueBadge');
   badge.hidden = !due; badge.textContent = due;

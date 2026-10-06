@@ -128,6 +128,29 @@ th.r,td.r{text-align:right}
 .demo-flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);font-size:9.5px;font-weight:600;
   letter-spacing:.09em;text-transform:uppercase;color:var(--ochre);background:var(--ochre-soft);
   border:1px solid var(--ochre-line);border-radius:99px;padding:2.5px 9px}
+/* learned pool */
+.pool-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.pool-n{font-family:var(--fm);font-size:27px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--good)}
+.pool-split{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}
+.chip{font-family:var(--fm);font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:4px 11px;border-radius:99px;
+  border:1px solid var(--line-2);background:var(--surface);color:var(--muted);transition:.14s}
+.chip:hover{border-color:var(--ink-2);color:var(--ink)}
+.chip[aria-pressed="true"]{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent)}
+.chip b{font-weight:600;color:inherit}
+.pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px;margin-top:14px}
+.pi{border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;background:var(--surface-2);
+  display:flex;flex-direction:column;gap:5px}
+.pi-top{display:flex;align-items:baseline;gap:7px}
+.pi-item{font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+.pi-check{color:var(--good);flex:0 0 auto;margin-left:auto;font-size:12px}
+.pi-ipa{font-family:var(--fm);font-size:10.5px;color:var(--muted)}
+.pi-zh{font-family:var(--fb);font-size:13px;line-height:1.5;color:var(--ink-2)}
+.pi-meta{font-family:var(--fm);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:1px}
+.pi-kind{padding:1.5px 7px;border-radius:99px;border:1px solid var(--line-2);text-transform:lowercase;letter-spacing:.04em}
+.pi.k-word .pi-kind{color:var(--accent);border-color:var(--accent-line)}
+.pi.k-phrase .pi-kind{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent)}
+.pi.k-grammar .pi-kind{color:var(--ochre);border-color:var(--ochre-line)}
 .foot{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
 .foot a{color:var(--accent)}
 </style>
@@ -150,6 +173,8 @@ th.r,td.r{text-align:right}
   <div id="demoBar"></div>
   <div class="charts" id="charts"></div>
   <div id="advice"></div>
+
+  <div class="panel" style="margin-bottom:20px" id="poolPanel"></div>
 
   <div class="panel" style="margin-bottom:20px">
     <div class="sec-h"><h2>Sessions</h2><span class="count" id="sCount"></span></div>
@@ -211,10 +236,24 @@ const DEMO = [
   {id:'demo6', date:'2026-09-17', score:7, outOf:7, seconds: 700, questions:7, passage:'Example — Antikythera'}
 ];
 
-let db = null, sessions = [], demoOn = false;
+let db = null, sessions = [], learned = [], demoOn = false, poolKind = 'all';
+
+/* Cards retired in the study app after five Easy grades. That app is a separate
+   artifact with its own database, so it cannot write here directly — the daily
+   task copies retired cards across into this page's `learned` collection. */
+const DEMO_LEARNED = [
+  {id:'w-mitigate', item:'mitigate', kind:'word', day:1, pos:'verb', ipa:'/ˈmɪtɪˌɡeɪt/', zh:'減輕、緩解（使壞事沒那麼嚴重，但沒有根除）', easy:5, learnedAt:'2026-09-14T18:20:00Z'},
+  {id:'w-sprawl', item:'sprawl', kind:'word', day:1, pos:'noun (uncountable)', ipa:'/sprɔl/', zh:'（都市）無序擴張、蔓延', easy:5, learnedAt:'2026-09-16T18:05:00Z'},
+  {id:'w-underpin', item:'underpin', kind:'word', day:2, pos:'verb', ipa:'/ˌʌndərˈpɪn/', zh:'支撐、構成⋯⋯的基礎', easy:5, learnedAt:'2026-09-19T18:40:00Z'},
+  {id:'p-at-the-expense-of', item:'at the expense of', kind:'phrase', day:1, pos:'prepositional phrase', ipa:'/ət ði ɪkˈspɛns əv/', zh:'以⋯⋯為代價、犧牲⋯⋯換取', easy:5, learnedAt:'2026-09-21T18:12:00Z'},
+  {id:'p-fall-short-of', item:'fall short of', kind:'phrase', day:2, pos:'verb phrase', ipa:'/fɔl ʃɔrt əv/', zh:'未達到（標準、目標、期望）', easy:5, learnedAt:'2026-09-28T18:33:00Z'},
+  {id:'g-not-only-inversion', item:'Not only + inversion', kind:'grammar', day:1, pos:'negative-adverbial inversion', ipa:'/nɑt ˈoʊnli/', zh:'不僅⋯⋯而且⋯⋯（Not only 置句首時須倒裝）', easy:5, learnedAt:'2026-10-02T18:50:00Z'}
+];
 
 /* ── data ───────────────────────────────────────────────────────────── */
 const shown = () => demoOn ? DEMO.slice() : sessions.slice();
+const shownLearned = () => (demoOn ? DEMO_LEARNED.slice() : learned.slice())
+  .sort((a, b) => String(b.learnedAt || '').localeCompare(String(a.learnedAt || '')));
 const sorted = () => shown().sort((a, b) => a.date.localeCompare(b.date) || String(a.id).localeCompare(String(b.id)));
 
 async function load(){
@@ -224,6 +263,10 @@ async function load(){
       const snap = await db.collection('sessions').get();
       sessions = snap.docs.map(d => ({id:d.id, ...d.data()})).filter(s => s.date && s.questions);
     } catch(e){ sessions = []; }
+    try {
+      const ls = await db.collection('learned').get();
+      learned = ls.docs.map(d => ({id:d.id, ...d.data()})).filter(c => c.item);
+    } catch(e){ learned = []; }
   }
   if (!sessions.length){
     try { sessions = JSON.parse(localStorage.getItem('rpl:sessions') || '[]'); } catch(e){ sessions = []; }
@@ -447,11 +490,63 @@ function renderTable(){
   box.querySelectorAll('[data-del]').forEach(b => b.onclick = () => remove(b.dataset.del));
 }
 
+const KINDS = [['all','All'], ['word','Words'], ['phrase','Phrases'], ['grammar','Grammar']];
+
+function renderPool(){
+  const box = document.getElementById('poolPanel');
+  const all = shownLearned();
+  const list = poolKind === 'all' ? all : all.filter(c => c.kind === poolKind);
+  const count = k => all.filter(c => c.kind === k).length;
+
+  if (!all.length){
+    box.innerHTML = `<div class="sec-h"><h2>Learned pool</h2></div>
+      <div class="empty"><h3>Nothing retired yet.</h3>
+      <p>Grade a card <b>Easy</b> five times in the study app and it leaves the deck for good — it stops appearing
+         in Study and stops being asked about in Active recall. Retired cards land here, so this page is the
+         record of what you no longer have to revise.</p></div>`;
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="pool-top">
+      <span class="pool-n">${all.length}</span>
+      <div><h2 style="font-size:15px">Learned pool</h2>
+        <p class="note">Out of the deck for good, after five Easy grades each.</p></div>
+      <div class="pool-split">
+        ${KINDS.map(([k, label]) => {
+          const n = k === 'all' ? all.length : count(k);
+          return n || k === 'all'
+            ? `<button class="chip" data-kind="${k}" aria-pressed="${poolKind === k}">${label} <b>${n}</b></button>` : '';
+        }).join('')}
+      </div>
+    </div>
+    <div class="pool-grid">
+      ${list.map(c => `<div class="pi k-${esc(c.kind)}">
+        <div class="pi-top">
+          <span class="pi-item">${esc(c.item)}</span>
+          <span class="pi-check" aria-hidden="true">\u2713</span>
+        </div>
+        ${c.ipa ? `<div class="pi-ipa">${esc(c.ipa)}</div>` : ''}
+        ${c.zh ? `<div class="pi-zh">${esc(c.zh)}</div>` : ''}
+        <div class="pi-meta">
+          <span class="pi-kind">${esc(c.kind)}</span>
+          <span>Day ${esc(c.day)}</span>
+          ${c.learnedAt ? `<span>${fmtDate(String(c.learnedAt).slice(0, 10))}</span>` : ''}
+        </div>
+      </div>`).join('')}
+    </div>
+    <p class="note" style="margin-top:14px">The study app writes these when you retire them; the daily task copies
+      them here, so a card you retire tonight shows up tomorrow. Changed your mind about one? Open Recap in the
+      study app, pick the <b>Learned</b> filter and put it back in the deck.</p>`;
+
+  box.querySelectorAll('[data-kind]').forEach(b => b.onclick = () => { poolKind = b.dataset.kind; renderPool(); });
+}
+
 function renderDemoBar(){
   document.getElementById('demoBar').innerHTML = demoOn
     ? `<div class="panel" style="margin-bottom:16px;display:flex;gap:11px;align-items:center;flex-wrap:wrap;border-color:var(--ochre-line);background:var(--ochre-soft)">
         <span class="demo-flag">Example data</span>
-        <span class="note" style="color:var(--ink-2)">These six sessions are made up, to show what the page looks like in use. None of your own data is shown or changed.</span>
+        <span class="note" style="color:var(--ink-2)">These sessions and learned cards are made up, to show what the page looks like in use. None of your own data is shown or changed.</span>
         <button class="btn btn-sm" id="exitDemo" style="margin-left:auto;padding:6px 13px">Show my data</button>
       </div>` : '';
   const b = document.getElementById('exitDemo');
@@ -462,11 +557,12 @@ function renderFoot(){
   const n = sessions.length;
   document.getElementById('foot').innerHTML =
     `Companion to <a href="https://claude.ai/artifact/FcKdhU65K2ABNALPd234Py">Band Ladder</a>, which records score
-     and seconds together when you submit a reading set. ${db ? 'Sessions are saved to this page’s own store' : 'Storage is unavailable right now, so sessions are kept in this browser only'}
-     — ${n} logged.`;
+     and seconds together when you submit a reading set, and retires a card to the learned pool after five Easy grades.
+     ${db ? 'Both are saved to this page’s own store' : 'Storage is unavailable right now, so sessions are kept in this browser only'}
+     — ${n} session${n === 1 ? '' : 's'} and ${learned.length} learned card${learned.length === 1 ? '' : 's'}.`;
 }
 
-function render(){ renderDemoBar(); renderCharts(); renderAdvice(); renderTable(); renderFoot(); }
+function render(){ renderDemoBar(); renderCharts(); renderAdvice(); renderPool(); renderTable(); renderFoot(); }
 
 /* ── form ───────────────────────────────────────────────────────────── */
 document.getElementById('addBtn').onclick = async () => {

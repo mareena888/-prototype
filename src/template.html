@@ -84,6 +84,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .ctr b{font-weight:600;color:var(--ink)}
 .ctr.is-accent{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent)}
 .ctr.is-ochre{border-color:var(--ochre-line);background:var(--ochre-soft);color:var(--ochre)}
+.ctr.is-learned{border-color:color-mix(in srgb,var(--good) 50%,transparent);background:var(--good-soft);color:var(--good)}
 
 /* ── section furniture ────────────────────────────────── */
 .sec{animation:fade .22s ease}
@@ -123,6 +124,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .tag.k-phrase{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent);background:var(--good-soft)}
 .tag.k-grammar{color:var(--ochre);border-color:var(--ochre-line);background:var(--ochre-soft)}
 .tag.due{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:var(--bad-soft)}
+.tag.learned{color:var(--good);border-color:color-mix(in srgb,var(--good) 50%,transparent);background:var(--good-soft)}
+.tag.easy-tally{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft);font-variant-numeric:tabular-nums}
 .prog{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
@@ -173,6 +176,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .grade.g2:hover{border-color:var(--good);background:var(--good-soft);color:var(--good)}
 .grade.g3:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
 .grade:hover .i{color:inherit}
+.grade.retires{border-color:color-mix(in srgb,var(--good) 55%,transparent);background:var(--good-soft)}
+.grade.retires .i{color:var(--good);font-weight:600}
+.grade.retires:hover{border-color:var(--good);background:var(--good-soft);color:var(--good)}
 
 .recap-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .nav-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--surface);
@@ -500,18 +506,33 @@ const store = {
   }
 };
 
+/* A card graded Easy this many times retires to the learned pool and stops
+   appearing in Study and Active recall. The pool itself lives on the progress
+   page; the daily task copies retired cards across. */
+const LEARN_AT = 5;
+
 /* card SRS state — never trust a stale copy of the card body, always re-read DAYS */
 function cardState(id){
   const s = store.get('cards/' + id);
-  return s && typeof s.step === 'number' ? s : {step:0, due:todayISO(), seen:0, lapses:0};
+  return s && typeof s.step === 'number' ? s : {step:0, due:todayISO(), seen:0, lapses:0, easy:0, learned:false};
 }
 function saveCard(card, st){
   return store.set('cards/' + card.id, {
     step:st.step, due:st.due, seen:st.seen, lapses:st.lapses,
-    day:card.day, kind:card.kind, item:card.item, updated:new Date().toISOString()
+    easy:st.easy || 0, learned:!!st.learned, learnedAt:st.learnedAt || null,
+    /* the card body travels with the state so the progress page can show the
+       learned pool without a copy of DAYS */
+    day:card.day, kind:card.kind, item:card.item, pos:card.pos, ipa:card.ipa, zh:card.zh,
+    updated:new Date().toISOString()
   });
 }
-const dueCards = () => publishedCards()
+
+/* Everything still in rotation. Study and Active recall read this; Recap and the
+   distractor pool deliberately read publishedCards() instead. */
+const activeCards  = () => publishedCards().filter(c => !cardState(c.id).learned);
+const learnedCards = () => publishedCards().filter(c => cardState(c.id).learned);
+
+const dueCards = () => activeCards()
   .filter(c => cardState(c.id).due <= todayISO())
   .sort((a,b) => (cardState(a.id).due).localeCompare(cardState(b.id).due) || a.day - b.day);
 
@@ -625,28 +646,45 @@ function renderDeck(){
   (deck.tab === 'study' ? renderStudy : renderRecap)();
 }
 
+/* Shown once, immediately after the grade that retired a card. */
+function retiredBanner(){
+  if (!deck.retired) return '';
+  const r = deck.retired;
+  return `<div class="banner" style="border-color:var(--good);background:var(--good-soft)">
+    <div><b style="color:var(--good)">${esc(r.item)} is learned.</b>
+    Five Easy grades, so it leaves the deck for good — it will not appear in Study or Active recall again.
+    It is in the learned pool on the progress page, and in Recap if you want to look at it.</div></div>`;
+}
+
 function renderStudy(){
   const body = document.getElementById('deckBody');
   const due = dueCards();
+  const banner = retiredBanner(); deck.retired = null;
   if (!due.length){
     const all = publishedCards().map(c => cardState(c.id).due).filter(Boolean).sort();
     const next = all[0];
-    body.innerHTML = `<div class="panel"><div class="empty">
+    const left = activeCards().length;
+    body.innerHTML = banner + (left ? `<div class="panel"><div class="empty">
       <h3>Nothing due today.</h3>
-      <p>Everything on the ladder has a future date. The next card comes back on
+      <p>Everything still in rotation has a future date. The next card comes back on
          <b>${prettyDate(next)}</b>${next ? ` — ${daysUntil(next)} day${daysUntil(next) === 1 ? '' : 's'} out` : ''}.
          Spend the time on section 03 or 04 instead, or use Recap to page through what you already own.</p>
-    </div></div>`;
+    </div></div>` : `<div class="panel"><div class="empty">
+      <h3>Every card is learned.</h3>
+      <p>All ${publishedCards().length} have been graded Easy five times and retired to the pool on the
+         progress page. Tomorrow's deck day will bring nine more.</p>
+    </div></div>`);
     return;
   }
   if (deck.idx >= due.length) deck.idx = 0;
   const c = due[deck.idx], st = cardState(c.id);
-  const isNew = !st.seen;
-  body.innerHTML = `
+  const isNew = !st.seen, easy = st.easy || 0;
+  body.innerHTML = banner + `
     <div class="card-meta">
       ${kindTag(c.kind)}
       <span class="tag">Day ${c.day}</span>
       ${isNew ? '<span class="tag due">new</span>' : `<span class="tag">step ${st.step + 1}/${LADDER.length} · +${intervalFor(st.step)}d</span>`}
+      ${easy ? `<span class="tag easy-tally">easy ${easy}/${LEARN_AT}</span>` : ''}
       <span class="prog">${deck.idx + 1} / ${due.length} due</span>
     </div>
     <div class="card">
@@ -655,10 +693,14 @@ function renderStudy(){
     </div>
     ${deck.flipped ? `<div class="grades">${GRADES.map((g, i) => {
       const n = nextState(st.step, i);
-      return `<button class="grade ${g.cls}" data-grade="${i}">
+      const retires = i === 3 && easy + 1 >= LEARN_AT;
+      return `<button class="grade ${g.cls}${retires ? ' retires' : ''}" data-grade="${i}">
         <span class="g">${g.k}</span>
-        <span class="i">${n.days === 0 ? 'today' : '+' + n.days + 'd'}</span></button>`;
-    }).join('')}</div>` : `<p class="note" style="margin-top:14px">
+        <span class="i">${retires ? 'learned \u2713' : n.days === 0 ? 'today' : '+' + n.days + 'd'}</span></button>`;
+    }).join('')}</div>${easy ? `<p class="note" style="margin-top:12px">
+      <b>${easy}</b> of ${LEARN_AT} Easy grades so far. ${easy + 1 >= LEARN_AT
+        ? 'One more and this card retires to the learned pool.'
+        : `${LEARN_AT - easy} more and it retires to the learned pool.`}</p>` : ''}` : `<p class="note" style="margin-top:14px">
       Say it aloud before you flip. If you cannot produce it from memory, that is an <b>Again</b> regardless of whether you recognise it.</p>`}`;
 
   body.querySelector('[data-flip]').onclick = e => {
@@ -667,10 +709,18 @@ function renderStudy(){
   };
   body.querySelectorAll('[data-grade]').forEach(b => b.onclick = async () => {
     const g = +b.dataset.grade, n = nextState(st.step, g);
-    await saveCard(c, {step:n.step, due:addDays(n.days), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + (g === 0 ? 1 : 0)});
+    const easy = (st.easy || 0) + (g === 3 ? 1 : 0);
+    const learned = easy >= LEARN_AT;
+    const justRetired = learned && !st.learned;
+    await saveCard(c, {
+      step:n.step, due:addDays(n.days), seen:(st.seen || 0) + 1,
+      lapses:(st.lapses || 0) + (g === 0 ? 1 : 0),
+      easy, learned, learnedAt: learned ? (st.learnedAt || new Date().toISOString()) : null
+    });
     await store.set('review/last', {at:new Date().toISOString(), card:c.id, grade:GRADES[g].k, deckDay:deckDay()});
     deck.flipped = false;
-    if (n.days === 0) deck.idx = (deck.idx + 1) % Math.max(1, dueCards().length);
+    deck.retired = justRetired ? {item:c.item, kind:c.kind, day:c.day} : null;
+    if (n.days === 0 && !learned) deck.idx = (deck.idx + 1) % Math.max(1, dueCards().length);
     renderStudy(); renderCounters();
   });
 }
@@ -679,7 +729,18 @@ function renderRecap(){
   const body = document.getElementById('deckBody');
   const all = publishedCards();
   const days = [...new Set(all.map(c => c.day))].sort((a,b) => a-b);
-  const list = deck.recapDay === 'all' ? all : all.filter(c => c.day === +deck.recapDay);
+  const list = deck.recapDay === 'all' ? all
+    : deck.recapDay === 'learned' ? all.filter(c => cardState(c.id).learned)
+    : all.filter(c => c.day === +deck.recapDay);
+  if (!list.length){
+    body.innerHTML = `<div class="recap-bar"><select id="rDay" aria-label="Filter by day">
+        <option value="all">All ${all.length} cards</option>
+        <option value="learned" selected>Learned — 0 cards</option></select></div>
+      <div class="panel"><div class="empty"><h3>Nothing retired yet.</h3>
+      <p>Grade a card Easy ${LEARN_AT} times and it moves here, out of Study and Active recall for good.</p></div></div>`;
+    body.querySelector('#rDay').onchange = e => { deck.recapDay = e.target.value; deck.recapIdx = 0; renderRecap(); };
+    return;
+  }
   if (deck.recapIdx >= list.length) deck.recapIdx = 0;
   if (deck.recapIdx < 0) deck.recapIdx = list.length - 1;
   const c = list[deck.recapIdx];
@@ -692,19 +753,25 @@ function renderRecap(){
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
       <select id="rDay" aria-label="Filter by day">
         <option value="all"${deck.recapDay === 'all' ? ' selected' : ''}>All ${all.length} cards</option>
+        <option value="learned"${deck.recapDay === 'learned' ? ' selected' : ''}>Learned — ${learnedCards().length} cards</option>
         ${days.map(d => `<option value="${d}"${+deck.recapDay === d ? ' selected' : ''}>Day ${d} — ${all.filter(c => c.day === d).length} cards</option>`).join('')}
       </select>
       <span class="prog">${deck.recapIdx + 1} / ${list.length}</span>
     </div>
     <div class="card-meta">
       ${kindTag(c.kind)}<span class="tag">Day ${c.day}</span>
-      <span class="tag">${!st.seen ? 'not started' : 'due ' + prettyDate(st.due)}</span>
+      ${st.learned
+        ? '<span class="tag learned">learned \u2713</span>'
+        : `<span class="tag">${!st.seen ? 'not started' : 'due ' + prettyDate(st.due)}</span>`}
     </div>
     <div class="card">
       ${cardFront(c, deck.flipped ? 'Tap to hide' : 'Tap to reveal')}
       ${deck.flipped ? cardBack(c) : ''}
     </div>
-    <p class="note" style="margin-top:14px">Recap never grades and never changes a due date. Flip as often as you like, in either direction.</p>`;
+    ${st.learned ? `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">
+      <span class="note" style="flex:1;min-width:200px">Retired on ${prettyDate((st.learnedAt || '').slice(0, 10))} after ${st.easy} Easy grades. It no longer appears in Study or Active recall.</span>
+      <button class="btn btn-sm" id="unretire">Put back in the deck</button></div>`
+      : `<p class="note" style="margin-top:14px">Recap never grades and never changes a due date. Flip as often as you like, in either direction.</p>`}`;
   body.querySelector('[data-flip]').onclick = e => {
     if (e.target.closest('.audio')) return;
     deck.flipped = !deck.flipped; renderRecap();
@@ -713,6 +780,12 @@ function renderRecap(){
   body.querySelector('#rPrev').onclick = () => step(-1);
   body.querySelector('#rNext').onclick = () => step(1);
   body.querySelector('#rDay').onchange = e => { deck.recapDay = e.target.value; deck.recapIdx = 0; deck.flipped = false; renderRecap(); };
+  const un = body.querySelector('#unretire');
+  if (un) un.onclick = async () => {
+    /* back to the top of the ladder, Easy tally reset, due today */
+    await saveCard(c, {...st, step:0, due:todayISO(), easy:0, learned:false, learnedAt:null});
+    renderRecap(); renderCounters();
+  };
 }
 
 /* ══ 02 ACTIVE RECALL ═══════════════════════════════════════════════ */
@@ -726,14 +799,15 @@ const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ co
 const norm = s => String(s).toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
 
 function buildRound(){
-  const pool = publishedCards();
-  if (pool.length < 4) return null;
+  const pool = activeCards();
+  const distractorPool = publishedCards();   // retired cards still make good decoys
+  if (pool.length < 1 || distractorPool.length < 4) return null;
   const picked = shuffle(pool).slice(0, Math.min(recall.ROUND, pool.length));
   return picked.map(c => {
     const types = c.kind === 'grammar' ? ['def', 'gap'] : ['def', 'gap', 'zh', 'type'];
     const type = types[Math.floor(Math.random() * types.length)];
     // distractors always come from cards of the same kind
-    const sameKind = pool.filter(x => x.kind === c.kind && x.id !== c.id);
+    const sameKind = distractorPool.filter(x => x.kind === c.kind && x.id !== c.id);
     const distractors = shuffle(sameKind).slice(0, 3).map(x => x.item);
     const options = shuffle([c.item, ...distractors]);
     return {card:c, type, options, answer:c.item};
@@ -753,16 +827,20 @@ function gapSentence(c){
 function renderRecall(){
   const el = document.getElementById('s-recall');
   if (!recall.round){
-    const pool = publishedCards();
+    const pool = activeCards();
     el.innerHTML = `
       <div class="sec-head"><span class="sec-num">02</span><h2>Active recall</h2></div>
       <p class="sec-sub">Eight questions, generated fresh from your own cards. Definition→item, gap-fill, 中文→item,
         and type-it with no options. Get one wrong and that card's interval resets to zero and comes back today.</p>
       <div class="panel"><div class="empty">
-        <h3>${pool.length} cards in the pool.</h3>
+        ${pool.length ? `<h3>${activeCards().length} cards in the pool.</h3>
         <p>A round is eight questions and takes about four minutes. Distractors are pulled from other cards of the
-           same kind, so the wrong answers are always plausible — that is the point.</p>
-        <button class="btn btn-p" id="startRound" style="margin-top:18px">Start a round</button>
+           same kind — retired ones included, since a card you know makes a convincing wrong answer.
+           ${learnedCards().length ? `The ${learnedCards().length} learned cards are never asked about.` : ''}</p>
+        <button class="btn btn-p" id="startRound" style="margin-top:18px">Start a round</button>`
+        : `<h3>Every card is learned.</h3>
+        <p>Nothing left to test. The ${publishedCards().length} retired cards are in the pool on the progress page,
+           and tomorrow's deck day will bring nine more.</p>`}
       </div></div>`;
     const b = el.querySelector('#startRound');
     if (b) b.onclick = () => {
@@ -834,7 +912,7 @@ function renderRecall(){
     if (ok) recall.correct++;
     else {
       const st = cardState(c.id);
-      await saveCard(c, {step:0, due:todayISO(), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + 1});
+      await saveCard(c, {...st, step:0, due:todayISO(), seen:(st.seen || 0) + 1, lapses:(st.lapses || 0) + 1});
       renderCounters();
     }
     renderRecall();
@@ -1195,6 +1273,23 @@ function renderRef(){
         </tbody></table></div>
     </div>
 
+    <div class="panel" style="margin-bottom:20px">
+      <h3 style="font-size:16px;margin-bottom:6px">The learned pool</h3>
+      <p class="note" style="margin-bottom:12px">Grade a card <b>Easy</b> ${LEARN_AT} times — not in a row, ${LEARN_AT} times in
+        total — and it retires. It leaves the Study queue and stops being asked about in Active recall, permanently.
+        It stays visible in Recap under the <b>Learned</b> filter, where you can also put it back in the deck if you
+        retired it too early.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Where</th><th>Retired cards</th></tr></thead>
+        <tbody>
+          <tr><td><b>01 Study</b></td><td>Never shown again.</td></tr>
+          <tr><td><b>02 Active recall</b></td><td>Never asked about — but still used as wrong answers, since a card you know makes a convincing decoy.</td></tr>
+          <tr><td><b>01 Recap</b></td><td>Still there, tagged <span class="tag learned">learned \u2713</span>, under the Learned filter.</td></tr>
+          <tr><td><b>Progress page</b></td><td>The pool itself lives there. It is a separate artifact with its own database, so the daily task copies retired cards across — expect them to appear the next day, not instantly.</td></tr>
+        </tbody></table></div>
+      <p class="note" style="margin-top:14px">Right now: <b>${learnedCards().length}</b> learned, <b>${activeCards().length}</b> still in rotation.</p>
+    </div>
+
     <div class="panel">
       <h3 style="font-size:16px;margin-bottom:6px">How the two day counters work</h3>
       <p class="note" style="margin-bottom:12px">They are deliberately independent, and this is the thing to understand about the app.</p>
@@ -1219,8 +1314,10 @@ function renderCounters(){
   } else {
     parts.push(`<span class="ctr is-accent">Day <b>${dd}</b></span>`);
   }
+  const learned = learnedCards().length;
   parts.push(`<span class="ctr">${due ? `<b>${due}</b> due` : 'nothing due'}</span>`);
-  parts.push(`<span class="ctr">${total} cards</span>`);
+  parts.push(`<span class="ctr">${total - learned} in rotation</span>`);
+  if (learned) parts.push(`<span class="ctr is-learned"><b>${learned}</b> learned</span>`);
   box.innerHTML = parts.join('');
   const badge = document.getElementById('dueBadge');
   badge.hidden = !due; badge.textContent = due;
